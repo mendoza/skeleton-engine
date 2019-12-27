@@ -23,7 +23,7 @@ struct gameData {
 typedef std::shared_ptr<gameData> gameDataRef;
 class Game {
 public:
-  Game(int width, int height, std::string title);
+  Game(int width, int height, std::string title, int limit = 60);
 
 private:
   sf::Clock _clock;

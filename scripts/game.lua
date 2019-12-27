@@ -2,7 +2,8 @@ game = {
     title = "Papita",
     width = 598,
     height = 647,
-    icon = "assets/davidfirma.png"
+    icon = "assets/davidfirma.png",
+    fpsLimit = 60
 }
 
 splash = {
@@ -17,16 +18,16 @@ splash = {
 
 player = {
     graphicComponent = {
-        sprite = "assets/human_regular_hair.png",
+        sprite = "assets/human_regular_hair_square.png",
         scale = {
             width = 5,
             height = 5
         },
         animation = {
-            horizontalFrameCount = 9,
-            verticalFrameCount = 2,
-            switchTime = 0.3,
-            row = 1
+            horizontalFrameCount = 3,
+            verticalFrameCount = 3,
+            switchTime = 0.9,
+            row = 0
         }
     }
 }

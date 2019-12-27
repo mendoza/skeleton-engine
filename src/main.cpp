@@ -10,6 +10,7 @@ int main() {
   std::string title = game["title"];
   int width = game["width"];
   int height = game["height"];
-  Skeleton::Game(width, height, title);
+  int limit = game["fpsLimit"];
+  Skeleton::Game(width, height, title, limit);
   return 0;
 }
