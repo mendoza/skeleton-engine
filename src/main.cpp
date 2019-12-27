@@ -1,5 +1,4 @@
 #include <Game.hpp>
-#include <LuaScript.hpp>
 #include <sol.hpp>
 #include <string>
 #include <vector>

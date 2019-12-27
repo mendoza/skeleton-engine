@@ -1,10 +1,31 @@
 #include <Components.hpp>
 #include <GameState.hpp>
+#include <LuaHelperFunctions.hpp>
 namespace Skeleton {
+
+static Entity *loadEntity(sol::state L, gameDataRef data,
+                          const std::string &type) {
+  Entity e = data->entities.create();
+  auto v = luah::getTableKeys(L, type);
+  sol::table entityTable = L[type];
+  for (auto &componentName : v) {
+    if (componentName == "GraphicsComponent") {
+      sol::table gcTable = entityTable["GraphicsComponent"];
+      std::cout << "graphic" << std::endl;
+    } else if (componentName == "NpcComponent") {
+      sol::table npccTable = entityTable["NpcComponent"];
+      std::cout << "" << std::endl;
+    }
+    std::cout << "Added " << componentName << " to " << type << std::endl;
+  }
+  return e;
+}
 
 GameState::GameState(gameDataRef data) {
   this->_data = data;
   this->script.script_file("scripts/game.lua");
+  Entity *e = loadEntity(this->script.lua_state, this->_data, "player");
+
   sol::table player = script["player"]["graphicComponent"];
   this->entity = this->_data->entities.create();
   std::string sprite = player["sprite"];

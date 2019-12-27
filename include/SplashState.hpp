@@ -1,8 +1,8 @@
 #pragma once
 #include <Game.hpp>
-#include <LuaScript.hpp>
 #include <SFML/Graphics.hpp>
 #include <State.hpp>
+#include <sol.hpp>
 
 namespace Skeleton {
 class SplashState : public State {
@@ -18,6 +18,6 @@ private:
   gameDataRef _data;
   sf::Clock _clock;
   sf::Sprite _background;
-  LuaScript script;
+  sol::state script;
 };
 } // namespace Skeleton
