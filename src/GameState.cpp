@@ -1,31 +1,42 @@
 #include <Components.hpp>
 #include <GameState.hpp>
-#include <LuaHelperFunctions.hpp>
 namespace Skeleton {
-
-static Entity *loadEntity(sol::state L, gameDataRef data,
-                          const std::string &type) {
-  Entity e = data->entities.create();
-  auto v = luah::getTableKeys(L, type);
-  sol::table entityTable = L[type];
-  for (auto &componentName : v) {
-    if (componentName == "GraphicsComponent") {
-      sol::table gcTable = entityTable["GraphicsComponent"];
-      std::cout << "graphic" << std::endl;
-    } else if (componentName == "NpcComponent") {
-      sol::table npccTable = entityTable["NpcComponent"];
-      std::cout << "" << std::endl;
+void printTable(sol::table tab) {
+  for (const auto &key_value_pair : tab) {
+    sol::object key = key_value_pair.first;
+    sol::object value = key_value_pair.second;
+    std::string k = key.as<std::string>();
+    sol::type t = value.get_type();
+    switch (t) {
+    case sol::type::string: {
+      std::cout << k << ": " << value.as<std::string>() << std::endl;
+      break;
     }
-    std::cout << "Added " << componentName << " to " << type << std::endl;
+    case sol::type::number: {
+      auto v = value.as<double>();
+      std::cout << k << ": " << v << std::endl;
+      break;
+    }
+
+    case sol::type::table: {
+      auto v = value.as<sol::table>();
+      std::cout << k << " : {" << std::endl;
+      printTable(v);
+      std::cout << "}" << std::endl;
+      break;
+    }
+    default: { std::cout << "hit the default case!" << std::endl; }
+    }
+    // inspect key/value, manipulate as you please
   }
-  return e;
 }
 
 GameState::GameState(gameDataRef data) {
   this->_data = data;
-  this->script.script_file("scripts/game.lua");
-  Entity *e = loadEntity(this->script.lua_state, this->_data, "player");
-
+  this->script.set_function("say", [](std::string text) {
+    std::cout << "Player: " << text << std::endl;
+  });
+  this->script.script_file("scripts/player.lua");
   sol::table player = script["player"]["graphicComponent"];
   this->entity = this->_data->entities.create();
   std::string sprite = player["sprite"];
@@ -44,6 +55,8 @@ void GameState::handleInput() {
   while (this->_data->window.pollEvent(event)) {
     if (sf::Event::Closed == event.type) {
       this->_data->window.close();
+    }
+    if (event.key.code == sf::Keyboard::Space) {
     }
   }
 }

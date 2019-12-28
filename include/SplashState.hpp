@@ -19,5 +19,7 @@ private:
   sf::Clock _clock;
   sf::Sprite _background;
   sol::state script;
+  sol::table meta;
+  sol::table splash;
 };
 } // namespace Skeleton
