@@ -1,5 +1,6 @@
 player = {
     graphicComponent = {
+        spriteName="HumanRegularHairSquare",
         sprite = "assets/human_regular_hair_square.png",
         scale = {
             width = 5,
@@ -11,8 +12,5 @@ player = {
             switchTime = 0.9,
             row = 0
         }
-    }
+    },
 }
-
-
-say("trying functions")
