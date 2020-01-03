@@ -1,3 +1,4 @@
+#pragma once
 #include <Game.hpp>
 #include <LuaHelper.hpp>
 #include <SFML/Graphics.hpp>
@@ -12,7 +13,6 @@ public:
 class GraphicComponent : public Component {
 public:
   sf::Sprite sprite;
-  gameDataRef data;
   sf::Vector2u imageCount;
   sf::Vector2u currentImage;
   std::string name;
@@ -23,12 +23,11 @@ public:
   int row = 0;
 
   GraphicComponent(gameDataRef data, sol::table gc) {
-    this->data = data;
     this->name = gc["name"];
-    this->data->assets.loadTexture(this->name, gc["spriteFilepath"]);
-    sf::Texture &text = this->data->assets.getTexture(this->name);
+    data->assets.loadTexture(this->name, gc["spriteFilepath"]);
+    sf::Texture &text = data->assets.getTexture(this->name);
     sf::Vector2f scale(gc["scale"]["width"], gc["scale"]["height"]);
-    if (gc["animation"]) {
+    if (gc["animation"] != sol::nil) {
       this->totalTime = 0.0f;
       this->animated = true;
       this->imageCount = sf::Vector2u(gc["animation"]["horizontalFrameCount"],
@@ -60,7 +59,6 @@ public:
       this->sprite.setTextureRect(this->uvRect);
     }
   }
-
-  void draw() override { this->data->window.draw(this->sprite); }
 };
+
 } // namespace Skeleton
