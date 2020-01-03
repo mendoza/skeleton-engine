@@ -32,7 +32,7 @@ void SplashState::update(float dt) {
   }
 }
 
-void SplashState::draw(float dt) {
+void SplashState::draw() {
   int r = this->splash["background"]["r"];
   int g = this->splash["background"]["g"];
   int b = this->splash["background"]["b"];

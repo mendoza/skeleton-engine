@@ -12,7 +12,7 @@ public:
   void init() override;
   void handleInput() override;
   void update(float dt) override;
-  void draw(float dt) override;
+  void draw() override;
 
 private:
   gameDataRef _data;

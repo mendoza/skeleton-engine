@@ -23,7 +23,7 @@ void GameState::update(float dt) {
   this->entity.get<GraphicComponent>().update(
       this->_clock.restart().asSeconds());
 }
-void GameState::draw(float dt) {
+void GameState::draw() {
   this->_data->window.clear(sf::Color(125, 125, 125));
   this->entity.get<GraphicComponent>().draw();
   this->_data->window.display();
