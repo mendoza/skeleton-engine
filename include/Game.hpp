@@ -15,9 +15,6 @@ struct gameData {
   AssetManager assets;
   InputManager input;
   sf::Clock _clock;
-  EntityManager entities;
-  SystemManager systems = SystemManager(this->entities);
-  ;
 };
 
 typedef std::shared_ptr<gameData> gameDataRef;

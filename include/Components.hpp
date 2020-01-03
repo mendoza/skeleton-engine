@@ -5,8 +5,8 @@
 namespace Skeleton {
 class Component {
 public:
-  virtual void update(float dt) = 0;
-  virtual void draw() = 0;
+  virtual void update(float dt){};
+  virtual void draw(){};
   virtual ~Component(){};
 };
 class GraphicComponent : public Component {
@@ -22,29 +22,27 @@ public:
   bool animated = false;
   int row = 0;
 
-  GraphicComponent(gameDataRef data, std::string name, std::string filepath,
-                   sf::Vector2u imageCount = sf::Vector2u(0, 0),
-                   sf::Vector2f scale = sf::Vector2f(1.0f, 1.0f),
-                   bool animated = false, int row = 0,
-                   float switchTime = 0.3f) {
+  GraphicComponent(gameDataRef data, sol::table gc) {
     this->data = data;
-    this->name = name;
-    this->data->assets.loadTexture(this->name, filepath);
+    this->name = gc["name"];
+    this->data->assets.loadTexture(this->name, gc["spriteFilepath"]);
     sf::Texture &text = this->data->assets.getTexture(this->name);
-    this->sprite.setScale(scale);
-    if (animated) {
+    sf::Vector2f scale(gc["scale"]["width"], gc["scale"]["height"]);
+    if (gc["animation"]) {
       this->totalTime = 0.0f;
-      this->animated = animated;
-      this->uvRect.width = text.getSize().x / float(imageCount.x);
-      this->uvRect.height = text.getSize().y / float(imageCount.y);
-      this->imageCount = imageCount;
-      this->row = row;
-      this->switchTime = switchTime;
+      this->animated = true;
+      this->imageCount = sf::Vector2u(gc["animation"]["horizontalFrameCount"],
+                                      gc["animation"]["verticalFrameCount"]);
+      this->uvRect.width = text.getSize().x / float(this->imageCount.x);
+      this->uvRect.height = text.getSize().y / float(this->imageCount.y);
+      this->row = gc["animation"]["row"];
+      this->switchTime = gc["animation"]["switchTime"];
       this->currentImage.x = 0;
-      this->currentImage.y = row;
+      this->currentImage.y = this->row;
       this->sprite.setTextureRect(this->uvRect);
     }
     this->sprite.setTexture(text);
+    this->sprite.setScale(scale);
   }
 
   void update(float dt) override {

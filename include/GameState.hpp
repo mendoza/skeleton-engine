@@ -20,5 +20,7 @@ private:
   sf::Sprite _background;
   sol::state script;
   Entity entity;
+  EntityManager entities;
+  SystemManager systems = SystemManager(this->entities);
 };
 } // namespace Skeleton

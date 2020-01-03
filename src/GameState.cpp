@@ -5,27 +5,17 @@ namespace Skeleton {
 GameState::GameState(gameDataRef data) {
   this->_data = data;
   this->script.script_file("scripts/player.lua");
-  sol::table player = script["player"]["graphicComponent"];
-  this->entity = this->_data->entities.create();
-  std::string sprite = player["sprite"];
-  std::string name = player["spriteName"];
-  sf::Vector2f scale(player["scale"]["width"], player["scale"]["height"]);
-  if (player["animation"]) {
-    sf::Vector2u imageCount(player["animation"]["horizontalFrameCount"],
-                            player["animation"]["verticalFrameCount"]);
-    int row = player["animation"]["row"];
-    this->entity.add<GraphicComponent>(this->_data, name, sprite, imageCount,
-                                       scale, true, row);
-  }
+  sol::table player = script["player"];
+  this->entity = this->entities.create();
+  this->entity.add<GraphicComponent>(this->_data, player["graphicComponent"]);
 }
+// GameState::~GameState() { }
 void GameState::init() {}
 void GameState::handleInput() {
   sf::Event event;
   while (this->_data->window.pollEvent(event)) {
     if (sf::Event::Closed == event.type) {
       this->_data->window.close();
-    }
-    if (event.key.code == sf::Keyboard::Space) {
     }
   }
 }

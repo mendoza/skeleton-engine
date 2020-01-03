@@ -15,16 +15,4 @@ std::vector<std::string> getTableKeys(sol::table tab) {
   }
   return retVal;
 }
-
-// ecs::Entity *loadEntity(sol::table entityTable) {
-void loadEntity(sol::table entityTable) {
-  std::vector<std::string> keys = getTableKeys(entityTable);
-  for (std::string key : keys) {
-    std::cout << "Esta Entidada tiene un componente: " << key << std::endl;
-    std::vector<std::string> keyKeys = getTableKeys(entityTable[key]);
-    for (std::string keyKey : keyKeys) {
-    std::cout << "\tEste Componente tiene un atributo: " << keyKey << std::endl;
-    }
-  }
-}
 } // namespace Skeleton

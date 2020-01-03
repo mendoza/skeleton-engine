@@ -3,8 +3,7 @@
 
 namespace Skeleton {
 Game::Game(int width, int height, std::string title, int limit) {
-  _data->window.create(sf::VideoMode(width, height), title,
-                       sf::Style::Close | sf::Style::Titlebar);
+  _data->window.create(sf::VideoMode(width, height), title,);
   _data->window.setFramerateLimit(limit);
   _data->machine.addState(StateRef(new SplashState(this->_data)));
   this->run();
