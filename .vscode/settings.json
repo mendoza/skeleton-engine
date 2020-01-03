@@ -47,7 +47,9 @@
     "cstring": "cpp",
     "functional": "cpp",
     "set": "cpp",
-    "typeindex": "cpp"
+    "typeindex": "cpp",
+    "forward_list": "cpp",
+    "variant": "cpp"
   },
   "terminal.integrated.shell.windows": "cmd.exe",
   "C_Cpp.errorSquiggles": "Disabled"
