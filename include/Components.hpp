@@ -23,7 +23,7 @@ public:
   int row = 0;
 
   GraphicComponent(gameDataRef data, sol::table gc) {
-    this->name = gc["name"];
+    this->name = gc["spriteName"];
     data->assets.loadTexture(this->name, gc["spriteFilepath"]);
     sf::Texture &text = data->assets.getTexture(this->name);
     sf::Vector2f scale(gc["scale"]["width"], gc["scale"]["height"]);
@@ -59,6 +59,13 @@ public:
       this->sprite.setTextureRect(this->uvRect);
     }
   }
+};
+
+class InputComponent : public Component {
+public:
+  InputComponent() {}
+
+  void update(float dt) override {}
 };
 
 } // namespace Skeleton
