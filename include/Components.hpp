@@ -61,11 +61,5 @@ public:
   }
 };
 
-class InputComponent : public Component {
-public:
-  InputComponent() {}
-
-  void update(float dt) override {}
-};
-
+class rigidBodyComponent : public Component {};
 } // namespace Skeleton

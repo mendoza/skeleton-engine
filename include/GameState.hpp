@@ -21,6 +21,6 @@ private:
   sol::state script;
   Entity entity;
   EntityManager entities;
-  SystemManager systems = SystemManager(this->entities);
+  SystemManager systems;
 };
 } // namespace Skeleton

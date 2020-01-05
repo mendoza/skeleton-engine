@@ -3,7 +3,7 @@
 #include <LuaHelper.hpp>
 #include <Systems.hpp>
 namespace Skeleton {
-GameState::GameState(gameDataRef data) {
+GameState::GameState(gameDataRef data) : systems(entities) {
   this->_data = data;
   this->script.script_file("scripts/player.lua");
   sol::table player = script["player"];
