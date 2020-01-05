@@ -2,8 +2,13 @@
 #include <SplashState.hpp>
 
 namespace Skeleton {
-Game::Game(int width, int height, std::string title, int limit) {
+Game::Game(int width, int height, std::string title, std::string iconFile,
+           int limit) {
+  sf::Image image;
+  image.loadFromFile(iconFile);
   _data->window.create(sf::VideoMode(width, height), title);
+  _data->window.setIcon(image.getSize().x, image.getSize().y,
+                        image.getPixelsPtr());
   _data->window.setFramerateLimit(limit);
   _data->machine.addState(StateRef(new SplashState(this->_data)));
   this->run();

@@ -1,10 +1,11 @@
 metaData = {
-    title = "Papita",
-    width = 598,
-    height = 647,
+    title = "Skeleton Engine",
+    width = 800,
+    height = 600,
     fpsLimit = 60,
+    icon = "assets/icon.png",
     splash = {
-        backgroundImageFile = "assets/davidfirma.png",
+        backgroundImageFile = "assets/splash.png",
         time = 0.5,
         background = {
             r=255,
