@@ -61,5 +61,20 @@ public:
   }
 };
 
-class rigidBodyComponent : public Component {};
+class movableComponent : public Component {
+  sf::Vector2i velocity;
+  sf::Vector2f position;
+  int speed;
+
+  movableComponent() {
+    this->speed = 10;
+    this->velocity = sf::Vector2i(0, 0);
+    this->position = sf::Vector2f(10, 10);
+  }
+
+  void update(float dt) override {
+    position.x += static_cast<int>(velocity.x * speed);
+    position.y += static_cast<int>(velocity.y * speed);
+  }
+};
 } // namespace Skeleton

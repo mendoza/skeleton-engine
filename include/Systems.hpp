@@ -16,4 +16,16 @@ public:
     }
   }
 };
+
+class movingGraphicSystem : public System {
+public:
+  gameDataRef data;
+  drawGraphicSystem(gameDataRef data) { this->data = data; }
+  void update(float time) override {
+    // Get the entity manager using entities() function
+    for (auto entity : entities().with<GraphicComponent, movableComponent>()) {
+      entity.get<GraphicComponent>().sprite.setPosition(10, 10);
+    }
+  }
+};
 } // namespace Skeleton

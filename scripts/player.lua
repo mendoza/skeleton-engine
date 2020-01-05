@@ -9,9 +9,9 @@ player = {
         },
         animation = {
             horizontalFrameCount = 3,
-            verticalFrameCount = 3,
+            verticalFrameCount = 4,
             switchTime = 0.3,
-            row = 0
+            row = 1
         }
     },
 }
