@@ -2,7 +2,7 @@
 player = {
     graphicComponent = {
         spriteName = "HumanRegularHairSquare",
-        spriteFilepath = "assets/human_regular_hair_square.png",
+        spriteFilepath = "assets/spritesheets/player.png",
         scale = {
             width = 5,
             height = 5
