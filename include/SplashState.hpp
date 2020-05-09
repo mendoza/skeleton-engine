@@ -1,25 +1,20 @@
 #pragma once
-#include <Game.hpp>
-#include <SFML/Graphics.hpp>
-#include <State.hpp>
-#include <sol.hpp>
+#include <Engine.hpp>
 
-namespace Skeleton {
-class SplashState : public State {
+class SplashState : public Skeleton::State {
 
-public:
-  SplashState(gameDataRef data);
-  void init();
-  void handleInput();
-  void update(float dt);
-  void draw();
+  public:
+	SplashState(Skeleton::GameDataRef data);
+	void init();
+	void handleInput();
+	void update(float dt);
+	void draw();
 
-private:
-  gameDataRef _data;
-  sf::Clock _clock;
-  sf::Sprite _background;
-  sol::state script;
-  sol::table meta;
-  sol::table splash;
+  private:
+	Skeleton::GameDataRef Data;
+	sf::Clock Clock;
+	sf::Sprite Background;
+	sol::state Script;
+	sol::table Meta;
+	sol::table Splash;
 };
-} // namespace Skeleton

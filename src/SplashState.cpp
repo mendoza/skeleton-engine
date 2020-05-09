@@ -1,43 +1,48 @@
-#include <GameState.hpp>
 #include <SplashState.hpp>
-#include <iostream>
 
-namespace Skeleton {
-SplashState::SplashState(gameDataRef data) : _data(data) {
-  this->script.script_file("scripts/metadata.lua");
-  this->meta = script["metaData"];
-  this->splash = script["metaData"]["splash"];
-}
+SplashState::SplashState(Skeleton::GameDataRef data) : Data(data) {}
 
 void SplashState::init() {
-  std::string filePath = this->splash["backgroundImageFile"];
-  this->_data->assets.loadTexture("Splash State Background", filePath);
-  _background.setTexture(
-      this->_data->assets.getTexture("Splash State Background"));
+	this->Script.script_file("scripts/MetaData.lua");
+	this->Meta = this->Script["MetaData"];
+	this->Splash = this->Script["MetaData"]["splash"];
+	std::string filePath = this->Splash["backgroundImageFile"];
+	this->Data->Assets.loadTexture("Splash State Background", filePath);
+	this->Background.setTexture(
+		this->Data->Assets.getTexture("Splash State Background"));
 }
 
 void SplashState::handleInput() {
-  sf::Event event;
-  while (this->_data->window.pollEvent(event)) {
-    if (sf::Event::Closed == event.type) {
-      this->_data->window.close();
-    }
-  }
+	sf::Event event;
+	while (this->Data->Window.pollEvent(event)) {
+		ImGui::SFML::ProcessEvent(event);
+		if (sf::Event::Closed == event.type) {
+			this->Data->Window.close();
+		}
+	}
 }
 
 void SplashState::update(float dt) {
-  float time = this->splash["time"];
-  if (this->_clock.getElapsedTime().asSeconds() > time) {
-    this->_data->machine.addState(StateRef(new GameState(this->_data)));
-  }
+	float Time = this->Splash["time"];
+	if (this->Clock.getElapsedTime().asSeconds() > Time) {
+		std::cout << "End of Splash" << std::endl;
+		exit(0);
+	}
 }
 
 void SplashState::draw() {
-  int r = this->splash["background"]["r"];
-  int g = this->splash["background"]["g"];
-  int b = this->splash["background"]["b"];
-  this->_data->window.clear(sf::Color(r, g, b));
-  this->_data->window.draw(this->_background);
-  this->_data->window.display();
+	ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
+	int r = this->Splash["background"]["r"];
+	int g = this->Splash["background"]["g"];
+	int b = this->Splash["background"]["b"];
+	this->Data->Window.clear(sf::Color(r, g, b));
+	this->Data->Window.draw(this->Background);
+	if (this->Data->DebugMode) {
+		ImGui::Begin("Debug Splash.");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
+	ImGui::EndFrame();
+	ImGui::SFML::Render(this->Data->Window);
+	this->Data->Window.display();
 }
-} // namespace Skeleton
