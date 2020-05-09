@@ -49,7 +49,8 @@
     "set": "cpp",
     "typeindex": "cpp",
     "forward_list": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "random": "cpp"
   },
   "terminal.integrated.shell.windows": "cmd.exe",
   "C_Cpp.errorSquiggles": "Disabled"
