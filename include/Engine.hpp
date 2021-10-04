@@ -23,6 +23,23 @@ struct GameData {
 	AssetManager Assets;
 	InputManager Input;
 	bool DebugMode;
+	float Fps;
+	int Width; 
+	int Height;
+	int Limit; 
+	bool VSync;
+	void setMetaData(int width, int height, int Limit, bool vsync) {
+		this->Width = width;
+		this->Height = height;
+		this->Limit = Limit;
+		this->VSync = vsync;
+	}
+	void logEngine() {
+		ImGui::Text("FPS: %.0f", this->Fps);
+		ImGui::Text("FPS Limit: %.d", this->Limit);
+		ImGui::Text("VSync: %s", this->VSync ? "true" : "false");
+		ImGui::Text("Resolution: %dx%d", this->Width, this->Height);
+	}
 };
 
 typedef std::shared_ptr<GameData> GameDataRef;
