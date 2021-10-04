@@ -50,8 +50,13 @@
     "typeindex": "cpp",
     "forward_list": "cpp",
     "variant": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "bit": "cpp",
+    "compare": "cpp",
+    "concepts": "cpp",
+    "numeric": "cpp",
+    "ranges": "cpp",
+    "cinttypes": "cpp"
   },
-  "terminal.integrated.shell.windows": "cmd.exe",
   "C_Cpp.errorSquiggles": "Disabled"
 }
