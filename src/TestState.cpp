@@ -7,7 +7,7 @@ TestState::TestState(Skeleton::GameDataRef Data)
 
 void TestState::init() {
 	this->actor = this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
-	this->GraphicsSystem.add<GraphicSystem>(this->Data);
+	this->GraphicsSystem.add<GraphicSystem>();
 	this->OthersSystem.add<LogicSystem>();
 }
 
@@ -28,8 +28,8 @@ void TestState::update(float dt) {
 void TestState::draw() {
 	ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
 	this->Data->Window.clear(sf::Color(125, 125, 125));
-	for (auto entity : Actors.with<MovableGraphicComponent>()) {
-		this->Data->Window.draw(entity.get<MovableGraphicComponent>().Sprite);
+	for (auto entity : Actors.with<GraphicComponent>()) {
+		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
 	}
 	if (this->Data->DebugMode) {
 		ImGui::Begin("Debug Test.");

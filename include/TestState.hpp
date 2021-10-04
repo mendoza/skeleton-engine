@@ -14,7 +14,6 @@ class TestState : public Skeleton::State {
   private:
 	Skeleton::GameDataRef Data;
 	sf::Sprite Background;
-	sol::state Script;
     Actor actor;
 	ecs::EntityManager Actors;
 	ecs::SystemManager GraphicsSystem;
