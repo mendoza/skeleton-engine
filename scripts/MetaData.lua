@@ -1,5 +1,5 @@
 MetaData = {
-    title = "Learn Tanks",
+    title = "Technical Test",
     width = 800,
     height = 600,
     fpsLimit = 60,
@@ -8,7 +8,7 @@ MetaData = {
     icon = "assets/icon.png",
     splash = {
         backgroundImageFile = "assets/splash.png",
-        time = 0.5,
+        time = 1,
         background = {
             r = 255,
             g = 255,
