@@ -3,7 +3,7 @@
 #include <TestState.hpp>
 
 TestState::TestState(Skeleton::GameDataRef Data)
-	: GraphicsSystem(Actors), OthersSystem(Actors), Data(Data) {}
+	: Data(Data), GraphicsSystem(Actors), OthersSystem(Actors) {}
 
 void TestState::init() {
 	this->actor = this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
