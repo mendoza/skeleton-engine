@@ -13,7 +13,6 @@ Engine::Engine(int Width, int Height, std::string Title, std::string IconFile,
 							   image.getPixelsPtr());
 	this->Data->Window.setFramerateLimit(Limit);
 	this->Data->DebugMode = DebugMode;
-	this->Data->setMetaData(Width, Height, Limit, VSync);
 	ImGui::SFML::Init(this->Data->Window);
 	this->Data->Machine.addState(StateRef(new SplashState(this->Data)));
 	this->run();
@@ -31,7 +30,6 @@ void Engine::run() {
 		}
 		frametime = this->Clock.restart().asSeconds();
 		accumulator += frametime;
-		this->Data->Fps = 1.0f / frametime;
 		this->Data->Machine.getActiveState()->draw();
 	}
 	ImGui::SFML::Shutdown();

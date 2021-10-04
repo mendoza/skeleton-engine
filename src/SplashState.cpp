@@ -1,5 +1,4 @@
 #include <SplashState.hpp>
-#include <TestState.hpp>
 
 SplashState::SplashState(Skeleton::GameDataRef data) : Data(data) {}
 
@@ -25,9 +24,9 @@ void SplashState::handleInput() {
 
 void SplashState::update(float dt) {
 	float Time = this->Splash["time"];
-	if (this->Timer.getElapsedTime().asSeconds() > Time) {
-		this->Data->Machine.addState(
-			Skeleton::StateRef(new TestState(this->Data)));
+	if (this->Clock.getElapsedTime().asSeconds() > Time) {
+		std::cout << "End of Splash" << std::endl;
+		exit(0);
 	}
 }
 
@@ -40,8 +39,7 @@ void SplashState::draw() {
 	this->Data->Window.draw(this->Background);
 	if (this->Data->DebugMode) {
 		ImGui::Begin("Debug Splash.");
-		this->Data->logEngine();
-		ImGui::Text("Current State: Splash Screen");
+		ImGui::Text("Hello World");
 		ImGui::End();
 	}
 	ImGui::EndFrame();
