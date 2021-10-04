@@ -12,7 +12,7 @@ class SplashState : public Skeleton::State {
 
   private:
 	Skeleton::GameDataRef Data;
-	sf::Clock Clock;
+	sf::Clock Timer;
 	sf::Sprite Background;
 	sol::state Script;
 	sol::table Meta;
