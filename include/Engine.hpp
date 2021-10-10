@@ -3,10 +3,10 @@
 #include <AnimationManager.hpp>
 #include <InputManager.hpp>
 #include <OpenECS.hpp>
+#include <StateMachine.hpp>
+#include <State.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <State.hpp>
-#include <StateMachine.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <iostream>

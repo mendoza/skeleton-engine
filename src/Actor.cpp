@@ -2,6 +2,7 @@
 Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 	sol::state L;
 	L.script_file(Path);
+	L.open_libraries();
 
 	this->add<GraphicComponent>(Data, L["graphicComponent"]);
 	this->add<LogicComponent>(Path);

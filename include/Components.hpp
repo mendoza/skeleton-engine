@@ -17,7 +17,7 @@ class GraphicComponent : public Component {
 	std::string CurrentAnimation;
 	sf::IntRect UvRect;
 	float SpriteRotation;
-	float SwitchTime;
+	float SwitchTime = 1 / 6;
 	float TotalTime;
 	bool Animated = false;
 	skeleton::AnimationManager Animations;
@@ -56,6 +56,7 @@ class GraphicComponent : public Component {
 			int width = this->Sprite.getTextureRect().width / cols;
 			int height = this->Sprite.getTextureRect().height / rows;
 			this->ImageCount = {unsigned(cols), unsigned(rows)};
+			this->SwitchTime = GC["animation"]["switchTime"];
 			this->CurrentImage = {
 				unsigned(GC["animation"]["initialImage"]["col"]),
 				unsigned(GC["animation"]["initialImage"]["row"])};
@@ -68,10 +69,10 @@ class GraphicComponent : public Component {
 			this->Sprite.setOrigin(Origin);
 
 			this->Sprite.setTextureRect(this->UvRect);
-			sol::table test = GC["animation"]["animations"];
-			int count = test.size();
+			sol::table animations = GC["animation"]["animations"];
+			int count = animations.size();
 			for (int i = 1; i <= count; i++) {
-				sol::table item = test[i];
+				sol::table item = animations[i];
 				this->Animations.addAnimation(item["name"], item["row"]);
 			}
 		}
@@ -98,12 +99,21 @@ class LogicComponent : public Component {
   public:
 	sol::state L;
 	sol::function ScriptUpdate;
+	float TotalTime;
+	float SwitchTime = 1;
+
 	LogicComponent(std::string Path) {
-		L.script_file(Path);
 		L.open_libraries();
+		L.script_file(Path);
 		this->ScriptUpdate = L["update"];
 	}
-	void update(float dt) override { this->ScriptUpdate(); }
+	void update(float dt) override {
+		this->TotalTime += dt;
+		if (TotalTime >= SwitchTime) {
+			TotalTime -= SwitchTime;
+			this->ScriptUpdate(dt);
+		}
+	}
 
 	void draw() override {}
 };
