@@ -1,5 +1,6 @@
 #pragma once
 #include <AssetManager.hpp>
+#include <AnimationManager.hpp>
 #include <InputManager.hpp>
 #include <OpenECS.hpp>
 #include <SFML/Graphics.hpp>
@@ -16,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace Skeleton {
+namespace skeleton {
 struct GameData {
 	StateMachine Machine;
 	sf::RenderWindow Window;
@@ -54,4 +55,4 @@ class Engine {
 	GameDataRef Data = std::make_shared<GameData>();
 	void run();
 };
-}; // namespace Skeleton
+}; // namespace skeleton

@@ -1,7 +1,7 @@
 #include <Engine.hpp>
 #include <SplashState.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 Engine::Engine(int Width, int Height, std::string Title, std::string IconFile,
 			   int Limit, bool VSync, bool DebugMode) {
 	sf::Image image;
@@ -36,4 +36,4 @@ void Engine::run() {
 	}
 	ImGui::SFML::Shutdown();
 }
-}; // namespace Skeleton
+}; // namespace skeleton

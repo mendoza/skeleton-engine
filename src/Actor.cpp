@@ -1,5 +1,5 @@
 #include "Actor.hpp"
-Actor::Actor(Skeleton::GameDataRef Data, std::string Path) {
+Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 	sol::state L;
 	L.script_file(Path);
 
@@ -11,6 +11,8 @@ Actor::Actor(Skeleton::GameDataRef Data, std::string Path) {
 	this->get<LogicComponent>().L.set_function("backward", &Actor::backward,
 											   *this);
 	this->get<LogicComponent>().L.set_function("stop", &Actor::stop, *this);
+	this->get<LogicComponent>().L.set_function("playAnimation",
+											   &Actor::playAnimation, *this);
 }
 
 Actor::~Actor() {}
@@ -36,3 +38,11 @@ void Actor::backward() {
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
 void Actor::stop() {}
+
+void Actor::playAnimation(std::string Name) {
+	if (this->get<GraphicComponent>().Animated) {
+		int row = this->get<GraphicComponent>().Animations.getAnimation(Name);
+		this->get<GraphicComponent>().CurrentImage.y = row;
+		this->get<GraphicComponent>().CurrentAnimation = Name;
+	}
+}

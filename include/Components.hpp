@@ -14,14 +14,15 @@ class GraphicComponent : public Component {
 	sf::Vector2u ImageCount;
 	sf::Vector2u CurrentImage;
 	std::string Name;
+	std::string CurrentAnimation;
 	sf::IntRect UvRect;
 	float SpriteRotation;
 	float SwitchTime;
 	float TotalTime;
 	bool Animated = false;
-	int Row = 0;
+	skeleton::AnimationManager Animations;
 
-	GraphicComponent(Skeleton::GameDataRef Data, sol::table GC) {
+	GraphicComponent(skeleton::GameDataRef Data, sol::table GC) {
 		this->Name = GC["spriteName"];
 		Data->Assets.loadTexture(this->Name, GC["spriteFilepath"]);
 		sf::Texture &text = Data->Assets.getTexture(this->Name);
@@ -29,6 +30,21 @@ class GraphicComponent : public Component {
 		sf::Vector2f Vector(GC["spriteOrientation"]["x"],
 							GC["spriteOrientation"]["y"]);
 		this->SpriteRotation = std::atan2(Vector.y, Vector.x) * 180 / M_PI;
+
+		if (GC["origin"] != sol::nil) {
+			sf::Vector2f Origin(GC["origin"]["x"], GC["origin"]["y"]);
+			this->Sprite.setOrigin(Origin);
+		}
+
+		if (GC["scale"] != sol::nil) {
+			sf::Vector2f Scale(GC["scale"]["width"], GC["scale"]["height"]);
+			this->Sprite.setScale(Scale);
+		}
+
+		if (GC["position"] != sol::nil) {
+			sf::Vector2f Position(GC["position"]["x"], GC["position"]["y"]);
+			this->Sprite.setPosition(Position);
+		}
 
 		if (GC["animated"] != sol::nil) {
 			this->Animated = GC["animated"];
@@ -46,22 +62,18 @@ class GraphicComponent : public Component {
 			this->UvRect = {int(this->CurrentImage.x * this->UvRect.width),
 							int(this->CurrentImage.y * this->UvRect.height),
 							height, width};
-			this->Sprite.setTextureRect(this->UvRect);
-		}
 
-		if (GC["origin"] != sol::nil) {
-			sf::Vector2f Origin(GC["origin"]["x"], GC["origin"]["y"]);
+			sf::Vector2f Origin(UvRect.left + (width / 2),
+								UvRect.top + (height / 2));
 			this->Sprite.setOrigin(Origin);
-		}
 
-		if (GC["scale"] != sol::nil) {
-			sf::Vector2f Scale(GC["scale"]["width"], GC["scale"]["height"]);
-			this->Sprite.setScale(Scale);
-		}
-
-		if (GC["position"] != sol::nil) {
-			sf::Vector2f Position(GC["position"]["x"], GC["position"]["y"]);
-			this->Sprite.setPosition(Position);
+			this->Sprite.setTextureRect(this->UvRect);
+			sol::table test = GC["animation"]["animations"];
+			int count = test.size();
+			for (int i = 1; i <= count; i++) {
+				sol::table item = test[i];
+				this->Animations.addAnimation(item["name"], item["row"]);
+			}
 		}
 	}
 

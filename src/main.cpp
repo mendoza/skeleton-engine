@@ -11,6 +11,6 @@ int main() {
 	int Limit = Meta["fpsLimit"];
 	bool VSync = Meta["vSync"];
 	bool DebugMode = Meta["debugMode"];
-	Skeleton::Engine(Width, Height, Title, Icon, Limit, VSync, DebugMode);
+	skeleton::Engine(Width, Height, Title, Icon, Limit, VSync, DebugMode);
 	return 0;
 }

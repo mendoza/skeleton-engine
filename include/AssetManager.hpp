@@ -2,7 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 class AssetManager {
 
   public:
@@ -23,4 +23,4 @@ class AssetManager {
 	std::map<std::string, sf::Font> Fonts;
 	std::map<std::string, sf::SoundBuffer> SoundBuffers;
 };
-}; // namespace Skeleton
+}; // namespace skeleton

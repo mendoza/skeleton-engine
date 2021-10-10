@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 class InputManager {
   public:
 	InputManager() {}
@@ -11,4 +11,4 @@ class InputManager {
 
 	sf::Vector2i getMousePosition(sf::RenderWindow &window);
 };
-}; // namespace Skeleton
+}; // namespace skeleton

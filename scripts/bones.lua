@@ -8,8 +8,26 @@ graphicComponent = {
         rows = 4,
         cols = 3,
         initialImage = {
-            row = 1,
+            row = 0,
             col = 0
+        },
+        animations = {
+            {
+                name = "idle",
+                row = 0
+            },
+            {
+                name = "walking",
+                row = 1
+            },
+            {
+                name = "punching",
+                row = 2
+            },
+            {
+                name = "dying",
+                row = 3
+            }
         }
     },
     scale = {
@@ -31,9 +49,16 @@ graphicComponent = {
 }
 
 physics = {
-    speed = 5
+    speed = 1
 }
 
 function update()
-    forward()
+    if (contador%2 == 0) then
+        playAnimation("dying")
+        forward()
+    else
+        playAnimation("idle")
+        stop()
+    end
+    contador = contador + 1
 end

@@ -2,7 +2,7 @@
 #include <Systems.hpp>
 #include <TestState.hpp>
 
-TestState::TestState(Skeleton::GameDataRef Data)
+TestState::TestState(skeleton::GameDataRef Data)
 	: Data(Data), GraphicsSystem(Actors), OthersSystem(Actors) {}
 
 void TestState::init() {
@@ -34,18 +34,16 @@ void TestState::draw() {
 	if (this->Data->DebugMode) {
 		ImGui::Begin("Debug Test.");
 		this->Data->logEngine();
-		ImGui::TextColored(ImVec4(1,1,0,1), "Actors");
+		ImGui::Text("Current State: Test State");
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Actors");
 		ImGui::BeginChild("Scrolling");
 		int count = 0;
 		for (auto entity : Actors.with<GraphicComponent>()) {
-			ImGui::Text("Actor: %d", count++);
-			ImGui::Text("Col: %d",
-						entity.get<GraphicComponent>().CurrentImage.x);
-			ImGui::Text("Row: %d",
-						entity.get<GraphicComponent>().CurrentImage.y);
+			ImGui::Text(
+				"Actor %d: %s", count++,
+				entity.get<GraphicComponent>().CurrentAnimation.c_str());
 		}
 		ImGui::EndChild();
-		ImGui::Text("Current State: Test State");
 		ImGui::End();
 	}
 	ImGui::EndFrame();

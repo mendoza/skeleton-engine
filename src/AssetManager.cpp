@@ -1,6 +1,6 @@
 #include <AssetManager.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 void AssetManager::loadTexture(std::string Name, std::string Filename) {
 	sf::Texture tex;
 	if (tex.loadFromFile(Filename)) {
@@ -33,4 +33,4 @@ void AssetManager::loadSound(std::string Name, std::string Filename) {
 sf::SoundBuffer &AssetManager::getSound(std::string Name) {
 	return this->SoundBuffers.at(Name);
 }
-}; // namespace Skeleton
+}; // namespace skeleton

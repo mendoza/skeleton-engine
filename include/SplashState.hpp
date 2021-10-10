@@ -1,17 +1,17 @@
 #pragma once
 #include <Engine.hpp>
 
-class SplashState : public Skeleton::State {
+class SplashState : public skeleton::State {
 
   public:
-	SplashState(Skeleton::GameDataRef data);
+	SplashState(skeleton::GameDataRef data);
 	void init();
 	void handleInput();
 	void update(float dt);
 	void draw();
 
   private:
-	Skeleton::GameDataRef Data;
+	skeleton::GameDataRef Data;
 	sf::Clock Timer;
 	sf::Sprite Background;
 	sol::state Script;

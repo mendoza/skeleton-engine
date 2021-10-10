@@ -1,7 +1,7 @@
 #include <SplashState.hpp>
 #include <TestState.hpp>
 
-SplashState::SplashState(Skeleton::GameDataRef data) : Data(data) {}
+SplashState::SplashState(skeleton::GameDataRef data) : Data(data) {}
 
 void SplashState::init() {
 	this->Script.script_file("scripts/MetaData.lua");
@@ -27,7 +27,7 @@ void SplashState::update(float dt) {
 	float Time = this->Splash["time"];
 	if (this->Timer.getElapsedTime().asSeconds() > Time) {
 		this->Data->Machine.addState(
-			Skeleton::StateRef(new TestState(this->Data)));
+			skeleton::StateRef(new TestState(this->Data)));
 	}
 }
 

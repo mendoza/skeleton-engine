@@ -3,7 +3,7 @@
 #include <memory>
 #include <stack>
 
-namespace Skeleton {
+namespace skeleton {
 typedef std::unique_ptr<State> StateRef;
 class StateMachine {
 
@@ -23,4 +23,4 @@ class StateMachine {
 	bool IsAdding;
 	bool IsReplacing;
 };
-}; // namespace Skeleton
+}; // namespace skeleton

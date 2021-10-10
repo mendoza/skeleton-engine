@@ -2,17 +2,17 @@
 #pragma once
 #include <Engine.hpp>
 #include <Actor.hpp>
-class TestState : public Skeleton::State {
+class TestState : public skeleton::State {
 
   public:
-	TestState(Skeleton::GameDataRef Data);
+	TestState(skeleton::GameDataRef Data);
 	void init();
 	void handleInput();
 	void update(float dt);
 	void draw();
 
   private:
-	Skeleton::GameDataRef Data;
+	skeleton::GameDataRef Data;
 	sf::Sprite Background;
     Actor actor;
 	ecs::EntityManager Actors;

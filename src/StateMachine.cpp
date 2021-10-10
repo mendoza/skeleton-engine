@@ -1,6 +1,6 @@
 #include <StateMachine.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 void StateMachine::addState(StateRef newState, bool isReplacing) {
 	this->IsAdding = true;
 	this->IsReplacing = isReplacing;
@@ -34,4 +34,4 @@ void StateMachine::processStateChanges() {
 }
 
 StateRef &StateMachine::getActiveState() { return this->States.top(); }
-}; // namespace Skeleton
+}; // namespace skeleton

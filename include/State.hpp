@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
-namespace Skeleton {
+namespace skeleton {
 class State {
 
   public:
@@ -14,4 +14,4 @@ class State {
 
 	sf::Clock Clock;
 };
-}; // namespace Skeleton
+}; // namespace skeleton

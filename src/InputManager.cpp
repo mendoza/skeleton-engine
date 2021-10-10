@@ -1,6 +1,6 @@
 #include <InputManager.hpp>
 
-namespace Skeleton {
+namespace skeleton {
 bool InputManager::isSpriteClicked(sf::Sprite *object, sf::Mouse::Button button,
 								   sf::RenderWindow &window) {
 	if (sf::Mouse::isButtonPressed(button)) {
@@ -18,4 +18,4 @@ bool InputManager::isSpriteClicked(sf::Sprite *object, sf::Mouse::Button button,
 sf::Vector2i InputManager::getMousePosition(sf::RenderWindow &window) {
 	return sf::Mouse::getPosition(window);
 }
-}; // namespace Skeleton
+}; // namespace skeleton
