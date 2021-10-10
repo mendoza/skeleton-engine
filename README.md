@@ -1,8 +1,10 @@
-# Skeleton Engine :skull: made with :heart:,:coffee: and some :beer:
+# Skeleton Engine :skull: made with :heart:, :coffee: and some :beer:
 
 ![License](https://img.shields.io/github/license/Dmendoza99/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/Dmendoza99/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/Dmendoza99/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/Dmendoza99/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/dmendoza99/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/Dmendoza99/Skeleton-Engine.svg?logo=lgtm&logoWidth=18) ![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Dmendoza99/Skeleton-Engine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dmendoza99/Skeleton-Engine/alerts/)
 
-<img src="assets/icon.png" width="64"> Small game engine framework , made with just 4 dependencies.
+![splash](assets/splash.png) 
+## Description
+Small game engine framework , made with just 4 dependencies.
 
 1.  SFML [Repo](https://github.com/SFML/SFML)
 2.  OpenEcs [Repo](https://github.com/Gronis/OpenEcs)
@@ -26,7 +28,9 @@ sudo apt-get install libsfml-dev #debian based OS
 ```bash
 git clone https://github.com/Dmendoza99/Skeleton-Engine
 cd Skeleton-Engine
-make run
+cmake .
+make
+./bin/main
 ```
 
 ## Bugs 🐛
