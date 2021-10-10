@@ -2,22 +2,31 @@ contador = 0
 
 graphicComponent = {
     spriteName = "bones",
-    spriteFilepath = "assets/icon.png",
+    spriteFilepath = "assets/spritesheets/player.png",
+    animated = true,
+    animation = {
+        rows = 4,
+        cols = 3,
+        initialImage = {
+            row = 1,
+            col = 0
+        }
+    },
     scale = {
-        width = 0.25,
-        height = 0.25
+        width = 3,
+        height = 3
     },
     origin = {
-        x = 32,
-        y = 32
+        x = 30,
+        y = 40
     },
     position = {
         x = 200,
         y = 200
     },
     spriteOrientation = {
-        x = 0,
-        y = 1
+        x = 1,
+        y = 0
     }
 }
 
@@ -26,10 +35,5 @@ physics = {
 }
 
 function update()
-    if (contador % 10 == 0) then
-        forward()
-    elseif (contador % 5 == 0) then
-        -- rotate(90)
-    end
-    contador=contador + 1;
+    forward()
 end
