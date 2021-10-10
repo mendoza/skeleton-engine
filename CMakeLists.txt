@@ -7,9 +7,10 @@ add_compile_options(-Wall -ggdb)
 
 file(GLOB TARGET_SRC "./src/*.cpp" )
 include_directories("./include")
-link_directories("./lib")
+find_library(LUA_LIB lua53 "./lib/liblua53.a")
 
 find_package(SFML 2.5.1 COMPONENTS audio graphics window system REQUIRED)
+find_package(OpenGL REQUIRED)
 
 add_executable(main ${TARGET_SRC})
-target_link_libraries(main PRIVATE sfml-audio sfml-graphics sfml-window sfml-system lua53 dl GL)
+target_link_libraries(main PRIVATE sfml-audio sfml-graphics sfml-window sfml-system ${LUA_LIB} ${CMAKE_DL_LIBS} ${OPENGL_LIBRARIES})
