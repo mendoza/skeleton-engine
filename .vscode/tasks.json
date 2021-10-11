@@ -4,20 +4,30 @@
         {
             "label": "Build C++ project",
             "type": "shell",
+            "windows": {
+                "command": "mingw32-make"
+            },
+            "linux": {
+                "command": "make"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "make"
         },
         {
             "label": "Build & run C++ project",
             "type": "shell",
+            "windows": {
+                "command": "mingw32-make; ./bin/main"
+            },
+            "linux": {
+                "command": "make && ./bin/main"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "make && ./bin/main"
         },
         {
             "label": "Build CMake",
