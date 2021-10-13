@@ -1,6 +1,6 @@
 # Skeleton Engine :skull: made with :heart:, :coffee: and some :beer:
 
-![License](https://img.shields.io/github/license/Dmendoza99/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/Dmendoza99/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/Dmendoza99/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/Dmendoza99/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/dmendoza99/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/Dmendoza99/Skeleton-Engine.svg?logo=lgtm&logoWidth=18) ![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Dmendoza99/Skeleton-Engine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dmendoza99/Skeleton-Engine/alerts/)
+![License](https://img.shields.io/github/license/Dmendoza99/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/Dmendoza99/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/Dmendoza99/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/Dmendoza99/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/dmendoza99/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg)
 
 ![splash](assets/splash.png) 
 ## Description
