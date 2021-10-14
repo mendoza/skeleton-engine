@@ -1,4 +1,5 @@
 #include <Engine.hpp>
+skeleton::Logger *skeleton::Logger::instance = 0;
 
 int main() {
 	sol::state Script;
