@@ -45,9 +45,12 @@ graphicComponent = {
 }
 
 physics = {
-    speed = 10
+    speed = 100
 }
 function update(dt)
-    playAnimation("idle")
+    playAnimation("walking")
+    local speed = physics["speed"] * dt
+    forward(speed)
+    console:Log("Moving at " .. speed .. " px/s")
     contador = contador + 1
 end
