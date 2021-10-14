@@ -1,5 +1,10 @@
 contador = 0
 
+function getRandom(m, n)
+    local rand = math.random(m, n)
+    return rand
+end
+
 graphicComponent = {
     spriteName = "bones",
     spriteFilepath = "assets/spritesheets/player.png",
@@ -27,8 +32,8 @@ graphicComponent = {
         }}
     },
     scale = {
-        width = 3,
-        height = 3
+        width = 1,
+        height = 1
     },
     origin = {
         x = 30,
@@ -36,7 +41,7 @@ graphicComponent = {
     },
     position = {
         x = 200,
-        y = 200
+        y = getRandom(1, 600)
     },
     spriteOrientation = {
         x = 1,
@@ -47,10 +52,11 @@ graphicComponent = {
 physics = {
     speed = 100
 }
+
 function update(dt)
     playAnimation("walking")
     local speed = physics["speed"] * dt
     forward(speed)
-    console:Log("Moving at " .. speed .. " px/s")
+    -- console:Log("Moving at " .. speed .. " px/s")
     contador = contador + 1
 end

@@ -15,6 +15,5 @@ class TestState : public skeleton::State {
 	skeleton::GameDataRef Data;
 	sf::Sprite Background;
 	ecs::EntityManager Actors;
-	ecs::SystemManager GraphicsSystem;
-	ecs::SystemManager OthersSystem;
+	ecs::SystemManager Systems;
 };
