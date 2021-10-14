@@ -1,12 +1,13 @@
 #pragma once
-#include <AssetManager.hpp>
 #include <AnimationManager.hpp>
+#include <AssetManager.hpp>
 #include <InputManager.hpp>
+#include <Logger.hpp>
 #include <OpenECS.hpp>
-#include <StateMachine.hpp>
-#include <State.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <State.hpp>
+#include <StateMachine.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <iostream>
@@ -25,9 +26,9 @@ struct GameData {
 	InputManager Input;
 	bool DebugMode;
 	float Fps;
-	int Width; 
+	int Width;
 	int Height;
-	int Limit; 
+	int Limit;
 	bool VSync;
 	void setMetaData(int width, int height, int Limit, bool vsync) {
 		this->Width = width;
@@ -51,7 +52,7 @@ class Engine {
 
   private:
 	sf::Clock Clock;
-	const float dt = 1.0f / 6.0f;
+	const float dt = 1.f / 60.f;
 	GameDataRef Data = std::make_shared<GameData>();
 	void run();
 };
