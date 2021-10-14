@@ -51,6 +51,12 @@ class GraphicComponent : public Component {
 		}
 
 		if (this->Animated && GC["animation"] != sol::nil) {
+			sol::table animations = GC["animation"]["animations"];
+			int count = animations.size();
+			for (int i = 1; i <= count; i++) {
+				sol::table item = animations[i];
+				this->Animations.addAnimation(item["name"], item["row"]);
+			}
 			int rows = GC["animation"]["rows"];
 			int cols = GC["animation"]["cols"];
 			int width = this->Sprite.getTextureRect().width / cols;
@@ -69,12 +75,6 @@ class GraphicComponent : public Component {
 			this->Sprite.setOrigin(Origin);
 
 			this->Sprite.setTextureRect(this->UvRect);
-			sol::table animations = GC["animation"]["animations"];
-			int count = animations.size();
-			for (int i = 1; i <= count; i++) {
-				sol::table item = animations[i];
-				this->Animations.addAnimation(item["name"], item["row"]);
-			}
 		}
 	}
 
@@ -99,21 +99,19 @@ class LogicComponent : public Component {
   public:
 	sol::state L;
 	sol::function ScriptUpdate;
-	float TotalTime;
-	float SwitchTime = 1;
+	skeleton::Logger *console = console->getInstance();
 
 	LogicComponent(std::string Path) {
 		L.open_libraries();
 		L.script_file(Path);
 		this->ScriptUpdate = L["update"];
+		this->L.new_usertype<skeleton::Logger>(
+			"console", "Log", &skeleton::Logger::Log, "Warning",
+			&skeleton::Logger::Warning, "Error", &skeleton::Logger::Error);
+		this->L["console"] = console;
 	}
-	void update(float dt) override {
-		this->TotalTime += dt;
-		if (TotalTime >= SwitchTime) {
-			TotalTime -= SwitchTime;
-			this->ScriptUpdate(dt);
-		}
-	}
+	void update(float dt) override { this->ScriptUpdate(dt); }
 
 	void draw() override {}
+	~LogicComponent() { delete console; }
 };

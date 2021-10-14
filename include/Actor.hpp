@@ -6,8 +6,8 @@ class Actor : public ecs::EntityAlias<GraphicComponent, LogicComponent> {
 	Actor(skeleton::GameDataRef Data, std::string Path);
 	~Actor();
 	void rotate(float Angle);
-	void forward();
-	void backward();
+	void forward(float Speed);
+	void backward(float Speed);
 	void stop();
 	void playAnimation(std::string Name);
 };
