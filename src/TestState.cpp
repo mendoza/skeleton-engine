@@ -3,12 +3,14 @@
 #include <TestState.hpp>
 
 TestState::TestState(skeleton::GameDataRef Data)
-	: Data(Data), GraphicsSystem(Actors), OthersSystem(Actors) {}
+	: Data(Data), Systems(Actors) {}
 
 void TestState::init() {
-	this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
-	this->GraphicsSystem.add<GraphicSystem>();
-	this->OthersSystem.add<LogicSystem>();
+	for (int i = 0; i < 3000; i++)
+		this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
+
+	this->Systems.add<GraphicSystem>();
+	this->Systems.add<LogicSystem>();
 }
 
 void TestState::handleInput() {
@@ -20,33 +22,33 @@ void TestState::handleInput() {
 	}
 }
 
-void TestState::update(float dt) {
-	this->GraphicsSystem.update(dt);
-	this->OthersSystem.update(dt);
-}
+void TestState::update(float dt) { this->Systems.update(dt); }
 
 void TestState::draw() {
 	ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
 	this->Data->Window.clear(sf::Color(125, 125, 125));
-	for (auto entity : Actors.with<GraphicComponent>()) {
-		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
-	}
+
 	if (this->Data->DebugMode) {
 		ImGui::Begin("Debug Test.");
 		this->Data->logEngine();
 		ImGui::Text("Current State: Test State");
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Actors");
 		ImGui::BeginChild("Scrolling");
-		int count = 0;
-		for (auto entity : Actors.with<GraphicComponent>()) {
+	}
+	int count = 0;
+	for (auto entity : Actors.with<GraphicComponent>()) {
+		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
+		if (this->Data->DebugMode) {
 			ImGui::Text(
 				"Actor %d: %s", count++,
 				entity.get<GraphicComponent>().CurrentAnimation.c_str());
 		}
+	}
+	if (this->Data->DebugMode) {
 		ImGui::EndChild();
 		ImGui::End();
+		ImGui::EndFrame();
+		ImGui::SFML::Render(this->Data->Window);
 	}
-	ImGui::EndFrame();
-	ImGui::SFML::Render(this->Data->Window);
 	this->Data->Window.display();
 }

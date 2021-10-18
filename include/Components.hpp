@@ -18,7 +18,7 @@ class GraphicComponent : public Component {
 	sf::IntRect UvRect;
 	float SpriteRotation;
 	float SwitchTime = 1 / 6;
-	float TotalTime;
+	float TotalTime = 0;
 	bool Animated = false;
 	skeleton::AnimationManager Animations;
 
