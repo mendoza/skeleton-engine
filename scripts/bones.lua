@@ -32,8 +32,8 @@ graphicComponent = {
         }}
     },
     scale = {
-        width = 1,
-        height = 1
+        width = 3,
+        height = 3
     },
     origin = {
         x = 30,
@@ -54,9 +54,13 @@ physics = {
 }
 
 function update(dt)
-    playAnimation("walking")
-    local speed = physics["speed"] * dt
-    forward(speed)
+    if (player.x < 800) then
+        local speed = physics["speed"] * dt
+        forward(speed)
+        playAnimation("walking")
+    else
+        playAnimation("idle")
+    end
     -- console:Log("Moving at " .. speed .. " px/s")
     contador = contador + 1
 end

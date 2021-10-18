@@ -14,6 +14,13 @@ Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 	this->get<LogicComponent>().L.set_function("stop", &Actor::stop, *this);
 	this->get<LogicComponent>().L.set_function("playAnimation",
 											   &Actor::playAnimation, *this);
+	this->get<LogicComponent>().L.new_usertype<sf::Vector2f>(
+		"vector2f",
+		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
+		&sf::Vector2f::x, "y", &sf::Vector2f::y);
+
+	this->get<LogicComponent>().L.set(
+		"player", &this->get<GraphicComponent>().Sprite.getPosition());
 }
 
 Actor::~Actor() {}

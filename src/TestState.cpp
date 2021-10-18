@@ -6,8 +6,8 @@ TestState::TestState(skeleton::GameDataRef Data)
 	: Data(Data), Systems(Actors) {}
 
 void TestState::init() {
-	for (int i = 0; i < 3000; i++)
-		this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
+	// for (int i = 0; i < 3000; i++)
+	this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
 
 	this->Systems.add<GraphicSystem>();
 	this->Systems.add<LogicSystem>();
