@@ -11,7 +11,8 @@ Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 											   *this);
 	this->get<LogicComponent>().L.set_function("backward", &Actor::backward,
 											   *this);
-	this->get<LogicComponent>().L.set_function("stop", &Actor::stop, *this);
+	this->get<LogicComponent>().L.set_function("flipH", &Actor::flipH, *this);
+	this->get<LogicComponent>().L.set_function("flipV", &Actor::flipV, *this);
 	this->get<LogicComponent>().L.set_function("playAnimation",
 											   &Actor::playAnimation, *this);
 	this->get<LogicComponent>().L.new_usertype<sf::Vector2f>(
@@ -43,7 +44,30 @@ void Actor::backward(float Speed) {
 	direction *= -Speed;
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
-void Actor::stop() {}
+
+void Actor::flipH() {
+	sf::Vector2f scale = this->get<GraphicComponent>().Sprite.getScale();
+	scale.x *= -1;
+
+	this->get<GraphicComponent>().Sprite.setScale(scale);
+	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
+	sf::Vector2f direction = {-cos(-angle), sin(-angle)};
+
+	this->get<GraphicComponent>().SpriteRotation =
+		std::atan2(direction.y, direction.x) * 180 / M_PI;
+}
+
+void Actor::flipV() {
+	sf::Vector2f scale = this->get<GraphicComponent>().Sprite.getScale();
+	scale.y *= -1;
+
+	this->get<GraphicComponent>().Sprite.setScale(scale);
+	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
+	sf::Vector2f direction = {cos(-angle), -sin(-angle)};
+
+	this->get<GraphicComponent>().SpriteRotation =
+		std::atan2(direction.y, direction.x) * 180 / M_PI;
+}
 
 void Actor::playAnimation(std::string Name) {
 	if (this->get<GraphicComponent>().Animated) {
