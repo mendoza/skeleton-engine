@@ -21,14 +21,13 @@ Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 		&sf::Vector2f::x, "y", &sf::Vector2f::y);
 
 	this->get<LogicComponent>().L.set(
-		"player", &this->get<GraphicComponent>().Sprite.getPosition());
+		"position", &this->get<GraphicComponent>().Sprite.getPosition());
 }
 
 Actor::~Actor() {}
 
 void Actor::rotate(float Angle) {
 	this->get<GraphicComponent>().Sprite.rotate(Angle);
-	this->get<GraphicComponent>().SpriteRotation += Angle;
 }
 
 void Actor::forward(float Speed) {
