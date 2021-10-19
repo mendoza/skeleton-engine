@@ -14,7 +14,8 @@
         {
             "name": "Windows",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/SFML/include/**"
             ],
             "defines": [],
             "compilerPath": "C:/mingw32/bin/g++.exe",
