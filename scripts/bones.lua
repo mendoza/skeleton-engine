@@ -1,4 +1,4 @@
-contador = 0
+contador = 1
 
 function getRandom(m, n)
     local rand = math.random(m, n)
@@ -54,13 +54,12 @@ physics = {
 }
 
 function update(dt)
-    if (player.x < 800) then
-        local speed = physics["speed"] * dt
-        forward(speed)
-        playAnimation("walking")
-    else
-        playAnimation("idle")
+    local speed = physics["speed"] * dt
+    forward(speed)
+    playAnimation("walking")
+    if (position.x < 0 or position.x > 400) then
+        console:Log("Flipped")
+        flipH()
     end
-    -- console:Log("Moving at " .. speed .. " px/s")
     contador = contador + 1
 end
