@@ -58,7 +58,7 @@ function update(dt)
     forward(speed)
     playAnimation("walking")
     if (position.x < 0 or position.x > 400) then
-        console:Log("Flipped")
+        console:Log("Flipped at" .. position.x)
         flipH()
     end
     contador = contador + 1
