@@ -57,7 +57,7 @@ function update(dt)
     local speed = physics["speed"] * dt;
     forward(speed)
     console:Log("Playing animation: " .. "walking")
-    playAnimation("dead")
+    playAnimation("walking")
     if (position.x < 0 or position.x > 400) then
         console:Log("Flipped at " .. position.x)
         flipH()
