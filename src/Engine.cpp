@@ -20,7 +20,7 @@ Engine::Engine(int Width, int Height, std::string Title, std::string IconFile,
 }
 
 void Engine::run() {
-	float frametime;
+	float frametime = 0.0f;
 	float accumulator = 0.0f;
 	while (this->Data->Window.isOpen()) {
 		this->Data->Machine.processStateChanges();
