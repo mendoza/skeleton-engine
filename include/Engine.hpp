@@ -38,7 +38,8 @@ struct GameData {
 	}
 	void logEngine() {
 		ImGui::Text("FPS: %.0f", this->Fps);
-		ImGui::Text("FPS Limit: %.d", this->Limit);
+		if (this->Limit != 0)
+			ImGui::Text("FPS Limit: %.d", this->Limit);
 		ImGui::Text("VSync: %s", this->VSync ? "true" : "false");
 		ImGui::Text("Resolution: %dx%d", this->Width, this->Height);
 	}

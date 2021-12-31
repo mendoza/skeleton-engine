@@ -54,7 +54,7 @@ physics = {
 }
 
 function update(dt)
-    local speed = physics["speed"] * dt
+    local speed = physics["speed"] * dt;
     forward(speed)
     playAnimation("walking")
     if (position.x < 0 or position.x > 400) then

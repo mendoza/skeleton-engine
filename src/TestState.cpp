@@ -7,7 +7,7 @@ TestState::TestState(skeleton::GameDataRef Data)
 
 void TestState::init() {
 	// for (int i = 0; i < 3000; i++)
-	this->Actors.create<Actor>(this->Data, "scripts/bones.lua");
+	this->Actors.create<Actor>(this->Data, "scripts/actorTest.lua");
 
 	this->Systems.add<GraphicSystem>();
 	this->Systems.add<LogicSystem>();
@@ -25,7 +25,9 @@ void TestState::handleInput() {
 void TestState::update(float dt) { this->Systems.update(dt); }
 
 void TestState::draw() {
-	ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
+	if (this->Data->DebugMode) {
+		ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
+	}
 	this->Data->Window.clear(sf::Color(125, 125, 125));
 
 	if (this->Data->DebugMode) {
