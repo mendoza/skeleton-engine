@@ -7,7 +7,7 @@ add_compile_options(-Wall -ggdb)
 
 file(GLOB TARGET_SRC "./src/*.cpp" )
 include_directories("./include")
-find_library(LUA_LIB lua53 "./lib")
+find_library(LUA_LIB lua54 "./lib")
 
 # Setting SFML_DIR on windows
 if (NOT LINUX AND WIN32)
