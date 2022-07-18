@@ -28,7 +28,8 @@ sudo apt-get install libsfml-dev #debian based OS
 ```bash
 git clone https://github.com/Dmendoza99/Skeleton-Engine
 cd Skeleton-Engine
-cmake .
+cmake . 
+cmake -G "MinGW Makefiles" . # For windows
 make
 ./bin/main
 ```
