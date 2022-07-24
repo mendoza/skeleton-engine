@@ -31,20 +31,25 @@ void SplashState::update(float dt) {
 	}
 }
 
-void SplashState::draw() {
-	ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
+void SplashState::draw(float dt) {
+	if (this->Data->DebugMode) {
+		ImGui::SFML::Update(this->Data->Window, sf::seconds(dt));
+	}
+
 	int r = this->Splash["background"]["r"];
 	int g = this->Splash["background"]["g"];
 	int b = this->Splash["background"]["b"];
 	this->Data->Window.clear(sf::Color(r, g, b));
 	this->Data->Window.draw(this->Background);
+
 	if (this->Data->DebugMode) {
 		ImGui::Begin("Debug Splash.");
 		this->Data->logEngine();
 		ImGui::Text("Current State: Splash Screen");
 		ImGui::End();
+		ImGui::EndFrame();
+		ImGui::SFML::Render(this->Data->Window);
 	}
-	ImGui::EndFrame();
-	ImGui::SFML::Render(this->Data->Window);
+	
 	this->Data->Window.display();
 }

@@ -1,7 +1,7 @@
 
 #pragma once
-#include <Engine.hpp>
 #include <Actor.hpp>
+#include <Engine.hpp>
 class TestState : public skeleton::State {
 
   public:
@@ -9,7 +9,7 @@ class TestState : public skeleton::State {
 	void init();
 	void handleInput();
 	void update(float dt);
-	void draw();
+	void draw(float dt);
 
   private:
 	skeleton::GameDataRef Data;

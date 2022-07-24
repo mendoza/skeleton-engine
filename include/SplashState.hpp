@@ -8,7 +8,7 @@ class SplashState : public skeleton::State {
 	void init();
 	void handleInput();
 	void update(float dt);
-	void draw();
+	void draw(float dt );
 
   private:
 	skeleton::GameDataRef Data;

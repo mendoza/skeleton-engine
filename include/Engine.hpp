@@ -25,29 +25,13 @@ struct GameData {
 	sf::RenderWindow Window;
 	AssetManager Assets;
 	InputManager Input;
-	bool DebugMode;
 	float FPS;
-	int Width;
-	int Height;
-	int Limit;
-	bool VSync;
-
-	void setMetaData(int width, int height, int Limit, bool vsync) {
-		this->Width = width;
-		this->Height = height;
-		this->Limit = Limit;
-		this->VSync = vsync;
-	}
+	bool DebugMode;
 
 	void logEngine() {
 		ImGui::Text("FPS: %.0f", this->FPS);
-		if (this->Limit != 0)
-			ImGui::Text("FPS Limit: %.d", this->Limit);
-		ImGui::Text("VSync: %s", this->VSync ? "on" : "off");
-		ImGui::Checkbox("test", &this->VSync);
-		std::cout << &this->VSync << std::endl;
-		this->VSync = true;
-		ImGui::Text("Resolution: %dx%d", this->Width, this->Height);
+		ImGui::Text("Resolution: %dx%d", this->Window.getSize().x,
+					this->Window.getSize().y);
 	}
 };
 
@@ -56,7 +40,7 @@ class Engine {
   public:
 	Engine(bool DebugMode = false);
 	void buildWindow(int Width, int Height, std::string Title,
-					 std::string IconFile, int Limit = 60, bool VSync = false);
+					 std::string IconFile);
 
   private:
 	sf::Clock Clock;

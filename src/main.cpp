@@ -9,10 +9,8 @@ int main() {
 	std::string Icon = Meta["icon"];
 	int Width = Meta["width"];
 	int Height = Meta["height"];
-	int Limit = Meta["fpsLimit"];
-	bool VSync = Meta["vSync"];
 	bool DebugMode = Meta["debugMode"];
 	skeleton::Engine engine(DebugMode);
-	engine.buildWindow(Width, Height, Title, Icon, Limit, VSync);
+	engine.buildWindow(Width, Height, Title, Icon);
 	return 0;
 }

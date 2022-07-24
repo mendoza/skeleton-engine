@@ -16,27 +16,34 @@ void TestState::init() {
 void TestState::handleInput() {
 	sf::Event event;
 	while (this->Data->Window.pollEvent(event)) {
+		ImGui::SFML::ProcessEvent(event);
 		if (sf::Event::Closed == event.type) {
 			this->Data->Window.close();
+		}
+
+		if (event.type == sf::Event::Resized) {
+			// update the view to the new size of the window
+			sf::FloatRect visibleArea(0, 0, event.size.width,
+									  event.size.height);
+			this->Data->Window.setView(sf::View(visibleArea));
 		}
 	}
 }
 
 void TestState::update(float dt) { this->Systems.update(dt); }
 
-void TestState::draw() {
-	if (this->Data->DebugMode) {
-		ImGui::SFML::Update(this->Data->Window, this->Clock.restart());
-	}
+void TestState::draw(float dt) {
 	this->Data->Window.clear(sf::Color(125, 125, 125));
 
 	if (this->Data->DebugMode) {
+		ImGui::SFML::Update(this->Data->Window, sf::seconds(dt));
 		ImGui::Begin("Debug Test.");
 		this->Data->logEngine();
 		ImGui::Text("Current State: Test State");
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Actors");
 		ImGui::BeginChild("Scrolling");
 	}
+
 	int count = 0;
 	for (auto entity : Actors.with<GraphicComponent>()) {
 		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
