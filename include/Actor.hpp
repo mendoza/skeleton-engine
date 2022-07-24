@@ -11,4 +11,7 @@ class Actor : public ecs::EntityAlias<GraphicComponent, LogicComponent> {
 	void flipH();
 	void flipV();
 	void playAnimation(std::string Name);
+
+  private:
+	sf::Vector2f getSpriteDirection(float rotation);
 };

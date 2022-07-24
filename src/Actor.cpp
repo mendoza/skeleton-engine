@@ -4,7 +4,7 @@ Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 	L.open_libraries();
 	L.script_file(Path);
 
-	this->add<GraphicComponent>(Data, L["graphicComponent"]);
+	this->add<GraphicComponent>(Data, L["actorTable"]["graphicComponent"]);
 	this->add<LogicComponent>(Path);
 	this->get<LogicComponent>().L.set_function("rotate", &Actor::rotate, *this);
 	this->get<LogicComponent>().L.set_function("forward", &Actor::forward,
@@ -30,16 +30,21 @@ void Actor::rotate(float Angle) {
 	this->get<GraphicComponent>().Sprite.rotate(Angle);
 }
 
+sf::Vector2f Actor::getSpriteDirection(float rotation) {
+	float angle = rotation * (M_PI / 180.f);
+	return sf::Vector2f(cos(-angle), sin(-angle));
+}
+
 void Actor::forward(float Speed) {
-	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
-	sf::Vector2f direction = {cos(-angle), sin(-angle)};
+	sf::Vector2f direction =
+		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
 	direction *= Speed;
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
 
 void Actor::backward(float Speed) {
-	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
-	sf::Vector2f direction = {cos(-angle), sin(-angle)};
+	sf::Vector2f direction =
+		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
 	direction *= -Speed;
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
@@ -49,8 +54,8 @@ void Actor::flipH() {
 	scale.x *= -1;
 
 	this->get<GraphicComponent>().Sprite.setScale(scale);
-	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
-	sf::Vector2f direction = {-cos(-angle), sin(-angle)};
+	sf::Vector2f direction =
+		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
 
 	this->get<GraphicComponent>().SpriteRotation =
 		std::atan2(direction.y, direction.x) * 180 / M_PI;
@@ -61,8 +66,8 @@ void Actor::flipV() {
 	scale.y *= -1;
 
 	this->get<GraphicComponent>().Sprite.setScale(scale);
-	float angle = this->get<GraphicComponent>().SpriteRotation * (M_PI / 180.f);
-	sf::Vector2f direction = {cos(-angle), -sin(-angle)};
+	sf::Vector2f direction =
+		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
 
 	this->get<GraphicComponent>().SpriteRotation =
 		std::atan2(direction.y, direction.x) * 180 / M_PI;

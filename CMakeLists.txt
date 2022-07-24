@@ -23,6 +23,7 @@ find_package(SFML 2.5.1 COMPONENTS audio graphics window system REQUIRED)
 include_directories(${SFML_INCLUDES})
 
 # Finding OpenGL (IMGUI and SFML)
+set(OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDES})
 
