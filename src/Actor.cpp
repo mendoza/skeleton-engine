@@ -11,6 +11,9 @@ Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
 											   *this);
 	this->get<LogicComponent>().L.set_function("backward", &Actor::backward,
 											   *this);
+
+	this->get<LogicComponent>().L.set_function("stop", &Actor::stop,
+											   *this);
 	this->get<LogicComponent>().L.set_function("flipH", &Actor::flipH, *this);
 	this->get<LogicComponent>().L.set_function("flipV", &Actor::flipV, *this);
 	this->get<LogicComponent>().L.set_function("playAnimation",
@@ -46,6 +49,13 @@ void Actor::backward(float Speed) {
 	sf::Vector2f direction =
 		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
 	direction *= -Speed;
+	this->get<GraphicComponent>().Sprite.move(direction);
+}
+
+void Actor::stop() {
+	sf::Vector2f direction =
+		this->getSpriteDirection(this->get<GraphicComponent>().SpriteRotation);
+	direction *= 0.f;
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
 

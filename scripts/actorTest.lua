@@ -38,8 +38,8 @@ actorTable = {
             y = 40
         },
         position = {
-            x = 200,
-            y = getRandom(1, 600)
+            x = 600 / 2,
+            y = 800 / 2
         },
         spriteOrientation = {
             x = 1,
@@ -48,19 +48,31 @@ actorTable = {
     },
 
     physics = {
-        speed = 100
-    },
-
-    update = function(dt)
-        playAnimation("walking")
-        count = 0
-        for _ in pairs(tbl) do
-            count = count + 1
-        end
-        message = "" .. tostring(getRandom(0, count))
-        print(message)
-        logger:Warning("" .. message)
-        -- console:Warning(""..graphicComponent.animation.animations[])
-    end
+        speed = 300
+    }
 
 }
+shouldRun = true
+hasBeenPrint = true
+startingX = actorTable.graphicComponent.position.x
+function update(dt)
+
+    if (hasBeenPrint) then
+        hasBeenPrint = false
+        logger:Log("X: " .. position.x)
+    end
+
+    if (shouldRun) then
+        if (position.x < 600) then
+            local speed = actorTable["physics"]["speed"] * dt;
+            playAnimation("walking")
+            forward(speed)
+        else
+            stop()
+            playAnimation("idle")
+            logger:Log("Finished walking: " .. (math.abs(startingX - position.x)) .. "px !")
+            shouldRun = false
+        end
+    end
+
+end

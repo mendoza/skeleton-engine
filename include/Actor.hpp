@@ -8,6 +8,7 @@ class Actor : public ecs::EntityAlias<GraphicComponent, LogicComponent> {
 	void rotate(float Angle);
 	void forward(float Speed);
 	void backward(float Speed);
+	void stop();
 	void flipH();
 	void flipV();
 	void playAnimation(std::string Name);
