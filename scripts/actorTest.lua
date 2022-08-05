@@ -48,7 +48,8 @@ actorTable = {
     },
 
     physics = {
-        speed = 300
+        speed = 50,
+        weight = 10
     }
 
 }

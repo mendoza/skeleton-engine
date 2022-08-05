@@ -19,10 +19,10 @@
             "label": "Build & run C++ project",
             "type": "shell",
             "windows": {
-                "command": "mingw32-make; ./bin/main"
+                "command": "mingw32-make; ./build/main"
             },
             "linux": {
-                "command": "make && ./bin/main"
+                "command": "make && ./build/main"
             },
             "group": {
                 "kind": "test",
