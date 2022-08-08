@@ -3,7 +3,7 @@ skeleton::Logger *skeleton::Logger::instance = 0;
 
 int main() {
 	sol::state Script;
-	Script.script_file("scripts/MetaData.lua");
+	Script.script_file("assets/scripts/MetaData.lua");
 	sol::table Meta = Script["MetaData"];
 	std::string Title = Meta["title"];
 	std::string Icon = Meta["icon"];

@@ -4,7 +4,7 @@
 SplashState::SplashState(skeleton::GameDataRef data) : Data(data) {}
 
 void SplashState::init() {
-	this->Script.script_file("scripts/MetaData.lua");
+	this->Script.script_file("assets/scripts/MetaData.lua");
 	this->Meta = this->Script["MetaData"];
 	this->Splash = this->Script["MetaData"]["splash"];
 	std::string filePath = this->Splash["backgroundImageFile"];

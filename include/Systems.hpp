@@ -11,13 +11,3 @@ class GraphicSystem : public ecs::System {
 		}
 	}
 };
-
-class LogicSystem : public ecs::System {
-  public:
-	LogicSystem() {}
-	void update(float time) override {
-		for (auto entity : entities().with<LogicComponent>()) {
-			entity.get<LogicComponent>().update(time);
-		}
-	}
-};

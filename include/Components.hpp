@@ -94,24 +94,3 @@ class GraphicComponent : public Component {
 		}
 	}
 };
-
-class LogicComponent : public Component {
-  public:
-	sol::state L;
-	sol::function ScriptUpdate;
-	skeleton::Logger *logger = logger->getInstance();
-
-	LogicComponent(std::string Path) {
-		L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string, sol::lib::io);
-		L.script_file(Path);
-		this->ScriptUpdate = L["update"];
-		this->L.new_usertype<skeleton::Logger>(
-			"logger", "Log", &skeleton::Logger::Log, "Warning",
-			&skeleton::Logger::Warning, "Error", &skeleton::Logger::Error);
-		this->L["logger"] = logger;
-	}
-	void update(float dt) override { this->ScriptUpdate(dt); }
-
-	void draw() override {}
-	~LogicComponent() { delete logger; }
-};

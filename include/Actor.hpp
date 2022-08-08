@@ -1,9 +1,9 @@
 #pragma once
 #include <Components.hpp>
-class Actor : public ecs::EntityAlias<GraphicComponent, LogicComponent> {
+class Actor : public ecs::EntityAlias<GraphicComponent> {
   public:
 	Actor() {}
-	Actor(skeleton::GameDataRef Data, std::string Path);
+	Actor(skeleton::GameDataRef Data, sol::table GC);
 	~Actor();
 	void rotate(float Angle);
 	void forward(float Speed);
@@ -12,6 +12,7 @@ class Actor : public ecs::EntityAlias<GraphicComponent, LogicComponent> {
 	void flipH();
 	void flipV();
 	void playAnimation(std::string Name);
+	sf::Vector2f getPosition();
 
   private:
 	sf::Vector2f getSpriteDirection(float rotation);

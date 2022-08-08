@@ -1,30 +1,6 @@
 #include "Actor.hpp"
-Actor::Actor(skeleton::GameDataRef Data, std::string Path) {
-	sol::state L;
-	L.open_libraries();
-	L.script_file(Path);
-
-	this->add<GraphicComponent>(Data, L["actorTable"]["graphicComponent"]);
-	this->add<LogicComponent>(Path);
-	this->get<LogicComponent>().L.set_function("rotate", &Actor::rotate, *this);
-	this->get<LogicComponent>().L.set_function("forward", &Actor::forward,
-											   *this);
-	this->get<LogicComponent>().L.set_function("backward", &Actor::backward,
-											   *this);
-
-	this->get<LogicComponent>().L.set_function("stop", &Actor::stop,
-											   *this);
-	this->get<LogicComponent>().L.set_function("flipH", &Actor::flipH, *this);
-	this->get<LogicComponent>().L.set_function("flipV", &Actor::flipV, *this);
-	this->get<LogicComponent>().L.set_function("playAnimation",
-											   &Actor::playAnimation, *this);
-	this->get<LogicComponent>().L.new_usertype<sf::Vector2f>(
-		"vector2f",
-		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
-		&sf::Vector2f::x, "y", &sf::Vector2f::y);
-
-	this->get<LogicComponent>().L.set(
-		"position", &this->get<GraphicComponent>().Sprite.getPosition());
+Actor::Actor(skeleton::GameDataRef Data, sol::table GC) {
+	this->add<GraphicComponent>(Data, GC);
 }
 
 Actor::~Actor() {}
@@ -89,4 +65,8 @@ void Actor::playAnimation(std::string Name) {
 		this->get<GraphicComponent>().CurrentImage.y = row;
 		this->get<GraphicComponent>().CurrentAnimation = Name;
 	}
+}
+
+sf::Vector2f Actor::getPosition() {
+	return this->get<GraphicComponent>().Sprite.getPosition();
 }

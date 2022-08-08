@@ -6,11 +6,37 @@ TestState::TestState(skeleton::GameDataRef Data)
 	: Data(Data), Systems(Actors) {}
 
 void TestState::init() {
-	// for (int i = 0; i < 3000; i++)
-	this->Actors.create<Actor>(this->Data, "scripts/actorTest.lua");
-
+	setupLuaState();
 	this->Systems.add<GraphicSystem>();
-	this->Systems.add<LogicSystem>();
+}
+
+void TestState::setupLuaState() {
+	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
+					 sol::lib::io, sol::lib::os);
+	L.script_file("assets/scripts/actorTest.lua");
+
+	sol::usertype<Actor> actor_type =
+		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
+
+	actor_type["rotate"] = &Actor::rotate;
+	actor_type["forward"] = &Actor::forward;
+	actor_type["backward"] = &Actor::backward;
+	actor_type["stop"] = &Actor::stop;
+	actor_type["flipH"] = &Actor::flipH;
+	actor_type["flipV"] = &Actor::flipV;
+	actor_type["playAnimation"] = &Actor::playAnimation;
+	actor_type["position"] = &Actor::getPosition;
+
+	sol::usertype<sf::Vector2f> sfVector2f = L.new_usertype<sf::Vector2f>(
+		"vector2f",
+		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
+		&sf::Vector2f::x, "y", &sf::Vector2f::y);
+
+	Actor actor = this->Actors.create<Actor>(
+		this->Data, L["actorParams"]["graphicComponent"]);
+	L.set("actor", actor);
+	skeleton::setLogger(L);
+	this->state_update = L["update"];
 }
 
 void TestState::handleInput() {
@@ -27,10 +53,17 @@ void TestState::handleInput() {
 									  event.size.height);
 			this->Data->Window.setView(sf::View(visibleArea));
 		}
+
+		if (event.type == sf::Event::KeyPressed) {
+			this->state_handle_input(event.key.code);
+		}
 	}
 }
 
-void TestState::update(float dt) { this->Systems.update(dt); }
+void TestState::update(float dt) {
+	this->Systems.update(dt);
+	this->state_update(dt);
+}
 
 void TestState::draw(float dt) {
 	this->Data->Window.clear(sf::Color(125, 125, 125));

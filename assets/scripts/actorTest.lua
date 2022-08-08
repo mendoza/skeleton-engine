@@ -2,7 +2,8 @@ function getRandom(m, n)
     local rand = math.random(m, n)
     return rand
 end
-actorTable = {
+
+actorParams = {
     graphicComponent = {
         spriteName = "bones",
         spriteFilepath = "assets/spritesheets/player.png",
@@ -46,34 +47,42 @@ actorTable = {
             y = 0
         }
     },
-
-    physics = {
-        speed = 50,
+    physicsComponent = {
+        speed = 100,
         weight = 10
     }
-
 }
+
+
 shouldRun = true
 hasBeenPrint = true
-startingX = actorTable.graphicComponent.position.x
+startingX = 600 / 2
+startTimeStamp = -1
 function update(dt)
-
     if (hasBeenPrint) then
         hasBeenPrint = false
-        logger:Log("X: " .. position.x)
+        startTimeStamp = os.time()
+        logger:Log("Start! x: " .. position.x)
     end
 
     if (shouldRun) then
-        if (position.x < 600) then
-            local speed = actorTable["physics"]["speed"] * dt;
-            playAnimation("walking")
-            forward(speed)
+        if (actor:position().x < 600) then
+            local speed = actorParams["physicsComponent"]["speed"] * dt;
+            actor:playAnimation("walking")
+            actor:forward(speed)
         else
-            stop()
-            playAnimation("idle")
-            logger:Log("Finished walking: " .. (math.abs(startingX - position.x)) .. "px !")
+            actor:stop()
+            actor:playAnimation("idle")
+            local time = os.time() - startTimeStamp
+            local distance = math.abs(startingX - position.x)
+            logger:Log(
+                "Tooked: " .. time .. "s! finished walking: " .. distance .. "px! speed: " .. (distance / time) ..
+                    " px/s")
             shouldRun = false
         end
     end
+end
 
+function  handle_input(key_stroke)
+    
 end

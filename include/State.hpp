@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
+#include <sol.hpp>
 namespace skeleton {
 class State {
 
@@ -12,6 +13,7 @@ class State {
 	virtual void pause() {}
 	virtual void resume() {}
 
+	sol::state L;
 	sf::Clock Clock;
 };
 }; // namespace skeleton
