@@ -3,16 +3,16 @@ function getRandom(m, n)
     return rand
 end
 
-actorParams = {
-    graphicComponent = {
-        spriteName = "bones",
-        spriteFilepath = "assets/spritesheets/player.png",
+actor_params = {
+    graphic_component = {
+        sprite_name = "bones",
+        sprite_filepath = "assets/spritesheets/player.png",
         animated = true,
         animation = {
-            switchTime = 1 / 10,
+            switch_time = 1 / 10,
             rows = 4,
             cols = 3,
-            initialImage = {
+            initial_image = {
                 row = 0,
                 col = 0
             },
@@ -42,40 +42,38 @@ actorParams = {
             x = 600 / 2,
             y = 800 / 2
         },
-        spriteOrientation = {
+        sprite_orientation = {
             x = 1,
             y = 0
         }
     },
-    physicsComponent = {
+    physics_component = {
         speed = 100,
         weight = 10
     }
 }
 
-
 shouldRun = true
 hasBeenPrint = true
 startingX = 600 / 2
 startTimeStamp = -1
-function update(dt)
+function on_update(dt)
     if (hasBeenPrint) then
         hasBeenPrint = false
         startTimeStamp = os.time()
-        logger:Log("Start! x: " .. position.x)
+        console:log("Start! x: " .. actor:position().x)
     end
 
     if (shouldRun) then
         if (actor:position().x < 600) then
-            local speed = actorParams["physicsComponent"]["speed"] * dt;
-            actor:playAnimation("walking")
+            local speed = actor_params["physics_component"]["speed"] * dt;
+            actor:play_animation("walking")
             actor:forward(speed)
         else
-            actor:stop()
-            actor:playAnimation("idle")
+            actor:play_animation("idle")
             local time = os.time() - startTimeStamp
-            local distance = math.abs(startingX - position.x)
-            logger:Log(
+            local distance = math.abs(startingX - actor:position().x)
+            console:log(
                 "Tooked: " .. time .. "s! finished walking: " .. distance .. "px! speed: " .. (distance / time) ..
                     " px/s")
             shouldRun = false
@@ -83,6 +81,6 @@ function update(dt)
     end
 end
 
-function  handle_input(key_stroke)
-    
+function handle_input(key_code)
+    console:log(key_code)
 end

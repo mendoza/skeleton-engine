@@ -23,12 +23,12 @@ class GraphicComponent : public Component {
 	skeleton::AnimationManager Animations;
 
 	GraphicComponent(skeleton::GameDataRef Data, sol::table GC) {
-		this->Name = GC["spriteName"];
-		Data->Assets.loadTexture(this->Name, GC["spriteFilepath"]);
+		this->Name = GC["sprite_name"];
+		Data->Assets.loadTexture(this->Name, GC["sprite_filepath"]);
 		sf::Texture &text = Data->Assets.getTexture(this->Name);
 		this->Sprite.setTexture(text);
-		sf::Vector2f Vector(GC["spriteOrientation"]["x"],
-							GC["spriteOrientation"]["y"]);
+		sf::Vector2f Vector(GC["sprite_orientation"]["x"],
+							GC["sprite_orientation"]["y"]);
 		this->SpriteRotation = std::atan2(Vector.y, Vector.x) * 180 / M_PI;
 
 		if (GC["origin"] != sol::nil) {
@@ -62,10 +62,10 @@ class GraphicComponent : public Component {
 			int width = this->Sprite.getTextureRect().width / cols;
 			int height = this->Sprite.getTextureRect().height / rows;
 			this->ImageCount = {unsigned(cols), unsigned(rows)};
-			this->SwitchTime = GC["animation"]["switchTime"];
+			this->SwitchTime = GC["animation"]["switch_time"];
 			this->CurrentImage = {
-				unsigned(GC["animation"]["initialImage"]["col"]),
-				unsigned(GC["animation"]["initialImage"]["row"])};
+				unsigned(GC["animation"]["initial_image"]["col"]),
+				unsigned(GC["animation"]["initial_image"]["row"])};
 			this->UvRect = {int(this->CurrentImage.x * this->UvRect.width),
 							int(this->CurrentImage.y * this->UvRect.height),
 							height, width};

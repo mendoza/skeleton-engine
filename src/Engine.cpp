@@ -13,7 +13,8 @@ void Engine::buildWindow(int Width, int Height, std::string Title,
 	sf::Image image;
 	image.loadFromFile(IconFile);
 	this->Data->Window.create(sf::VideoMode(Width, Height), Title,
-							  sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+							  sf::Style::Titlebar | sf::Style::Close |
+								  sf::Style::Resize);
 	this->Data->Window.setIcon(image.getSize().x, image.getSize().y,
 							   image.getPixelsPtr());
 
@@ -27,7 +28,9 @@ void Engine::run() {
 	float newTime, frameTime, interpolation = 0.0f;
 	float currentTime = this->Clock.getElapsedTime().asSeconds();
 	float accumulator = 0.0f;
+	sf::Clock deltaClock;
 	while (this->Data->Window.isOpen()) {
+		sf::Event event;
 		this->Data->Machine.processStateChanges();
 		newTime = this->Clock.getElapsedTime().asSeconds();
 		frameTime = newTime - currentTime;
@@ -38,13 +41,35 @@ void Engine::run() {
 		accumulator += frameTime;
 
 		while (accumulator >= dt) {
-			this->Data->Machine.getActiveState()->handleInput();
+			while (this->Data->Window.pollEvent(event)) {
+				ImGui::SFML::ProcessEvent(event);
+
+				if (event.type == sf::Event::Closed) {
+					this->Data->Window.close();
+				}
+
+				if (event.type == sf::Event::Resized) {
+					// update the view to the new size of the window
+					sf::FloatRect visibleArea(0, 0, event.size.width,
+											  event.size.height);
+					this->Data->Window.setView(sf::View(visibleArea));
+				}
+
+				this->Data->Machine.getActiveState()->handleInput(event);
+			}
+
 			this->Data->Machine.getActiveState()->update(dt);
 			accumulator -= dt;
 		}
 		interpolation = accumulator / dt;
 		this->Data->FPS = 1.0f / frameTime;
+		ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
+		this->Data->Window.clear(sf::Color(125, 125, 125));
+		if (this->Data->DebugMode)
+			this->Data->Machine.getActiveState()->drawDebugWindow();
 		this->Data->Machine.getActiveState()->draw(interpolation);
+		ImGui::SFML::Render(this->Data->Window);
+		this->Data->Window.display();
 	}
 	ImGui::SFML::Shutdown();
 }

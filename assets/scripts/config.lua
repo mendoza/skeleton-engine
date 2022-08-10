@@ -1,11 +1,11 @@
-MetaData = {
+config = {
     title = "Technical Test",
     width = 800,
     height = 600,
-    debugMode = true,
+    debug_mode = true,
     icon = "assets/icon.png",
     splash = {
-        backgroundImageFile = "assets/splash.png",
+        backgroud_img_file = "assets/splash.png",
         time = 1,
         background = {
             r = 255,
