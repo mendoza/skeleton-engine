@@ -38,12 +38,16 @@ void TestState::setupLuaState() {
 	L["actor"] = actor;
 	skeleton::setLogger(L);
 	this->on_update = L["on_update"];
-	this->handle_input = L["handle_input"];
+	this->on_key_pressed = L["on_key_pressed"];
+	this->on_key_released = L["on_key_released"];
 }
 
 void TestState::handleInput(sf::Event event) {
 	if (event.type == sf::Event::KeyPressed)
-		this->handle_input(event.key.code);
+		this->on_key_pressed(event.key.code);
+
+	if (event.type == sf::Event::KeyReleased)
+		this->on_key_released(event.key.code);
 }
 
 void TestState::update(float dt) {

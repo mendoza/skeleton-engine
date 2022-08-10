@@ -48,7 +48,7 @@ actor_params = {
         }
     },
     physics_component = {
-        speed = 100,
+        speed = 10,
         weight = 10
     }
 }
@@ -81,6 +81,20 @@ function on_update(dt)
     end
 end
 
-function handle_input(key_code)
-    console:log(key_code)
+function on_key_pressed(key_code)
+    if key_code == 72 then
+        speed = actor_params["physics_component"]["speed"]
+        actor:play_animation("walking")
+        actor:forward(speed)
+    elseif key_code == 71 then
+        speed = actor_params["physics_component"]["speed"]
+        actor:play_animation("walking")
+        actor:backward(speed)
+    end
 end
+
+function on_key_released(key_code)
+    actor:play_animation("idle")
+    actor:stop()
+end
+

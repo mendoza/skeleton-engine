@@ -20,5 +20,6 @@ class TestState : public skeleton::State {
 	ecs::EntityManager Actors;
 	ecs::SystemManager Systems;
 	sol::function on_update;
-	sol::function handle_input;
+	sol::function on_key_pressed;
+	sol::function on_key_released;
 };
