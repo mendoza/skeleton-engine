@@ -29,7 +29,7 @@ class ConsoleWidget {
 		Commands.push_back("LUA");
 		AutoScroll = true;
 		ScrollToBottom = false;
-		AddLog("Welcome to Dear ImGui!");
+		AddLog("Beginning of the story :D");
 	}
 	~ConsoleWidget() {
 		ClearLog();
@@ -106,25 +106,7 @@ class ConsoleWidget {
 				*p_open = false;
 			ImGui::EndPopup();
 		}
-
-		ImGui::TextWrapped(
-			"This example implements a console with basic coloring, completion "
-			"(TAB key) and history (Up/Down keys). A more elaborate "
-			"implementation may want to store entries along with extra data "
-			"such as timestamp, emitter, etc.");
-		ImGui::TextWrapped("Enter 'HELP' for help.");
-
-		// TODO: display items starting from the bottom
-
-		if (ImGui::SmallButton("Add Debug Text")) {
-			AddLog("%d some text", Items.Size);
-			AddLog("some more text");
-			AddLog("display very important message here!");
-		}
-		ImGui::SameLine();
-		if (ImGui::SmallButton("Add Debug Error")) {
-			AddLog("[error] something went wrong");
-		}
+		
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Clear")) {
 			ClearLog();

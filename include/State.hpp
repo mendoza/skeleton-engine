@@ -15,7 +15,6 @@ class State {
 
 	virtual void pause() {}
 	virtual void resume() {}
-	~State() { delete p_open; }
 	sol::state L;
 	sf::Clock Clock;
 	ConsoleWidget console;
