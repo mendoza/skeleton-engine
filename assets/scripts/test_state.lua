@@ -4,8 +4,8 @@ function getRandom(m, n)
 end
 
 actor_params = {
-    graphic_component = {
-        sprite_name = "bones",
+    graphic_parameters = {
+        sprite_name = "bones_sprite_sheet",
         sprite_filepath = "assets/spritesheets/player.png",
         animated = true,
         animation = {
@@ -47,47 +47,47 @@ actor_params = {
             y = 0
         }
     },
-    physics_component = {
+    physics_parameters = {
         speed = 10,
         weight = 10
     }
 }
 
-shouldRun = true
-hasBeenPrint = true
-startingX = 600 / 2
-startTimeStamp = -1
+actor_should_run = true
+have_not_run = true
+starting_position_x = 600 / 2
+initial_time_stamp = -1
 function on_update(dt)
-    if (hasBeenPrint) then
-        hasBeenPrint = false
-        startTimeStamp = os.time()
+    if (have_not_run) then
+        have_not_run = false
+        initial_time_stamp = os.time()
         console:log("Start! x: " .. actor:position().x)
     end
 
-    if (shouldRun) then
+    if (actor_should_run) then
         if (actor:position().x < 600) then
-            local speed = actor_params["physics_component"]["speed"] * dt;
+            local speed = actor_params["physics_parameters"]["speed"] * dt;  
             actor:play_animation("walking")
             actor:forward(speed)
         else
             actor:play_animation("idle")
-            local time = os.time() - startTimeStamp
-            local distance = math.abs(startingX - actor:position().x)
+            local time = os.time() - initial_time_stamp
+            local distance = math.abs(starting_position_x - actor:position().x)
             console:log(
                 "Tooked: " .. time .. "s! finished walking: " .. distance .. "px! speed: " .. (distance / time) ..
                     " px/s")
-            shouldRun = false
+            actor_should_run = false
         end
     end
 end
 
 function on_key_pressed(key_code)
     if key_code == 72 then
-        speed = actor_params["physics_component"]["speed"]
+        speed = actor_params["physics_parameters"]["speed"]
         actor:play_animation("walking")
         actor:forward(speed)
     elseif key_code == 71 then
-        speed = actor_params["physics_component"]["speed"]
+        speed = actor_params["physics_parameters"]["speed"]
         actor:play_animation("walking")
         actor:backward(speed)
     end

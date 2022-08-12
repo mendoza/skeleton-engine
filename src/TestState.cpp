@@ -16,7 +16,7 @@ void TestState::setupLuaState() {
 					 sol::lib::io, sol::lib::os);
 
 	L.script_file("assets/scripts/test_state.lua");
-	sol::table gc = L["actor_params"]["graphic_component"];
+	sol::table gc = L["actor_params"]["graphic_parameters"];
 	Actor actor = this->Actors.create<Actor>(this->Data, gc);
 
 	sol::usertype<Actor> actor_type =
@@ -56,7 +56,7 @@ void TestState::update(float dt) {
 }
 
 void TestState::drawDebugWindow() {
-	console.Draw("Console: Test State", p_open, L);
+	console.Draw("Console: Test State", &isOpen, L);
 
 	ImGui::Begin("Test State");
 	this->Data->logEngine();

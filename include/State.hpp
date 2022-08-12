@@ -5,7 +5,6 @@
 #include <sol.hpp>
 namespace skeleton {
 class State {
-
   public:
 	virtual void init() = 0;
 	virtual void handleInput(sf::Event event) = 0;
@@ -18,6 +17,6 @@ class State {
 	sol::state L;
 	sf::Clock Clock;
 	ConsoleWidget console;
-	bool *p_open;
+	bool isOpen = false;
 };
 }; // namespace skeleton

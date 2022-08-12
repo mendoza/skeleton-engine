@@ -26,7 +26,7 @@ class ConsoleWidget {
 		Commands.push_back("HISTORY");
 		Commands.push_back("CLEAR");
 		Commands.push_back("CLASSIFY");
-		Commands.push_back("LUA");
+		Commands.push_back("EXIT");
 		AutoScroll = true;
 		ScrollToBottom = false;
 		AddLog("Beginning of the story :D");
@@ -106,7 +106,7 @@ class ConsoleWidget {
 				*p_open = false;
 			ImGui::EndPopup();
 		}
-		
+
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Clear")) {
 			ClearLog();
@@ -264,6 +264,8 @@ class ConsoleWidget {
 			int first = History.Size - 10;
 			for (int i = first > 0 ? first : 0; i < History.Size; i++)
 				AddLog("%3d: %s\n", i, History[i]);
+		} else if (Stricmp(command_line, "EXIT") == 0) {
+			exit(EXIT_SUCCESS);
 		} else {
 
 			sol::load_result executeLineScript =
