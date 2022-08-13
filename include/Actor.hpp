@@ -9,11 +9,9 @@ class Actor : public ecs::EntityAlias<GraphicComponent> {
 	void forward(float Speed);
 	void backward(float Speed);
 	void stop();
-	void flipH();
-	void flipV();
+	void flip_horizontal();
+	void flip_vertical();
 	void playAnimation(std::string Name);
 	sf::Vector2f getPosition();
-
-  private:
 	sf::Vector2f getSpriteDirection(float rotation);
 };

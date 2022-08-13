@@ -12,9 +12,10 @@ void Engine::buildWindow(int Width, int Height, std::string Title,
 						 std::string IconFile) {
 	sf::Image image;
 	image.loadFromFile(IconFile);
-	this->Data->Window.create(sf::VideoMode(Width, Height), Title,
-							  sf::Style::Titlebar | sf::Style::Close |
-								  sf::Style::Resize);
+	this->Data->Window.create(
+		sf::VideoMode(sf::VideoMode::getDesktopMode().width,
+					  sf::VideoMode::getDesktopMode().height),
+		Title, sf::Style::Fullscreen);
 	this->Data->Window.setIcon(image.getSize().x, image.getSize().y,
 							   image.getPixelsPtr());
 
@@ -43,7 +44,6 @@ void Engine::run() {
 		while (accumulator >= dt) {
 			while (this->Data->Window.pollEvent(event)) {
 				ImGui::SFML::ProcessEvent(event);
-
 				if (event.type == sf::Event::Closed) {
 					this->Data->Window.close();
 				}

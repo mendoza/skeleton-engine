@@ -1,9 +1,4 @@
-function getRandom(m, n)
-    local rand = math.random(m, n)
-    return rand
-end
-
-actor_params = {
+actor_parameters = {
     graphic_parameters = {
         sprite_name = "bones_sprite_sheet",
         sprite_filepath = "assets/spritesheets/player.png",
@@ -48,53 +43,51 @@ actor_params = {
         }
     },
     physics_parameters = {
-        speed = 10,
+        speed = 100,
         weight = 10
     }
 }
 
-actor_should_run = true
-have_not_run = true
-starting_position_x = 600 / 2
-initial_time_stamp = -1
+speed = 0
+direction = 0
+isPunching = false
 function on_update(dt)
-    if (have_not_run) then
-        have_not_run = false
-        initial_time_stamp = os.time()
-        console:log("Start! x: " .. actor:position().x)
-    end
-
-    if (actor_should_run) then
-        if (actor:position().x < 600) then
-            local speed = actor_params["physics_parameters"]["speed"] * dt;  
-            actor:play_animation("walking")
-            actor:forward(speed)
-        else
-            actor:play_animation("idle")
-            local time = os.time() - initial_time_stamp
-            local distance = math.abs(starting_position_x - actor:position().x)
-            console:log(
-                "Tooked: " .. time .. "s! finished walking: " .. distance .. "px! speed: " .. (distance / time) ..
-                    " px/s")
-            actor_should_run = false
+    if (speed ~= 0) then
+        if direction == 1 then
+            actor:forward(speed * dt)
+        elseif direction == -1 then
+            actor:backward(speed * dt)
         end
     end
 end
 
-function on_key_pressed(key_code)
-    if key_code == 72 then
-        speed = actor_params["physics_parameters"]["speed"]
-        actor:play_animation("walking")
-        actor:forward(speed)
-    elseif key_code == 71 then
-        speed = actor_params["physics_parameters"]["speed"]
-        actor:play_animation("walking")
-        actor:backward(speed)
+function handle_input(event)
+    if event.type == skeleton.event_type.key_pressed then
+        if event.key.code == skeleton.keyboard["right"] then
+            speed = actor_parameters.physics_parameters.speed
+            if (direction == -1) then
+                actor:flip_horizontal()
+            end
+            direction = 1
+            actor:play_animation("walking")
+        elseif event.key.code == skeleton.keyboard["left"] then
+            speed = actor_parameters.physics_parameters.speed
+            if (direction == 1) then
+                actor:flip_horizontal()
+            end
+            direction = -1
+            actor:play_animation("walking")
+        end
+    elseif event.type == skeleton.event_type.key_released then
+        if event.key.code == skeleton.keyboard["space"] and ~isPunching then
+            speed = 0
+            isPunching = true
+            actor:play_animation("punching")
+        else
+            actor:play_animation("idle")
+            speed = 0
+            actor:stop()
+        end
+        isPunching = false
     end
 end
-
-function on_key_released(key_code)
-    actor:play_animation("idle")
-    actor:stop()
-end
-

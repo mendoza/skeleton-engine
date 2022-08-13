@@ -35,7 +35,7 @@ void Actor::stop() {
 	this->get<GraphicComponent>().Sprite.move(direction);
 }
 
-void Actor::flipH() {
+void Actor::flip_horizontal() {
 	sf::Vector2f scale = this->get<GraphicComponent>().Sprite.getScale();
 	scale.x *= -1;
 
@@ -47,7 +47,7 @@ void Actor::flipH() {
 		std::atan2(direction.y, direction.x) * 180 / M_PI;
 }
 
-void Actor::flipV() {
+void Actor::flip_vertical() {
 	sf::Vector2f scale = this->get<GraphicComponent>().Sprite.getScale();
 	scale.y *= -1;
 

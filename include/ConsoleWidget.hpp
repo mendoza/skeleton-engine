@@ -267,35 +267,34 @@ class ConsoleWidget {
 		} else if (Stricmp(command_line, "EXIT") == 0) {
 			exit(EXIT_SUCCESS);
 		} else {
-
-			sol::load_result executeLineScript =
-				L.load("" + std::string(command_line));
-			if (executeLineScript.valid()) {
-				executeLineScript();
-				ScrollToBottom = true;
-				return;
+			bool shouldTryReturning = false;
+			std::string realCommand = command_line;
+			try {
+				L.safe_script(realCommand);
+			} catch (const sol::error &e) {
+				shouldTryReturning = true;
 			}
 
-			sol::load_result executeExpression =
-				L.load("return \"\"..(" + std::string(command_line) + ")");
-			if (!executeLineScript.valid() && executeExpression.valid()) {
-				std::string output = executeExpression();
-				AddLog(output.c_str());
-				ScrollToBottom = true;
-				return;
+			if (shouldTryReturning) {
+				try {
+					std::string command =
+						"response= \"\"..(" + realCommand + ")";
+					L.safe_script(command);
+					std::string response = L["response"];
+					AddLog(response.c_str());
+				} catch (const sol::error &e) {
+					AddLog("[error] Error running command `%s`\n",
+						   command_line);
+				}
 			}
 
-			if (!executeExpression.valid() && !executeLineScript.valid()) {
-				AddLog("Error running command: '%s'\n", command_line);
-			}
+			// On command input, we scroll to bottom even if AutoScroll==false
+			ScrollToBottom = true;
 		}
-
-		// On command input, we scroll to bottom even if AutoScroll==false
-		ScrollToBottom = true;
 	}
 
-	// In C++11 you'd be better off using lambdas for this sort of forwarding
-	// callbacks
+	// In C++11 you'd be better off using lambdas for this sort of
+	// forwarding callbacks
 	static int TextEditCallbackStub(ImGuiInputTextCallbackData *data) {
 		ConsoleWidget *console = (ConsoleWidget *)data->UserData;
 		return console->TextEditCallback(data);
@@ -330,8 +329,8 @@ class ConsoleWidget {
 				AddLog("No match for \"%.*s\"!\n", (int)(word_end - word_start),
 					   word_start);
 			} else if (candidates.Size == 1) {
-				// Single match. Delete the beginning of the word and replace it
-				// entirely so we've got nice casing.
+				// Single match. Delete the beginning of the word and
+				// replace it entirely so we've got nice casing.
 				data->DeleteChars((int)(word_start - data->Buf),
 								  (int)(word_end - word_start));
 				data->InsertChars(data->CursorPos, candidates[0]);
@@ -385,8 +384,8 @@ class ConsoleWidget {
 						HistoryPos = -1;
 			}
 
-			// A better implementation would preserve the data on the current
-			// input line along with cursor position.
+			// A better implementation would preserve the data on the
+			// current input line along with cursor position.
 			if (prev_history_pos != HistoryPos) {
 				const char *history_str =
 					(HistoryPos >= 0) ? History[HistoryPos] : "";

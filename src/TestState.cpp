@@ -14,22 +14,23 @@ void TestState::init() {
 void TestState::setupLuaState() {
 	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
 					 sol::lib::io, sol::lib::os);
-
 	L.script_file("assets/scripts/test_state.lua");
-	sol::table gc = L["actor_params"]["graphic_parameters"];
+	this->setupEngineUserTypes();
+	sol::table gc = L["actor_parameters"]["graphic_parameters"];
 	Actor actor = this->Actors.create<Actor>(this->Data, gc);
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
-
+ 
 	actor_type["rotate"] = &Actor::rotate;
 	actor_type["forward"] = &Actor::forward;
 	actor_type["backward"] = &Actor::backward;
 	actor_type["stop"] = &Actor::stop;
-	actor_type["flipH"] = &Actor::flipH;
-	actor_type["flipV"] = &Actor::flipV;
+	actor_type["flip_horizontal"] = &Actor::flip_horizontal;
+	actor_type["flip_vertical"] = &Actor::flip_vertical;
 	actor_type["play_animation"] = &Actor::playAnimation;
 	actor_type["position"] = &Actor::getPosition;
+
 	sol::usertype<sf::Vector2f> sfVector2f = L.new_usertype<sf::Vector2f>(
 		"vector2f",
 		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
@@ -38,17 +39,10 @@ void TestState::setupLuaState() {
 	L["actor"] = actor;
 	skeleton::setLogger(L);
 	this->on_update = L["on_update"];
-	this->on_key_pressed = L["on_key_pressed"];
-	this->on_key_released = L["on_key_released"];
+	this->handle_input = L["handle_input"];
 }
 
-void TestState::handleInput(sf::Event event) {
-	if (event.type == sf::Event::KeyPressed)
-		this->on_key_pressed(event.key.code);
-
-	if (event.type == sf::Event::KeyReleased)
-		this->on_key_released(event.key.code);
-}
+void TestState::handleInput(sf::Event event) { this->handle_input(event); }
 
 void TestState::update(float dt) {
 	this->Systems.update(dt);
@@ -56,9 +50,9 @@ void TestState::update(float dt) {
 }
 
 void TestState::drawDebugWindow() {
-	console.Draw("Console: Test State", &isOpen, L);
 
 	ImGui::Begin("Test State");
+	console.Draw("Console: Test State", &isOpen, L);
 	this->Data->logEngine();
 	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Actors");
 	ImGui::BeginChild("Scrolling");
