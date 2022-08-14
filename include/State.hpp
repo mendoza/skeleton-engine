@@ -39,6 +39,11 @@ class State {
 		keyEventType["code"] = sol::readonly(&sf::Event::KeyEvent::code);
 
 		eventType["key"] = sol::readonly(&sf::Event::key);
+
+		sol::usertype<sf::Vector2f> sfVector2f = L.new_usertype<sf::Vector2f>(
+			"vector_2f",
+			sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(),
+			"x", &sf::Vector2f::x, "y", &sf::Vector2f::y);
 	}
 	sol::state L;
 	sf::Clock Clock;

@@ -43,7 +43,9 @@ void Engine::run() {
 
 		while (accumulator >= dt) {
 			while (this->Data->Window.pollEvent(event)) {
-				ImGui::SFML::ProcessEvent(event);
+				if (this->Data->DebugMode)
+					ImGui::SFML::ProcessEvent(event);
+
 				if (event.type == sf::Event::Closed) {
 					this->Data->Window.close();
 				}
@@ -63,12 +65,14 @@ void Engine::run() {
 		}
 		interpolation = accumulator / dt;
 		this->Data->FPS = 1.0f / frameTime;
-		ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
+		if (this->Data->DebugMode)
+			ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
 		this->Data->Window.clear(sf::Color(125, 125, 125));
 		if (this->Data->DebugMode)
 			this->Data->Machine.getActiveState()->drawDebugWindow();
 		this->Data->Machine.getActiveState()->draw(interpolation);
-		ImGui::SFML::Render(this->Data->Window);
+		if (this->Data->DebugMode)
+			ImGui::SFML::Render(this->Data->Window);
 		this->Data->Window.display();
 	}
 	ImGui::SFML::Shutdown();

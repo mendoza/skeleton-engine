@@ -4,7 +4,7 @@ actor_parameters = {
         sprite_filepath = "assets/spritesheets/player.png",
         animated = true,
         animation = {
-            switch_time = 1 / 10,
+            switch_time = 1,
             rows = 4,
             cols = 3,
             initial_image = {
@@ -48,46 +48,51 @@ actor_parameters = {
     }
 }
 
-speed = 0
-direction = 0
-isPunching = false
+direction = vector_2f.new(0.0, 0.0)
+should_move = false
+is_punching = false
+update_count = 0
 function on_update(dt)
-    if (speed ~= 0) then
-        if direction == 1 then
-            actor:forward(speed * dt)
-        elseif direction == -1 then
-            actor:backward(speed * dt)
-        end
+    if should_move and not is_punching then
+        local speed = actor_parameters.physics_parameters.speed
+        direction = actor:get_direction()
+        new_direction = vector_2f.new(direction.x * (speed * dt), direction.y * (speed * dt))
+        actor:move(new_direction)
+        actor:play_animation("walking", true)
     end
+
+    if not should_move and not is_punching then
+        actor:play_animation("idle", true)
+    end
+
+    if is_punching then
+        is_punching = false
+    end
+
+end
+
+function print_vector(vect)
+    print("(" .. vect.x .. ", " .. vect.y .. ")")
 end
 
 function handle_input(event)
     if event.type == skeleton.event_type.key_pressed then
+        direction = actor:get_direction()
         if event.key.code == skeleton.keyboard["right"] then
-            speed = actor_parameters.physics_parameters.speed
-            if (direction == -1) then
+            if (direction.x < 0) then
                 actor:flip_horizontal()
             end
-            direction = 1
-            actor:play_animation("walking")
+            should_move = true
         elseif event.key.code == skeleton.keyboard["left"] then
-            speed = actor_parameters.physics_parameters.speed
-            if (direction == 1) then
+            if (direction.x > 0) then
                 actor:flip_horizontal()
             end
-            direction = -1
-            actor:play_animation("walking")
+            should_move = true
+        elseif event.key.code == skeleton.keyboard["space"] then
+            is_punching = true
+            actor:play_animation("punching", false)
         end
     elseif event.type == skeleton.event_type.key_released then
-        if event.key.code == skeleton.keyboard["space"] and ~isPunching then
-            speed = 0
-            isPunching = true
-            actor:play_animation("punching")
-        else
-            actor:play_animation("idle")
-            speed = 0
-            actor:stop()
-        end
-        isPunching = false
+        should_move = false
     end
 end

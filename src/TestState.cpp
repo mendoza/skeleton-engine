@@ -14,27 +14,22 @@ void TestState::init() {
 void TestState::setupLuaState() {
 	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
 					 sol::lib::io, sol::lib::os);
-	L.script_file("assets/scripts/test_state.lua");
 	this->setupEngineUserTypes();
+	L.script_file("assets/scripts/test_state.lua");
 	sol::table gc = L["actor_parameters"]["graphic_parameters"];
 	Actor actor = this->Actors.create<Actor>(this->Data, gc);
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
- 
+
+	actor_type["move"] = &Actor::move;
 	actor_type["rotate"] = &Actor::rotate;
-	actor_type["forward"] = &Actor::forward;
-	actor_type["backward"] = &Actor::backward;
 	actor_type["stop"] = &Actor::stop;
 	actor_type["flip_horizontal"] = &Actor::flip_horizontal;
 	actor_type["flip_vertical"] = &Actor::flip_vertical;
 	actor_type["play_animation"] = &Actor::playAnimation;
-	actor_type["position"] = &Actor::getPosition;
-
-	sol::usertype<sf::Vector2f> sfVector2f = L.new_usertype<sf::Vector2f>(
-		"vector2f",
-		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
-		&sf::Vector2f::x, "y", &sf::Vector2f::y);
+	actor_type["get_position"] = &Actor::getPosition;
+	actor_type["get_direction"] = &Actor::getDirection;
 
 	L["actor"] = actor;
 	skeleton::setLogger(L);
@@ -58,8 +53,9 @@ void TestState::drawDebugWindow() {
 	ImGui::BeginChild("Scrolling");
 	int count = 0;
 	for (auto entity : Actors.with<GraphicComponent>()) {
-		ImGui::Text("Actor %d: %s", count++,
-					entity.get<GraphicComponent>().CurrentAnimation.c_str());
+		ImGui::Text(
+			"Actor %d: %s", count++,
+			entity.get<GraphicComponent>().getCurrentAnimation().c_str());
 	}
 	ImGui::EndChild();
 	ImGui::End();

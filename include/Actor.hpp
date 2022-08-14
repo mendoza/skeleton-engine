@@ -6,12 +6,11 @@ class Actor : public ecs::EntityAlias<GraphicComponent> {
 	Actor(skeleton::GameDataRef Data, sol::table GC);
 	~Actor();
 	void rotate(float Angle);
-	void forward(float Speed);
-	void backward(float Speed);
+	void move(sf::Vector2f direction);
 	void stop();
 	void flip_horizontal();
 	void flip_vertical();
-	void playAnimation(std::string Name);
+	void playAnimation(std::string Name, bool shouldLopp);
 	sf::Vector2f getPosition();
-	sf::Vector2f getSpriteDirection(float rotation);
+	sf::Vector2f getDirection();
 };
