@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_SYSTEMS_HPP
+#define SKELETON_SYSTEMS_HPP
+
 #include <Components.hpp>
 #include <Engine.hpp>
 
@@ -11,3 +13,5 @@ class GraphicSystem : public ecs::System {
 		}
 	}
 };
+
+#endif

@@ -1,4 +1,10 @@
-#pragma once
+#ifdef SKELETON_GAME_DATA_HPP
+#error this header is already defined
+#endif
+
+#ifndef SKELETON_GAME_DATA_HPP
+#define SKELETON_GAME_DATA_HPP
+
 #include <AssetManager.hpp>
 #include <InputManager.hpp>
 #include <Logger.hpp>
@@ -23,3 +29,5 @@ class GameData {
 typedef std::shared_ptr<GameData> GameDataRef;
 
 } // namespace skeleton
+
+#endif

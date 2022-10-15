@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_ANIMATION_MANAGER_HPP
+#define SKELETON_ANIMATION_MANAGER_HPP
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -16,3 +18,5 @@ class AnimationManager {
 	std::map<std::string, int> Animations;
 };
 }; // namespace skeleton
+
+#endif

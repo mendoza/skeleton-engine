@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_INPUT_MANAGER_HPP
+#define SKELETON_INPUT_MANAGER_HPP
+
 #include <SFML/Graphics.hpp>
 
 namespace skeleton {
@@ -12,3 +14,5 @@ class InputManager {
 	sf::Vector2i getMousePosition(sf::RenderWindow &window);
 };
 }; // namespace skeleton
+
+#endif

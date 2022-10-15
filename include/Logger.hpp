@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_LOGGER_HPP
+#define SKELETON_LOGGER_HPP
+
 #include <ctime>
 #include <string>
 
@@ -17,3 +19,5 @@ class Logger {
 	void print(std::string, std::string);
 };
 } // namespace skeleton
+
+#endif

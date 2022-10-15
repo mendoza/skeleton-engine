@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SPLASH_STATE_HPP
+#define SPLASH_STATE_HPP
+
+#include <GameData.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
 #include <State.hpp>
@@ -19,3 +22,5 @@ class SplashState : public skeleton::State {
 	sol::table config;
 	sol::table Splash;
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_COMPONENTS_HPP
+#define SKELETON_COMPONENTS_HPP
+
 #include <AnimationManager.hpp>
 #include <GameData.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -134,3 +136,5 @@ class GraphicComponent : public Component {
 	bool hasLooped = false;
 	skeleton::AnimationManager Animations;
 };
+
+#endif

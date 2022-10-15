@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_ASSET_MANAGER_HPP
+#define SKELETON_ASSET_MANAGER_HPP
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -24,3 +26,5 @@ class AssetManager {
 	std::map<std::string, sf::SoundBuffer> SoundBuffers;
 };
 }; // namespace skeleton
+
+#endif

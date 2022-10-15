@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONSOLE_WIDGET_HPP
+#define CONSOLE_WIDGET_HPP
+
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <sol.hpp>
@@ -397,3 +399,5 @@ class ConsoleWidget {
 		return 0;
 	}
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEST_STATE_HPP
+#define TEST_STATE_HPP
+
 #include <Actor.hpp>
 #include <Components.hpp>
 #include <ConsoleWidget.hpp>
@@ -26,3 +28,5 @@ class TestState : public skeleton::State {
 	sol::function on_update;
 	sol::function handle_input;
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_ENGINE_HPP
+#define SKELETON_ENGINE_HPP
+
 #include <GameData.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -17,3 +19,5 @@ class Engine {
 	void run();
 };
 }; // namespace skeleton
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_STATE_MACHINE_HPP
+#define SKELETON_STATE_MACHINE_HPP
+
 #include <State.hpp>
 #include <memory>
 #include <stack>
@@ -25,3 +27,5 @@ class StateMachine {
 	bool IsReplacing;
 };
 }; // namespace skeleton
+
+#endif

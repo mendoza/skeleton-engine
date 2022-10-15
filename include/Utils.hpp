@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKELETON_UTILS_HPP
+#define SKELETON_UTILS_HPP
+
 #include <Logger.hpp>
 #include <sol.hpp>
 namespace skeleton {
@@ -17,3 +19,5 @@ inline void setLogger(sol::state &L) {
 	L["console"] = logger;
 }
 } // namespace skeleton
+
+#endif

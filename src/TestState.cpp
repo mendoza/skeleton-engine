@@ -1,6 +1,6 @@
 #include <TestState.hpp>
 
-TestState::TestState(skeleton::GameDataRef Data) : Data(Data) {}
+TestState::TestState(skeleton::GameDataRef Data) : State(Data) {}
 
 void TestState::onInit() {
 	setupLuaState();

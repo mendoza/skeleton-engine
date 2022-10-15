@@ -1,6 +1,7 @@
-#pragma once
+#ifndef ACTOR_HPP
+#define ACTOR_HPP
+
 #include <Components.hpp>
-#include <GameData.hpp>
 #include <OpenECS.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <sol.hpp>
@@ -21,3 +22,5 @@ class Actor : public ecs::EntityAlias<GraphicComponent> {
 	sf::Vector2f getPosition();
 	sf::Vector2f getDirection();
 };
+
+#endif
