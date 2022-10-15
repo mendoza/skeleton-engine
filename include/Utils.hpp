@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine.hpp>
+#include <Logger.hpp>
 #include <sol.hpp>
 namespace skeleton {
 inline void setLogger(sol::state &L) {
@@ -13,7 +13,6 @@ inline void setLogger(sol::state &L) {
 	loggerUserType["create"] = &skeleton::Logger::getInstance;
 
 	skeleton::Logger *logger = logger->getInstance();
-
 
 	L["console"] = logger;
 }

@@ -1,24 +1,28 @@
-
 #pragma once
 #include <Actor.hpp>
-#include <Engine.hpp>
-class TestState : public skeleton::State {
+#include <Components.hpp>
+#include <ConsoleWidget.hpp>
+#include <OpenECS.hpp>
+#include <SFML/Window/Event.hpp>
+#include <State.hpp>
+#include <Systems.hpp>
+#include <sol.hpp>
 
+class TestState : public skeleton::State {
   public:
 	TestState(skeleton::GameDataRef Data);
-	void init();
-	void handleInput(sf::Event event);
-	void update(float dt);
-	void draw(float dt);
-	void drawDebugWindow();
+	void onInit();
+	void onInput(sf::Event event);
+	void onUpdate(float dt);
+	void onDraw(float dt);
+	void setupDebugWindow();
 	void setupLuaState();
 	void execCommand(std::string scriptString);
 
   private:
-	skeleton::GameDataRef Data;
 	sf::Sprite Background;
 	ecs::EntityManager Actors;
-	ecs::SystemManager Systems;
+	ecs::SystemManager Systems = ecs::SystemManager(Actors);
 	sol::function on_update;
 	sol::function handle_input;
 };

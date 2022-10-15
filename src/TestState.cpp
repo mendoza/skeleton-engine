@@ -1,12 +1,8 @@
-#include <Components.hpp>
-#include <ConsoleWidget.hpp>
-#include <Systems.hpp>
 #include <TestState.hpp>
 
-TestState::TestState(skeleton::GameDataRef Data)
-	: Data(Data), Systems(Actors) {}
+TestState::TestState(skeleton::GameDataRef Data) : Data(Data) {}
 
-void TestState::init() {
+void TestState::onInit() {
 	setupLuaState();
 	this->Systems.add<GraphicSystem>();
 }
@@ -32,19 +28,18 @@ void TestState::setupLuaState() {
 	actor_type["get_direction"] = &Actor::getDirection;
 
 	L["actor"] = actor;
-	skeleton::setLogger(L);
 	this->on_update = L["on_update"];
 	this->handle_input = L["handle_input"];
 }
 
-void TestState::handleInput(sf::Event event) { this->handle_input(event); }
+void TestState::onInput(sf::Event event) { this->handle_input(event); }
 
-void TestState::update(float dt) {
+void TestState::onUpdate(float dt) {
 	this->Systems.update(dt);
 	this->on_update(dt);
 }
 
-void TestState::drawDebugWindow() {
+void TestState::setupDebugWindow() {
 
 	ImGui::Begin("Test State");
 	console.Draw("Console: Test State", &isOpen, L);
@@ -61,7 +56,7 @@ void TestState::drawDebugWindow() {
 	ImGui::End();
 }
 
-void TestState::draw(float dt) {
+void TestState::onDraw(float dt) {
 	for (auto entity : Actors.with<GraphicComponent>())
 		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
 }

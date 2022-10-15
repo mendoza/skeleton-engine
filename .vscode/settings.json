@@ -54,7 +54,8 @@
     "numeric": "cpp",
     "random": "cpp",
     "numbers": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "cinttypes": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled",
 }

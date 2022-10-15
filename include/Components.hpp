@@ -1,5 +1,10 @@
 #pragma once
-#include <Engine.hpp>
+#include <AnimationManager.hpp>
+#include <GameData.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <sol.hpp>
 
 class Component {
   public:
@@ -123,7 +128,7 @@ class GraphicComponent : public Component {
 	sf::IntRect UvRect;
 	float spriteRotation;
 	float SwitchTime = 1 / 6;
-	float totalTime = 1000.f;
+	float totalTime = 10.f;
 	bool isAnimated = false;
 	bool shouldLoop = false;
 	bool hasLooped = false;

@@ -281,7 +281,7 @@ class ConsoleWidget {
 						"response= \"\"..(" + realCommand + ")";
 					L.safe_script(command);
 					std::string response = L["response"];
-					AddLog(response.c_str());
+					AddLog("%s", response.c_str());
 				} catch (const sol::error &e) {
 					AddLog("[error] Error running command `%s`\n",
 						   command_line);

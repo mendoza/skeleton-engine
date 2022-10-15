@@ -1,15 +1,16 @@
 #pragma once
-#include <Engine.hpp>
-
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Window/Event.hpp>
+#include <State.hpp>
 class SplashState : public skeleton::State {
 
   public:
 	SplashState(skeleton::GameDataRef data);
-	void init();
-	void handleInput(sf::Event event);
-	void update(float dt);
-	void drawDebugWindow();
-	void draw(float dt );
+	void onInit();
+	void onInput(sf::Event event);
+	void onUpdate(float dt);
+	void onDraw(float dt);
+	void setupDebugWindow();
 
   private:
 	skeleton::GameDataRef Data;

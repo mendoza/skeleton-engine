@@ -4,7 +4,7 @@ actor_parameters = {
         sprite_filepath = "assets/spritesheets/player.png",
         animated = true,
         animation = {
-            switch_time = 1,
+            switch_time = 1 / 60,
             rows = 4,
             cols = 3,
             initial_image = {
@@ -13,16 +13,20 @@ actor_parameters = {
             },
             animations = {{
                 name = "idle",
-                row = 0
+                row = 0,
+                should_loop = true
             }, {
                 name = "walking",
-                row = 1
+                row = 1,
+                should_loop = true
             }, {
                 name = "punching",
-                row = 2
+                row = 2,
+                should_loop = false
             }, {
                 name = "dying",
-                row = 3
+                row = 3,
+                should_loop = true
             }}
         },
         scale = {
@@ -51,7 +55,6 @@ actor_parameters = {
 direction = vector_2f.new(0.0, 0.0)
 should_move = false
 is_punching = false
-update_count = 0
 function on_update(dt)
     if should_move and not is_punching then
         local speed = actor_parameters.physics_parameters.speed
@@ -67,17 +70,15 @@ function on_update(dt)
 
     if is_punching then
         is_punching = false
+        actor:play_animation("punching", false)
     end
 
-end
-
-function print_vector(vect)
-    print("(" .. vect.x .. ", " .. vect.y .. ")")
 end
 
 function handle_input(event)
     if event.type == skeleton.event_type.key_pressed then
         direction = actor:get_direction()
+        skeleton:print_vector(direction)
         if event.key.code == skeleton.keyboard["right"] then
             if (direction.x < 0) then
                 actor:flip_horizontal()
@@ -90,7 +91,6 @@ function handle_input(event)
             should_move = true
         elseif event.key.code == skeleton.keyboard["space"] then
             is_punching = true
-            actor:play_animation("punching", false)
         end
     elseif event.type == skeleton.event_type.key_released then
         should_move = false

@@ -1,5 +1,12 @@
 #pragma once
 #include <Components.hpp>
+#include <GameData.hpp>
+#include <OpenECS.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <sol.hpp>
+#include <string>
+
+class GameDataRef;
 class Actor : public ecs::EntityAlias<GraphicComponent> {
   public:
 	Actor() {}

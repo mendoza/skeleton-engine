@@ -31,7 +31,6 @@ void Engine::run() {
 	float accumulator = 0.0f;
 	sf::Clock deltaClock;
 	while (this->Data->Window.isOpen()) {
-		sf::Event event;
 		this->Data->Machine.processStateChanges();
 		newTime = this->Clock.getElapsedTime().asSeconds();
 		frameTime = newTime - currentTime;
@@ -42,24 +41,7 @@ void Engine::run() {
 		accumulator += frameTime;
 
 		while (accumulator >= dt) {
-			while (this->Data->Window.pollEvent(event)) {
-				if (this->Data->DebugMode)
-					ImGui::SFML::ProcessEvent(event);
-
-				if (event.type == sf::Event::Closed) {
-					this->Data->Window.close();
-				}
-
-				if (event.type == sf::Event::Resized) {
-					// update the view to the new size of the window
-					sf::FloatRect visibleArea(0, 0, event.size.width,
-											  event.size.height);
-					this->Data->Window.setView(sf::View(visibleArea));
-				}
-
-				this->Data->Machine.getActiveState()->handleInput(event);
-			}
-
+			this->Data->Machine.getActiveState()->handleInput();
 			this->Data->Machine.getActiveState()->update(dt);
 			accumulator -= dt;
 		}
@@ -69,7 +51,7 @@ void Engine::run() {
 			ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
 		this->Data->Window.clear(sf::Color(125, 125, 125));
 		if (this->Data->DebugMode)
-			this->Data->Machine.getActiveState()->drawDebugWindow();
+			this->Data->Machine.getActiveState()->setupDebugWindow();
 		this->Data->Machine.getActiveState()->draw(interpolation);
 		if (this->Data->DebugMode)
 			ImGui::SFML::Render(this->Data->Window);

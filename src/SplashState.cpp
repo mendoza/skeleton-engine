@@ -1,9 +1,9 @@
 #include <SplashState.hpp>
 #include <TestState.hpp>
 
-SplashState::SplashState(skeleton::GameDataRef data) : Data(data) {}
+SplashState::SplashState(skeleton::GameDataRef data) : State(data) {}
 
-void SplashState::init() {
+void SplashState::onInit() {
 	L.script_file("assets/scripts/config.lua");
 	this->config = L["config"];
 	this->Splash = this->config["splash"];
@@ -13,16 +13,16 @@ void SplashState::init() {
 		this->Data->Assets.getTexture("Splash State Background"));
 }
 
-void SplashState::handleInput(sf::Event event) {}
+void SplashState::onInput(sf::Event event) {}
 
-void SplashState::update(float dt) {
+void SplashState::onUpdate(float dt) {
 	float Time = this->Splash["time"];
 	if (this->Timer.getElapsedTime().asSeconds() > Time) {
-		this->Data->Machine.addState(
-			skeleton::StateRef(new TestState(this->Data)));
+		// this->Data->Machine.addState(
+		// 	skeleton::StateRef(new TestState(this->Data)));
 	}
 }
-void SplashState::drawDebugWindow() {
+void SplashState::setupDebugWindow() {
 	ImGui::Begin("Debug Splash.");
 	this->Data->logEngine();
 	ImGui::Text("Current State: Splash Screen");
@@ -30,7 +30,7 @@ void SplashState::drawDebugWindow() {
 	ImGui::EndFrame();
 }
 
-void SplashState::draw(float dt) {
+void SplashState::onDraw(float dt) {
 	int r = this->Splash["background"]["r"];
 	int g = this->Splash["background"]["g"];
 	int b = this->Splash["background"]["b"];
