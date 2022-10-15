@@ -9,15 +9,16 @@
 #include <InputManager.hpp>
 #include <Logger.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <StateMachine.hpp>
+#include <memory>
 
 namespace skeleton {
+	class StateMachine;
 class GameData {
   public:
 	GameData();
 	~GameData();
-	StateMachine Machine;
 	sf::RenderWindow Window;
+	StateMachine Machine;
 	AssetManager Assets;
 	InputManager Input;
 	float FPS;

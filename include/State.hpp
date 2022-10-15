@@ -19,7 +19,7 @@ class State {
 	bool isOpen = false;
 
   public:
-	State(skeleton::GameDataRef data) : Data(data) {}
+	State(skeleton::GameDataRef data) { this->Data = data; }
 	// User's Functions
 	virtual void onInit() = 0;
 	virtual void onInput(sf::Event event) = 0;
@@ -38,18 +38,24 @@ class State {
 			onInput(event);
 
 			switch (event.type) {
-			case sf::Event::Closed:
+			case sf::Event::Closed: {
+
 				this->Data->Window.close();
 				break;
+			}
 
-			case sf::Event::Resized:
+			case sf::Event::Resized: {
+
 				sf::FloatRect visibleArea(0, 0, event.size.width,
 										  event.size.height);
 				this->Data->Window.setView(sf::View(visibleArea));
 				break;
+			}
 
-			default:
+			default: {
+
 				break;
+			}
 			}
 		}
 	}

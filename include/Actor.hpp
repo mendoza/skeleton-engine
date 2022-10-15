@@ -7,7 +7,6 @@
 #include <sol.hpp>
 #include <string>
 
-class GameDataRef;
 class Actor : public ecs::EntityAlias<GraphicComponent> {
   public:
 	Actor() {}
