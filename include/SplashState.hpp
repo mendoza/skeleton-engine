@@ -16,8 +16,6 @@ class SplashState : public skeleton::State {
 	void setupDebugWindow();
 
   private:
-	skeleton::GameDataRef Data;
-	sf::Clock Timer;
 	sf::Sprite Background;
 	sol::table config;
 	sol::table Splash;

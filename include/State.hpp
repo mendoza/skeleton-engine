@@ -4,21 +4,21 @@
 #include <ConsoleWidget.hpp>
 #include <GameData.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Window/Event.hpp>
 #include <Utils.hpp>
+#include <memory>
 #include <sol.hpp>
 
 namespace skeleton {
 class State {
-
   public:
 	skeleton::GameDataRef Data;
-	sol::state L;
 	sf::Clock Clock;
+	sol::state L;
 	ConsoleWidget console;
 	bool isOpen = false;
 
-  public:
 	State(skeleton::GameDataRef data) { this->Data = data; }
 	// User's Functions
 	virtual void onInit() = 0;
@@ -59,9 +59,14 @@ class State {
 			}
 		}
 	}
-	virtual void update(float dt);
-	virtual void setupEngineUserTypes();
+	virtual void update(float dt) { this->onUpdate(dt); }
+
+	virtual void setupEngineUserTypes() {
+		skeleton::setLogger(L);
+		skeleton::setENgineUserTypes(L);
+	}
 };
+
 }; // namespace skeleton
 
 #endif

@@ -5,7 +5,8 @@ namespace skeleton {
 
 Engine::Engine(bool DebugMode) {
 	this->Data->DebugMode = DebugMode;
-	this->Data->Machine.addState(StateRef(new SplashState(this->Data)));
+	this->Data->setStateMachine(new StateMachine());
+	this->Data->Machine->addState(StateRef(new SplashState(this->Data)));
 }
 
 void Engine::buildWindow(int Width, int Height, std::string Title,
@@ -31,7 +32,7 @@ void Engine::run() {
 	float accumulator = 0.0f;
 	sf::Clock deltaClock;
 	while (this->Data->Window.isOpen()) {
-		this->Data->Machine.processStateChanges();
+		this->Data->Machine->processStateChanges();
 		newTime = this->Clock.getElapsedTime().asSeconds();
 		frameTime = newTime - currentTime;
 		if (frameTime > 0.25f) {
@@ -41,8 +42,8 @@ void Engine::run() {
 		accumulator += frameTime;
 
 		while (accumulator >= dt) {
-			this->Data->Machine.getActiveState()->handleInput();
-			this->Data->Machine.getActiveState()->update(dt);
+			this->Data->Machine->getActiveState()->handleInput();
+			this->Data->Machine->getActiveState()->update(dt);
 			accumulator -= dt;
 		}
 		interpolation = accumulator / dt;
@@ -51,8 +52,8 @@ void Engine::run() {
 			ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
 		this->Data->Window.clear(sf::Color(125, 125, 125));
 		if (this->Data->DebugMode)
-			this->Data->Machine.getActiveState()->setupDebugWindow();
-		this->Data->Machine.getActiveState()->draw(interpolation);
+			this->Data->Machine->getActiveState()->setupDebugWindow();
+		this->Data->Machine->getActiveState()->draw(interpolation);
 		if (this->Data->DebugMode)
 			ImGui::SFML::Render(this->Data->Window);
 		this->Data->Window.display();

@@ -3,6 +3,7 @@
 
 #include <GameData.hpp>
 #include <SFML/System/Clock.hpp>
+#include <StateMachine.hpp>
 
 namespace skeleton {
 
