@@ -76,7 +76,6 @@ function on_update(dt)
 end
 
 function handle_input(event)
-    console:log("sss")
     if event.type == skeleton.event_type.key_pressed then
         direction = actor:get_direction()
         skeleton:print_vector(direction)

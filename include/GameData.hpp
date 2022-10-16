@@ -14,14 +14,14 @@ class GameData {
   public:
 	GameData();
 	~GameData();
-	sf::RenderWindow Window;
-	StateMachine *Machine;
-	AssetManager Assets;
-	InputManager Input;
-	float FPS;
-	bool DebugMode;
-	void setStateMachine(StateMachine *);
-	void logEngine();
+	sf::RenderWindow render_window;
+	StateMachine *machine;
+	AssetManager asset_manager;
+	InputManager input_manager;
+	float fps;
+	bool debug_mode;
+	void set_state_machine(StateMachine *);
+	void log_engine();
 };
 
 typedef std::shared_ptr<GameData> GameDataRef;

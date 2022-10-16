@@ -1,11 +1,11 @@
 #include <AnimationManager.hpp>
 
 namespace skeleton {
-void AnimationManager::addAnimation(std::string Name, int AnimationRow) {
-	this->Animations[Name] = AnimationRow;
+void AnimationManager::add_animation(std::string name, int animation_row) {
+	this->animations[name] = animation_row;
 }
 
-int &AnimationManager::getAnimation(std::string Name) {
-	return this->Animations.at(Name);
+int &AnimationManager::get_animation(std::string name) {
+	return this->animations.at(name);
 }
 }; // namespace skeleton

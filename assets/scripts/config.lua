@@ -1,7 +1,10 @@
 config = {
     title = "Technical Test",
-    width = 800,
-    height = 600,
+    resolution = {
+        width = 800,
+        height = 600
+    },
+    fullscreen = true,
     debug_mode = true,
     icon = "assets/icon.png",
     splash = {

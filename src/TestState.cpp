@@ -2,7 +2,7 @@
 
 TestState::TestState(skeleton::GameDataRef Data) : State(Data) {}
 
-void TestState::onInit() {
+void TestState::on_init() {
 	setupLuaState();
 	this->Systems.add<GraphicSystem>();
 }
@@ -10,10 +10,10 @@ void TestState::onInit() {
 void TestState::setupLuaState() {
 	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
 					 sol::lib::io, sol::lib::os);
-	this->setupEngineUserTypes();
+	this->set_engine_user_types();
 	L.script_file("assets/scripts/test_state.lua");
 	sol::table gc = L["actor_parameters"]["graphic_parameters"];
-	Actor actor = this->Actors.create<Actor>(this->Data, gc);
+	Actor actor_instance = this->Actors.create<Actor>(this->data, gc);
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
@@ -23,40 +23,39 @@ void TestState::setupLuaState() {
 	actor_type["stop"] = &Actor::stop;
 	actor_type["flip_horizontal"] = &Actor::flip_horizontal;
 	actor_type["flip_vertical"] = &Actor::flip_vertical;
-	actor_type["play_animation"] = &Actor::playAnimation;
-	actor_type["get_position"] = &Actor::getPosition;
-	actor_type["get_direction"] = &Actor::getDirection;
+	actor_type["play_animation"] = &Actor::play_animation;
+	actor_type["get_position"] = &Actor::get_position;
+	actor_type["get_direction"] = &Actor::get_direction;
 
-	L["actor"] = actor;
-	this->on_update = L["on_update"];
-	this->handle_input = L["handle_input"];
+	L["actor"] = actor_instance;
+	this->script_on_update = L["on_update"];
+	this->script_handle_input = L["handle_input"];
 }
 
-void TestState::onInput(sf::Event event) { this->handle_input(event); }
+void TestState::on_input(sf::Event event) { this->script_handle_input(event); }
 
-void TestState::onUpdate(float dt) {
+void TestState::on_update(float dt) {
 	this->Systems.update(dt);
-	this->on_update(dt);
+	this->script_on_update(dt);
 }
 
-void TestState::setupDebugWindow() {
-
+void TestState::create_debug_window() {
 	ImGui::Begin("Test State");
-	console.Draw("Console: Test State", &isOpen, L);
-	this->Data->logEngine();
+	console.Draw("Console: Test State", &is_open, L);
+	this->data->log_engine();
 	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Actors");
 	ImGui::BeginChild("Scrolling");
 	int count = 0;
 	for (auto entity : Actors.with<GraphicComponent>()) {
 		ImGui::Text(
 			"Actor %d: %s", count++,
-			entity.get<GraphicComponent>().getCurrentAnimation().c_str());
+			entity.get<GraphicComponent>().get_current_animation().c_str());
 	}
 	ImGui::EndChild();
 	ImGui::End();
 }
 
-void TestState::onDraw(float dt) {
+void TestState::on_draw(float dt) {
 	for (auto entity : Actors.with<GraphicComponent>())
-		this->Data->Window.draw(entity.get<GraphicComponent>().Sprite);
+		this->data->render_window.draw(entity.get<GraphicComponent>().sprite);
 }

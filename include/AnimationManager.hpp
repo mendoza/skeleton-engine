@@ -11,11 +11,11 @@ class AnimationManager {
 	AnimationManager() {}
 	~AnimationManager() {}
 
-	void addAnimation(std::string Name, int AnimationRow);
-	int &getAnimation(std::string Name);
+	void add_animation(std::string name, int animation_row);
+	int &get_animation(std::string name);
 
   private:
-	std::map<std::string, int> Animations;
+	std::map<std::string, int> animations;
 };
 }; // namespace skeleton
 

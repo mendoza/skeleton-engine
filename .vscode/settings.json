@@ -56,7 +56,8 @@
     "numbers": "cpp",
     "fstream": "cpp",
     "cinttypes": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "cerrno": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled",
 }

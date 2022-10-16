@@ -8,7 +8,7 @@
                 "command": "mingw32-make"
             },
             "linux": {
-                "command": "make"
+                "command": "cd build && make"
             },
             "group": {
                 "kind": "build",
@@ -22,7 +22,7 @@
                 "command": "mingw32-make; ./bin/main"
             },
             "linux": {
-                "command": "make && ./bin/main"
+                "command": "cd build && make && ./main"
             },
             "group": {
                 "kind": "test",

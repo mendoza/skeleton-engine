@@ -10,16 +10,16 @@
 class Actor : public ecs::EntityAlias<GraphicComponent> {
   public:
 	Actor() {}
-	Actor(skeleton::GameDataRef Data, sol::table GC);
+	Actor(skeleton::GameDataRef data, sol::table graphic_component);
 	~Actor();
-	void rotate(float Angle);
+	void rotate(float angle);
 	void move(sf::Vector2f direction);
 	void stop();
 	void flip_horizontal();
 	void flip_vertical();
-	void playAnimation(std::string Name, bool shouldLopp);
-	sf::Vector2f getPosition();
-	sf::Vector2f getDirection();
+	void play_animation(std::string name, bool should_loop);
+	sf::Vector2f get_position();
+	sf::Vector2f get_direction();
 };
 
 #endif

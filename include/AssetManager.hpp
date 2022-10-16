@@ -11,19 +11,19 @@ class AssetManager {
 	AssetManager() {}
 	~AssetManager() {}
 
-	void loadTexture(std::string Name, std::string Filename);
-	sf::Texture &getTexture(std::string Name);
+	void load_texture(std::string, std::string file_name);
+	sf::Texture &get_texture(std::string name);
 
-	void loadFont(std::string Name, std::string Filename);
-	sf::Font &getFont(std::string Name);
+	void load_font(std::string name, std::string file_name);
+	sf::Font &get_font(std::string Name);
 
-	void loadSound(std::string Name, std::string Filename);
-	sf::SoundBuffer &getSound(std::string Name);
+	void load_sound(std::string Name, std::string file_name);
+	sf::SoundBuffer &get_sound(std::string name);
 
   private:
-	std::map<std::string, sf::Texture> Textures;
-	std::map<std::string, sf::Font> Fonts;
-	std::map<std::string, sf::SoundBuffer> SoundBuffers;
+	std::map<std::string, sf::Texture> textures;
+	std::map<std::string, sf::Font> fonts;
+	std::map<std::string, sf::SoundBuffer> sound_buffers;
 };
 }; // namespace skeleton
 

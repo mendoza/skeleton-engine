@@ -13,17 +13,17 @@ class StateMachine {
 	StateMachine() {}
 	~StateMachine() {}
 
-	void addState(StateRef newState, bool isReplacing = true);
-	void removeState();
-	void processStateChanges();
-	StateRef &getActiveState();
+	void add_state(StateRef new_state, bool is_replacing = true);
+	void remove_state();
+	void process_state_changes();
+	StateRef &get_active_state();
 
   private:
-	std::stack<StateRef> States;
-	StateRef NewState;
-	bool IsRemoving;
-	bool IsAdding;
-	bool IsReplacing;
+	std::stack<StateRef> states;
+	StateRef latest_state;
+	bool is_removing;
+	bool is_adding;
+	bool is_replacing;
 };
 }; // namespace skeleton
 

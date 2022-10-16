@@ -1,37 +1,37 @@
 #include <StateMachine.hpp>
 
 namespace skeleton {
-void StateMachine::addState(StateRef newState, bool isReplacing) {
-	this->IsAdding = true;
-	this->IsReplacing = isReplacing;
-	this->NewState = std::move(newState);
+void StateMachine::add_state(StateRef newState, bool isReplacing) {
+	this->is_adding = true;
+	this->is_replacing = isReplacing;
+	this->latest_state = std::move(newState);
 }
 
-void StateMachine::removeState() { this->IsRemoving = true; }
+void StateMachine::remove_state() { this->is_removing = true; }
 
-void StateMachine::processStateChanges() {
-	if (this->IsRemoving && !this->States.empty()) {
-		this->States.pop();
-		if (!this->States.empty()) {
-			this->States.top()->resume();
+void StateMachine::process_state_changes() {
+	if (this->is_removing && !this->states.empty()) {
+		this->states.pop();
+		if (!this->states.empty()) {
+			this->states.top()->resume();
 		}
-		this->IsRemoving = false;
+		this->is_removing = false;
 	}
 
-	if (this->IsAdding) {
-		if (!this->States.empty()) {
-			if (this->IsReplacing) {
-				this->States.pop();
+	if (this->is_adding) {
+		if (!this->states.empty()) {
+			if (this->is_replacing) {
+				this->states.pop();
 			} else {
-				this->States.top();
+				this->states.top();
 			}
 		}
 
-		this->States.push(std::move(this->NewState));
-		this->States.top()->init();
-		this->IsAdding = false;
+		this->states.push(std::move(this->latest_state));
+		this->states.top()->init();
+		this->is_adding = false;
 	}
 }
 
-StateRef &StateMachine::getActiveState() { return this->States.top(); }
+StateRef &StateMachine::get_active_state() { return this->states.top(); }
 }; // namespace skeleton

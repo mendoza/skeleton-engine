@@ -9,16 +9,16 @@ class SplashState : public skeleton::State {
 
   public:
 	SplashState(skeleton::GameDataRef data);
-	void onInit();
-	void onInput(sf::Event event);
-	void onUpdate(float dt);
-	void onDraw(float dt);
-	void setupDebugWindow();
+	void on_init();
+	void on_input(sf::Event event);
+	void on_update(float dt);
+	void on_draw(float dt);
+	void create_debug_window();
 
   private:
-	sf::Sprite Background;
+	sf::Sprite background;
 	sol::table config;
-	sol::table Splash;
+	sol::table splash;
 };
 
 #endif

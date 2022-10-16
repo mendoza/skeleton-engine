@@ -1,36 +1,36 @@
 #include <AssetManager.hpp>
 
 namespace skeleton {
-void AssetManager::loadTexture(std::string Name, std::string Filename) {
+void AssetManager::load_texture(std::string name, std::string file_name) {
 	sf::Texture tex;
-	if (tex.loadFromFile(Filename)) {
-		this->Textures[Name] = tex;
+	if (tex.loadFromFile(file_name)) {
+		this->textures[name] = tex;
 	}
 }
 
-sf::Texture &AssetManager::getTexture(std::string Name) {
-	return this->Textures.at(Name);
+sf::Texture &AssetManager::get_texture(std::string name) {
+	return this->textures.at(name);
 }
 
-void AssetManager::loadFont(std::string Name, std::string Filename) {
+void AssetManager::load_font(std::string name, std::string file_name) {
 	sf::Font font;
-	if (font.loadFromFile(Filename)) {
-		this->Fonts[Name] = font;
+	if (font.loadFromFile(file_name)) {
+		this->fonts[name] = font;
 	}
 }
 
-sf::Font &AssetManager::getFont(std::string Name) {
-	return this->Fonts.at(Name);
+sf::Font &AssetManager::get_font(std::string name) {
+	return this->fonts.at(name);
 }
 
-void AssetManager::loadSound(std::string Name, std::string Filename) {
+void AssetManager::load_sound(std::string name, std::string file_name) {
 	sf::SoundBuffer soundbuffer;
-	if (soundbuffer.loadFromFile(Filename)) {
-		this->SoundBuffers[Name] = soundbuffer;
+	if (soundbuffer.loadFromFile(file_name)) {
+		this->sound_buffers[name] = soundbuffer;
 	}
 }
 
-sf::SoundBuffer &AssetManager::getSound(std::string Name) {
-	return this->SoundBuffers.at(Name);
+sf::SoundBuffer &AssetManager::get_sound(std::string name) {
+	return this->sound_buffers.at(name);
 }
 }; // namespace skeleton

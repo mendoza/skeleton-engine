@@ -8,10 +8,10 @@ namespace skeleton {
 class Logger {
   public:
 	static Logger *instance;
-	static Logger *getInstance();
-	void Log(std::string);
-	void Error(std::string);
-	void Warning(std::string);
+	static Logger *get_instance();
+	void log(std::string);
+	void error(std::string);
+	void warning(std::string);
 	~Logger();
 
   private:

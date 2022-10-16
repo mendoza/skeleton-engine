@@ -3,37 +3,44 @@
 
 namespace skeleton {
 
-Engine::Engine(bool DebugMode) {
-	this->Data->DebugMode = DebugMode;
-	this->Data->setStateMachine(new StateMachine());
-	this->Data->Machine->addState(StateRef(new SplashState(this->Data)));
+Engine::Engine(bool debug_mode) {
+	this->data->debug_mode = debug_mode;
+	this->data->set_state_machine(new StateMachine());
+	this->data->machine->add_state(StateRef(new SplashState(this->data)));
 }
 
-void Engine::buildWindow(int Width, int Height, std::string Title,
-						 std::string IconFile) {
+void Engine::build_window(sf::Vector2u resolution, std::string Title,
+						 std::string IconFile, bool fullscreen) {
 	sf::Image image;
 	image.loadFromFile(IconFile);
-	this->Data->Window.create(
-		sf::VideoMode(sf::VideoMode::getDesktopMode().width,
-					  sf::VideoMode::getDesktopMode().height),
-		Title, sf::Style::Fullscreen);
-	this->Data->Window.setIcon(image.getSize().x, image.getSize().y,
+	if (fullscreen) {
+		this->data->render_window.create(
+			sf::VideoMode(sf::VideoMode::getDesktopMode().width,
+						  sf::VideoMode::getDesktopMode().height),
+			Title, sf::Style::Fullscreen);
+	} else {
+		this->data->render_window.create(
+			sf::VideoMode(resolution.x, resolution.y),
+			Title, sf::Style::Fullscreen);
+	}
+
+	this->data->render_window.setIcon(image.getSize().x, image.getSize().y,
 							   image.getPixelsPtr());
 
-	if (this->Data->DebugMode)
-		ImGui::SFML::Init(this->Data->Window);
+	if (this->data->debug_mode)
+		ImGui::SFML::Init(this->data->render_window);
 
 	this->run();
 }
 
 void Engine::run() {
 	float newTime, frameTime, interpolation = 0.0f;
-	float currentTime = this->Clock.getElapsedTime().asSeconds();
+	float currentTime = this->clock.getElapsedTime().asSeconds();
 	float accumulator = 0.0f;
 	sf::Clock deltaClock;
-	while (this->Data->Window.isOpen()) {
-		this->Data->Machine->processStateChanges();
-		newTime = this->Clock.getElapsedTime().asSeconds();
+	while (this->data->render_window.isOpen()) {
+		this->data->machine->process_state_changes();
+		newTime = this->clock.getElapsedTime().asSeconds();
 		frameTime = newTime - currentTime;
 		if (frameTime > 0.25f) {
 			frameTime = 0.25;
@@ -42,21 +49,28 @@ void Engine::run() {
 		accumulator += frameTime;
 
 		while (accumulator >= dt) {
-			this->Data->Machine->getActiveState()->handleInput();
-			this->Data->Machine->getActiveState()->update(dt);
+			this->data->machine->get_active_state()->handle_input();
+			this->data->machine->get_active_state()->update(dt);
 			accumulator -= dt;
 		}
+
 		interpolation = accumulator / dt;
-		this->Data->FPS = 1.0f / frameTime;
-		if (this->Data->DebugMode)
-			ImGui::SFML::Update(this->Data->Window, deltaClock.restart());
-		this->Data->Window.clear(sf::Color(125, 125, 125));
-		if (this->Data->DebugMode)
-			this->Data->Machine->getActiveState()->setupDebugWindow();
-		this->Data->Machine->getActiveState()->draw(interpolation);
-		if (this->Data->DebugMode)
-			ImGui::SFML::Render(this->Data->Window);
-		this->Data->Window.display();
+		this->data->fps = 1.0f / frameTime;
+
+		if (this->data->debug_mode)
+			ImGui::SFML::Update(this->data->render_window, deltaClock.restart());
+		
+		this->data->render_window.clear(sf::Color(125, 125, 125));
+		
+		if (this->data->debug_mode)
+			this->data->machine->get_active_state()->create_debug_window();
+
+		this->data->machine->get_active_state()->draw(interpolation);
+
+		if (this->data->debug_mode)
+			ImGui::SFML::Render(this->data->render_window);
+
+		this->data->render_window.display();
 	}
 	ImGui::SFML::Shutdown();
 }

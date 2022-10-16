@@ -5,16 +5,16 @@ Logger::Logger() {}
 
 Logger::~Logger() {}
 
-Logger *Logger::getInstance() {
+Logger *Logger::get_instance() {
 	if (!instance) {
 		instance = new Logger();
 	}
 	return instance;
 }
 
-void Logger::Log(std::string entry) { this->print("Log", entry); }
-void Logger::Error(std::string entry) { this->print("Error", entry); }
-void Logger::Warning(std::string entry) { this->print("Warning", entry); }
+void Logger::log(std::string entry) { this->print("Log", entry); }
+void Logger::error(std::string entry) { this->print("Error", entry); }
+void Logger::warning(std::string entry) { this->print("Warning", entry); }
 
 void Logger::print(std::string type, std::string entry) {
 	std::time_t now = std::time(0);

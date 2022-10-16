@@ -12,21 +12,21 @@
 
 class TestState : public skeleton::State {
   public:
-	TestState(skeleton::GameDataRef Data);
-	void onInit();
-	void onInput(sf::Event event);
-	void onUpdate(float dt);
-	void onDraw(float dt);
-	void setupDebugWindow();
+	TestState(skeleton::GameDataRef data);
+	void on_init();
+	void on_input(sf::Event event);
+	void on_update(float dt);
+	void on_draw(float dt);
+	void create_debug_window();
 	void setupLuaState();
 	void execCommand(std::string scriptString);
 
   private:
-	sf::Sprite Background;
+	sf::Sprite background;
 	ecs::EntityManager Actors;
 	ecs::SystemManager Systems = ecs::SystemManager(Actors);
-	sol::function on_update;
-	sol::function handle_input;
+	sol::function script_on_update;
+	sol::function script_handle_input;
 };
 
 #endif

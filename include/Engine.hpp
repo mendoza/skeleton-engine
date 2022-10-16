@@ -9,14 +9,14 @@ namespace skeleton {
 
 class Engine {
   public:
-	Engine(bool DebugMode = false);
-	void buildWindow(int Width, int Height, std::string Title,
-					 std::string IconFile);
+	Engine(bool debug_mode = false);
+	void build_window(sf::Vector2u resolution, std::string Title,
+					 std::string IconFile, bool fullscreen);
 
   private:
-	sf::Clock Clock;
+	sf::Clock clock;
 	const float dt = 1.f / 60.f;
-	GameDataRef Data = std::make_shared<GameData>();
+	GameDataRef data = std::make_shared<GameData>();
 	void run();
 };
 }; // namespace skeleton

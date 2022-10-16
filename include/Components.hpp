@@ -10,131 +10,131 @@
 
 class Component {
   public:
-	virtual void update(float dt){};
-	virtual void draw(){};
+	virtual void update_component(float dt){};
+	virtual void draw_component(){};
 	virtual ~Component(){};
 };
 
 class GraphicComponent : public Component {
   public:
-	sf::Sprite Sprite;
-	GraphicComponent(skeleton::GameDataRef Data, sol::table GC) {
-		this->name = GC["sprite_name"];
-		Data->Assets.loadTexture(this->name, GC["sprite_filepath"]);
-		sf::Texture &text = Data->Assets.getTexture(this->name);
-		this->Sprite.setTexture(text);
-		sf::Vector2f Vector(GC["sprite_orientation"]["x"],
-							GC["sprite_orientation"]["y"]);
-		this->spriteRotation = std::atan2(Vector.y, Vector.x) * 180 / M_PI;
+	sf::Sprite sprite;
+	GraphicComponent(skeleton::GameDataRef data, sol::table graphic_component) {
+		this->name = graphic_component["sprite_name"];
+		data->asset_manager.load_texture(this->name, graphic_component["sprite_filepath"]);
+		sf::Texture &text = data->asset_manager.get_texture(this->name);
+		this->sprite.setTexture(text);
+		sf::Vector2f Vector(graphic_component["sprite_orientation"]["x"],
+							graphic_component["sprite_orientation"]["y"]);
+		this->sprite_rotation = std::atan2(Vector.y, Vector.x) * 180 / M_PI;
 
-		if (GC["origin"] != sol::nil) {
-			sf::Vector2f Origin(GC["origin"]["x"], GC["origin"]["y"]);
-			this->Sprite.setOrigin(Origin);
+		if (graphic_component["origin"] != sol::nil) {
+			sf::Vector2f Origin(graphic_component["origin"]["x"], graphic_component["origin"]["y"]);
+			this->sprite.setOrigin(Origin);
 		}
 
-		if (GC["scale"] != sol::nil) {
-			sf::Vector2f Scale(GC["scale"]["width"], GC["scale"]["height"]);
-			this->Sprite.setScale(Scale);
+		if (graphic_component["scale"] != sol::nil) {
+			sf::Vector2f Scale(graphic_component["scale"]["width"], graphic_component["scale"]["height"]);
+			this->sprite.setScale(Scale);
 		}
 
-		if (GC["position"] != sol::nil) {
-			sf::Vector2f Position(GC["position"]["x"], GC["position"]["y"]);
-			this->Sprite.setPosition(Position);
+		if (graphic_component["position"] != sol::nil) {
+			sf::Vector2f Position(graphic_component["position"]["x"], graphic_component["position"]["y"]);
+			this->sprite.setPosition(Position);
 		}
 
-		if (GC["animated"] != sol::nil) {
-			this->isAnimated = GC["animated"];
+		if (graphic_component["animated"] != sol::nil) {
+			this->is_animated = graphic_component["animated"];
 		}
 
-		if (this->isAnimated && GC["animation"] != sol::nil) {
-			sol::table animations = GC["animation"]["animations"];
+		if (this->is_animated && graphic_component["animation"] != sol::nil) {
+			sol::table animations = graphic_component["animation"]["animations"];
 			int count = animations.size();
 			for (int i = 1; i <= count; i++) {
 				sol::table item = animations[i];
-				this->Animations.addAnimation(item["name"], item["row"]);
+				this->animation_manager.add_animation(item["name"], item["row"]);
 			}
-			int rows = GC["animation"]["rows"];
-			int cols = GC["animation"]["cols"];
-			int width = this->Sprite.getTextureRect().width / cols;
-			int height = this->Sprite.getTextureRect().height / rows;
-			this->ImageCount = {unsigned(cols), unsigned(rows)};
-			this->SwitchTime = GC["animation"]["switch_time"];
-			this->currentImage = {
-				unsigned(GC["animation"]["initial_image"]["col"]),
-				unsigned(GC["animation"]["initial_image"]["row"])};
-			this->UvRect = {int(this->currentImage.x * this->UvRect.width),
-							int(this->currentImage.y * this->UvRect.height),
+			int rows = graphic_component["animation"]["rows"];
+			int cols = graphic_component["animation"]["cols"];
+			int width = this->sprite.getTextureRect().width / cols;
+			int height = this->sprite.getTextureRect().height / rows;
+			this->image_count = {unsigned(cols), unsigned(rows)};
+			this->animation_switch_time = graphic_component["animation"]["switch_time"];
+			this->current_image = {
+				unsigned(graphic_component["animation"]["initial_image"]["col"]),
+				unsigned(graphic_component["animation"]["initial_image"]["row"])};
+			this->frame_rect = {int(this->current_image.x * this->frame_rect.width),
+							int(this->current_image.y * this->frame_rect.height),
 							height, width};
 
-			sf::Vector2f Origin(UvRect.left + (width / 2),
-								UvRect.top + (height / 2));
-			this->Sprite.setOrigin(Origin);
+			sf::Vector2f Origin(frame_rect.left + (width / 2),
+								frame_rect.top + (height / 2));
+			this->sprite.setOrigin(Origin);
 
-			this->Sprite.setTextureRect(this->UvRect);
+			this->sprite.setTextureRect(this->frame_rect);
 		}
 	}
 
-	bool shouldPlay() {
-		if (this->shouldLoop) {
+	bool should_play() {
+		if (this->should_loop) {
 			return true;
 		} else {
-			if (!this->hasLooped) {
+			if (!this->has_looped) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	void update(float dt) override {
-		if (this->isAnimated && shouldPlay()) {
-			this->totalTime += dt;
-			if (totalTime >= SwitchTime) {
-				totalTime -= SwitchTime;
-				currentImage.x++;
-				if (currentImage.x >= ImageCount.x) {
-					this->hasLooped = true;
-					if (this->shouldLoop) {
-						currentImage.x = 0;
+	void update_component(float dt) override {
+		if (this->is_animated && should_play()) {
+			this->animation_total_time += dt;
+			if (animation_total_time >= animation_switch_time) {
+				animation_total_time -= animation_switch_time;
+				current_image.x++;
+				if (current_image.x >= image_count.x) {
+					this->has_looped = true;
+					if (this->should_loop) {
+						current_image.x = 0;
 					} else {
-						currentImage.x = ImageCount.x - 1;
+						current_image.x = image_count.x - 1;
 					}
 				}
 			}
-			this->UvRect.left = this->currentImage.x * this->UvRect.width;
-			this->UvRect.top = this->currentImage.y * this->UvRect.height;
-			this->Sprite.setTextureRect(this->UvRect);
+			this->frame_rect.left = this->current_image.x * this->frame_rect.width;
+			this->frame_rect.top = this->current_image.y * this->frame_rect.height;
+			this->sprite.setTextureRect(this->frame_rect);
 		}
 	}
 
-	void playAnimation(std::string name, bool shouldLoop) {
-		int row = this->Animations.getAnimation(name);
-		this->currentImage.y = row;
-		this->CurrentAnimation = name;
-		this->shouldLoop = shouldLoop;
-		this->hasLooped = false;
+	void play_animation(std::string name, bool should_loop) {
+		int row = this->animation_manager.get_animation(name);
+		this->current_image.y = row;
+		this->current_animation = name;
+		this->should_loop = should_loop;
+		this->has_looped = false;
 	}
 
-	std::string getCurrentAnimation() { return this->CurrentAnimation; }
+	std::string get_current_animation() { return this->current_animation; }
 
-	bool getIsAnimated() { return this->isAnimated; }
+	bool get_is_animated() { return this->is_animated; }
 
-	float getSpriteRotation() { return this->spriteRotation; }
+	float get_sprite_rotation() { return this->sprite_rotation; }
 
-	void setSpriteRotation(float rotation) { this->spriteRotation = rotation; }
+	void set_sprite_rotation(float rotation) { this->sprite_rotation = rotation; }
 
   private:
-	sf::Vector2u ImageCount;
-	sf::Vector2u currentImage;
+	sf::Vector2u image_count;
+	sf::Vector2u current_image;
 	std::string name;
-	std::string CurrentAnimation;
-	sf::IntRect UvRect;
-	float spriteRotation;
-	float SwitchTime = 1 / 6;
-	float totalTime = 10.f;
-	bool isAnimated = false;
-	bool shouldLoop = false;
-	bool hasLooped = false;
-	skeleton::AnimationManager Animations;
+	std::string current_animation;
+	sf::IntRect frame_rect;
+	float sprite_rotation;
+	float animation_switch_time = 1 / 6;
+	float animation_total_time = 10.f;
+	bool is_animated = false;
+	bool should_loop = false;
+	bool has_looped = false;
+	skeleton::AnimationManager animation_manager;
 };
 
 #endif

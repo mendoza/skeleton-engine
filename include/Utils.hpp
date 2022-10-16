@@ -43,12 +43,12 @@ inline void setLogger(sol::state &L) {
 	sol::usertype<skeleton::Logger> loggerUserType =
 		L.new_usertype<skeleton::Logger>("Logger");
 
-	loggerUserType["log"] = &skeleton::Logger::Log;
-	loggerUserType["warning"] = &skeleton::Logger::Warning;
-	loggerUserType["error"] = &skeleton::Logger::Error;
-	loggerUserType["create"] = &skeleton::Logger::getInstance;
+	loggerUserType["log"] = &skeleton::Logger::log;
+	loggerUserType["warning"] = &skeleton::Logger::warning;
+	loggerUserType["error"] = &skeleton::Logger::error;
+	loggerUserType["create"] = &skeleton::Logger::get_instance;
 
-	skeleton::Logger *logger = logger->getInstance();
+	skeleton::Logger *logger = logger->get_instance();
 
 	L["console"] = logger;
 }

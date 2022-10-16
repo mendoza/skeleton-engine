@@ -3,37 +3,37 @@
 
 SplashState::SplashState(skeleton::GameDataRef data) : State(data) {}
 
-void SplashState::onInit() {
+void SplashState::on_init() {
 	L.script_file("assets/scripts/config.lua");
 	this->config = L["config"];
-	this->Splash = this->config["splash"];
-	std::string filePath = this->Splash["backgroud_img_file"];
-	this->Data->Assets.loadTexture("Splash State Background", filePath);
-	this->Background.setTexture(
-		this->Data->Assets.getTexture("Splash State Background"));
+	this->splash = this->config["splash"];
+	std::string file_path = this->splash["backgroud_img_file"];
+	this->data->asset_manager.load_texture("Splash State Background", file_path);
+	this->background.setTexture(
+		this->data->asset_manager.get_texture("Splash State Background"));
 }
 
-void SplashState::onInput(sf::Event event) {}
+void SplashState::on_input(sf::Event event) {}
 
-void SplashState::onUpdate(float dt) {
-	float Time = this->Splash["time"];
-	if (this->Clock.getElapsedTime().asSeconds() > Time) {
-		this->Data->Machine->addState(
-			skeleton::StateRef(new TestState(this->Data)));
+void SplashState::on_update(float dt) {
+	float Time = this->splash["time"];
+	if (this->clock.getElapsedTime().asSeconds() > Time) {
+		this->data->machine->add_state(
+			skeleton::StateRef(new TestState(this->data)));
 	}
 }
-void SplashState::setupDebugWindow() {
+void SplashState::create_debug_window() {
 	ImGui::Begin("Debug Splash.");
-	this->Data->logEngine();
+	this->data->log_engine();
 	ImGui::Text("Current State: Splash Screen");
 	ImGui::End();
 	ImGui::EndFrame();
 }
 
-void SplashState::onDraw(float dt) {
-	int r = this->Splash["background"]["r"];
-	int g = this->Splash["background"]["g"];
-	int b = this->Splash["background"]["b"];
-	this->Data->Window.clear(sf::Color(r, g, b));
-	this->Data->Window.draw(this->Background);
+void SplashState::on_draw(float dt) {
+	int r = this->splash["background"]["r"];
+	int g = this->splash["background"]["g"];
+	int b = this->splash["background"]["b"];
+	this->data->render_window.clear(sf::Color(r, g, b));
+	this->data->render_window.draw(this->background);
 }
