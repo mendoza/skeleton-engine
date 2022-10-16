@@ -15,7 +15,7 @@ class GameData {
 	GameData();
 	~GameData();
 	sf::RenderWindow render_window;
-	StateMachine *machine;
+	StateMachine *state_machine;
 	AssetManager asset_manager;
 	InputManager input_manager;
 	float fps;

@@ -67,6 +67,8 @@ class State {
 	}
 };
 
+typedef std::unique_ptr<State> StateRef;
+
 }; // namespace skeleton
 
 #endif

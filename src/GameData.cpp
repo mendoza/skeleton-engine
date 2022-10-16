@@ -7,7 +7,7 @@ GameData::GameData() {}
 GameData::~GameData() {}
 
 void GameData::set_state_machine(StateMachine *new_ptr) {
-	this->machine = new_ptr;
+	this->state_machine = new_ptr;
 }
 
 void GameData::log_engine() {

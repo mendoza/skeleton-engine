@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
 #include <State.hpp>
+#include <StateMachine.hpp>
 class SplashState : public skeleton::State {
 
   public:

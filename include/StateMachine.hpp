@@ -6,7 +6,6 @@
 #include <stack>
 
 namespace skeleton {
-typedef std::unique_ptr<State> StateRef;
 class StateMachine {
 
   public:

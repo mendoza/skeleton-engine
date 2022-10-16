@@ -18,7 +18,7 @@ void SplashState::on_input(sf::Event event) {}
 void SplashState::on_update(float dt) {
 	float Time = this->splash["time"];
 	if (this->clock.getElapsedTime().asSeconds() > Time) {
-		this->data->machine->add_state(
+		this->data->state_machine->add_state(
 			skeleton::StateRef(new TestState(this->data)));
 	}
 }
