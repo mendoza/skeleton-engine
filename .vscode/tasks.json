@@ -19,10 +19,13 @@
             "label": "Build & run C++ project",
             "type": "shell",
             "windows": {
-                "command": "mingw32-make; ./bin/main"
+                "options": {
+                    "cwd": "${workspaceFolder}"
+                },
+                "command": "mingw32-make; ./main"
             },
             "linux": {
-                "command": "cd build && make && ./main"
+                "command": "make && ./main"
             },
             "group": {
                 "kind": "test",

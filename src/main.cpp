@@ -1,4 +1,5 @@
 #include <Engine.hpp>
+#include <lua.hpp>
 skeleton::Logger *skeleton::Logger::instance = 0;
 
 int main() {
@@ -8,12 +9,12 @@ int main() {
 	std::string title = config["title"];
 	std::string icon = config["icon"];
 	sol::table initial_resolution = config["resolution"];
-	uint Width = initial_resolution["width"];
-	uint Height = initial_resolution["height"];
+	unsigned int Width = initial_resolution["width"];
+	unsigned int Height = initial_resolution["height"];
 	sf::Vector2u resolution = {Width, Height};
 	bool debug_mode = config["debug_mode"];
 	bool fullscreen = config["fullscreen"];
-	skeleton::Engine Engine(debug_mode);
-	Engine.build_window(resolution, title, icon, fullscreen);
+	skeleton::Engine engine(debug_mode);
+	engine.build_window(resolution, title, icon, fullscreen);
 	return 0;
 }

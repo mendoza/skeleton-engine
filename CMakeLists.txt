@@ -2,11 +2,24 @@ cmake_minimum_required(VERSION 3.9)
 project(skeleton)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./build")
 add_compile_options(-Wall -ggdb)
 
 file(GLOB TARGET_SRC "./src/*.cpp" )
 include_directories("./include")
-find_library(LUA_LIB lua54 "./lib")
+
+find_library(
+    LUA_LIB 
+    NAMES lua54 
+    HINTS "./lib"
+    REQUIRED
+)
+
+message(STATUS "LUA_LIB: [${LUA_LIB}]")
+
+if (NOT LUA_LIB)
+    message(SEND_ERROR "Did not find lib lua54")
+endif()
 
 # Setting SFML_DIR on windows
 if (NOT LINUX AND WIN32)
