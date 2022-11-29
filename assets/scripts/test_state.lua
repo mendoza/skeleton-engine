@@ -78,7 +78,6 @@ end
 function handle_input(event)
     if event.type == skeleton.event_type.key_pressed then
         direction = actor:get_direction()
-        skeleton:print_vector(direction)
         if event.key.code == skeleton.keyboard["right"] then
             if (direction.x < 0) then
                 actor:flip_horizontal()
