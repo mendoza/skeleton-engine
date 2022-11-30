@@ -8,7 +8,7 @@ Small game engine framework , made with just 4 dependencies.
 
 1.  SFML [Repo](https://github.com/SFML/SFML)
 2.  OpenEcs [Repo](https://github.com/Gronis/OpenEcs)
-3.  Lua53 [Repo](https://github.com/lua/lua)
+3.  Lua54 [Repo](https://github.com/lua/lua)
 4.  Sol3 [Repo](https://github.com/ThePhD/sol2)
 
 Which 3 of them are implemented on the source right away (OpenEcs, Sol3 and Lua)
@@ -26,12 +26,14 @@ sudo apt-get install libsfml-dev #debian based OS
 ```
 
 ```bash
-git clone https://github.com/Dmendoza99/Skeleton-Engine
-cd Skeleton-Engine
-cmake . 
-cmake -G "MinGW Makefiles" . # For windows
+git clone https://github.com/mendoza/skeleton-engine
+cd skeleton-engine
+mkdir build
+cd build
+cmake .. 
+cmake -G "MinGW Makefiles" .. # For windows
 make
-./bin/main
+./main
 ```
 
 ## Bugs 🐛
