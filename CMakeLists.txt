@@ -11,7 +11,7 @@ include_directories("./include")
 find_library(
     LUA_LIB
     NAMES lua54 
-    HINTS "./lib"
+    HINTS "./libs"
     REQUIRED
 )
 

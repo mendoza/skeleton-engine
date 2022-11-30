@@ -4,24 +4,27 @@
         {
             "label": "Build C++ project",
             "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
             "windows": {
                 "command": "mingw32-make"
             },
             "linux": {
-                "command": "cd build && make"
+                "command": "make"
             },
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": true,
             },
         },
         {
             "label": "Build & run C++ project",
             "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
             "windows": {
-                "options": {
-                    "cwd": "${workspaceFolder}"
-                },
                 "command": "mingw32-make; ./main"
             },
             "linux": {
@@ -31,15 +34,6 @@
                 "kind": "test",
                 "isDefault": true
             },
-        },
-        {
-            "label": "Build CMake",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "cd bin && cmake .."
         }
     ]
 }
