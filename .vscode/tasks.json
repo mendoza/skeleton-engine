@@ -21,14 +21,12 @@
         {
             "label": "Build & run C++ project",
             "type": "shell",
+            "command": "./main",
+            "dependsOn": [
+                "Build C++ project"
+            ],
             "options": {
                 "cwd": "${workspaceFolder}/build"
-            },
-            "windows": {
-                "command": "mingw32-make; ./main"
-            },
-            "linux": {
-                "command": "make && ./main"
             },
             "group": {
                 "kind": "test",
