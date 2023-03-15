@@ -38,6 +38,7 @@ class State {
 		while (this->data->render_window.pollEvent(event)) {
 			if (this->data->debug_mode)
 				ImGui::SFML::ProcessEvent(event);
+
 			on_input(event);
 
 			switch (event.type) {
@@ -62,8 +63,7 @@ class State {
 	virtual void update(float dt) { this->on_update(dt); }
 
 	virtual void set_engine_user_types() {
-		skeleton::setLogger(L);
-		skeleton::setENgineUserTypes(L);
+		skeleton::setEngineMetada(L);
 	}
 };
 
