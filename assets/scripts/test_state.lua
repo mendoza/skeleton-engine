@@ -75,9 +75,24 @@ function on_update(dt)
 
 end
 
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    for k, v in pairs(tbl) do
+      formatting = string.rep("  ", indent) .. k .. ": "
+      if type(v) == "table" then
+        print(formatting)
+        tprint(v, indent+1)
+      else
+        print(formatting .. v)
+      end
+    end
+  end
+
+
 function handle_input(event)
     if event.type == skeleton.event_type.key_pressed then
         direction = actor:get_direction()
+        tprint(skeleton)
         if event.key.code == skeleton.keyboard["right"] then
             if (direction.x < 0) then
                 actor:flip_horizontal()

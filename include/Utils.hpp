@@ -8,8 +8,10 @@
 #include <sol.hpp>
 namespace skeleton {
 
-inline void setENgineUserTypes(sol::state &L) {
+inline void setEngineMetadata(sol::state &L) {
+	// Creating engine metadata table
 	sol::table skeleton = L.create_named_table("skeleton");
+
 	skeleton.new_enum<sf::Keyboard::Key>("keyboard",
 										 {{"right", sf::Keyboard::Right},
 										  {"left", sf::Keyboard::Left},

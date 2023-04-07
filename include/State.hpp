@@ -63,7 +63,7 @@ class State {
 
 	virtual void set_engine_user_types() {
 		skeleton::setLogger(L);
-		skeleton::setENgineUserTypes(L);
+		skeleton::setEngineMetadata(L);
 	}
 };
 
