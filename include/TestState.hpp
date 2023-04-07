@@ -19,7 +19,6 @@ class TestState : public skeleton::State {
 	void on_draw(float dt);
 	void create_debug_window();
 	void setupLuaState();
-	void execCommand(std::string scriptString);
 
   private:
 	sf::Sprite background;

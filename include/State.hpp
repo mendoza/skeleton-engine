@@ -38,6 +38,7 @@ class State {
 		while (this->data->render_window.pollEvent(event)) {
 			if (this->data->debug_mode)
 				ImGui::SFML::ProcessEvent(event);
+
 			on_input(event);
 
 			switch (event.type) {

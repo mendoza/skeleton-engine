@@ -10,9 +10,12 @@ Engine::Engine(bool debug_mode) {
 }
 
 void Engine::build_window(sf::Vector2u resolution, std::string Title,
-						 std::string IconFile, bool fullscreen) {
+						  std::string IconFile, bool fullscreen) {
 	sf::Image image;
 	image.loadFromFile(IconFile);
+	this->data->render_window.setIcon(image.getSize().x, image.getSize().y,
+									  image.getPixelsPtr());
+
 	if (fullscreen) {
 		this->data->render_window.create(
 			sf::VideoMode(sf::VideoMode::getDesktopMode().width,
@@ -20,12 +23,9 @@ void Engine::build_window(sf::Vector2u resolution, std::string Title,
 			Title, sf::Style::Fullscreen);
 	} else {
 		this->data->render_window.create(
-			sf::VideoMode(resolution.x, resolution.y),
-			Title, sf::Style::Fullscreen);
+			sf::VideoMode(resolution.x, resolution.y), Title,
+			sf::Style::Fullscreen);
 	}
-
-	this->data->render_window.setIcon(image.getSize().x, image.getSize().y,
-							   image.getPixelsPtr());
 
 	if (this->data->debug_mode)
 		ImGui::SFML::Init(this->data->render_window);
@@ -58,12 +58,14 @@ void Engine::run() {
 		this->data->fps = 1.0f / frameTime;
 
 		if (this->data->debug_mode)
-			ImGui::SFML::Update(this->data->render_window, deltaClock.restart());
-		
+			ImGui::SFML::Update(this->data->render_window,
+								deltaClock.restart());
+
 		this->data->render_window.clear(sf::Color(125, 125, 125));
-		
+
 		if (this->data->debug_mode)
-			this->data->state_machine->get_active_state()->create_debug_window();
+			this->data->state_machine->get_active_state()
+				->create_debug_window();
 
 		this->data->state_machine->get_active_state()->draw(interpolation);
 

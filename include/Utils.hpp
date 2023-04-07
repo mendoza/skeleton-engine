@@ -8,10 +8,22 @@
 #include <sol.hpp>
 namespace skeleton {
 
-inline void setEngineMetadata(sol::state &L) {
-	// Creating engine metadata table
-	sol::table skeleton = L.create_named_table("skeleton");
+void setLogger(sol::state &L) {
+	sol::usertype<skeleton::Logger> loggerUserType =
+		L.new_usertype<skeleton::Logger>("Logger");
 
+	loggerUserType["log"] = &skeleton::Logger::log;
+	loggerUserType["warning"] = &skeleton::Logger::warning;
+	loggerUserType["error"] = &skeleton::Logger::error;
+	loggerUserType["create"] = &skeleton::Logger::get_instance;
+
+	skeleton::Logger *logger = logger->get_instance();
+
+	L["console"] = logger;
+}
+
+inline void setKeyboardTypes(sol::state &L) {
+	sol::table skeleton = L["skeleton"];
 	skeleton.new_enum<sf::Keyboard::Key>("keyboard",
 										 {{"right", sf::Keyboard::Right},
 										  {"left", sf::Keyboard::Left},
@@ -33,27 +45,22 @@ inline void setEngineMetadata(sol::state &L) {
 	keyEventType["code"] = sol::readonly(&sf::Event::KeyEvent::code);
 
 	eventType["key"] = sol::readonly(&sf::Event::key);
+}
 
+inline void setExtraTypes(sol::state &L) {
 	sol::usertype<sf::Vector2f> sfVector2f = L.new_usertype<sf::Vector2f>(
 		"vector_2f",
 		sol::constructors<sf::Vector2f(), sf::Vector2f(float, float)>(), "x",
 		&sf::Vector2f::x, "y", &sf::Vector2f::y);
 }
 
-inline void setLogger(sol::state &L) {
-
-	sol::usertype<skeleton::Logger> loggerUserType =
-		L.new_usertype<skeleton::Logger>("Logger");
-
-	loggerUserType["log"] = &skeleton::Logger::log;
-	loggerUserType["warning"] = &skeleton::Logger::warning;
-	loggerUserType["error"] = &skeleton::Logger::error;
-	loggerUserType["create"] = &skeleton::Logger::get_instance;
-
-	skeleton::Logger *logger = logger->get_instance();
-
-	L["console"] = logger;
+inline void setEngineMetada(sol::state &L) {
+	sol::table skeleton = L.create_named_table("skeleton");
+	setLogger(L);
+	setKeyboardTypes(L);
+	setExtraTypes(L);
 }
+
 } // namespace skeleton
 
 #endif
