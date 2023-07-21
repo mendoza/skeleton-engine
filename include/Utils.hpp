@@ -8,7 +8,7 @@
 #include <sol.hpp>
 namespace skeleton {
 
-void setLogger(sol::state &L) {
+inline void setLogger(sol::state &L) {
 	sol::usertype<skeleton::Logger> loggerUserType =
 		L.new_usertype<skeleton::Logger>("Logger");
 
@@ -54,7 +54,7 @@ inline void setExtraTypes(sol::state &L) {
 		&sf::Vector2f::x, "y", &sf::Vector2f::y);
 }
 
-inline void setEngineMetada(sol::state &L) {
+inline void setEngineMetadata(sol::state &L) {
 	sol::table skeleton = L.create_named_table("skeleton");
 	setLogger(L);
 	setKeyboardTypes(L);

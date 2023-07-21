@@ -13,7 +13,7 @@ class SplashState : public skeleton::State {
 	void on_init();
 	void on_input(sf::Event event);
 	void on_update(float dt);
-	void on_draw(float dt);
+	void on_draw();
 	void create_debug_window();
 
   private:

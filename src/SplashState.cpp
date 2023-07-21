@@ -8,7 +8,8 @@ void SplashState::on_init() {
 	this->config = L["config"];
 	this->splash = this->config["splash"];
 	std::string file_path = this->splash["backgroud_img_file"];
-	this->data->asset_manager.load_texture("Splash State Background", file_path);
+	this->data->asset_manager.load_texture("Splash State Background",
+										   file_path);
 	this->background.setTexture(
 		this->data->asset_manager.get_texture("Splash State Background"));
 }
@@ -30,7 +31,7 @@ void SplashState::create_debug_window() {
 	ImGui::EndFrame();
 }
 
-void SplashState::on_draw(float dt) {
+void SplashState::on_draw() {
 	int r = this->splash["background"]["r"];
 	int g = this->splash["background"]["g"];
 	int b = this->splash["background"]["b"];

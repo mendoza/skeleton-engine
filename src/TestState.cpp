@@ -55,7 +55,7 @@ void TestState::create_debug_window() {
 	ImGui::End();
 }
 
-void TestState::on_draw(float dt) {
+void TestState::on_draw() {
 	for (auto entity : Actors.with<GraphicComponent>())
 		this->data->render_window.draw(entity.get<GraphicComponent>().sprite);
 }

@@ -25,14 +25,14 @@ class State {
 	virtual void on_init() = 0;
 	virtual void on_input(sf::Event event) = 0;
 	virtual void on_update(float dt) = 0;
-	virtual void on_draw(float dt) = 0;
+	virtual void on_draw() = 0;
 	virtual void create_debug_window() = 0;
 
 	// Engine's Functions
 	virtual void pause() {}
 	virtual void resume() {}
 	virtual void init() { on_init(); }
-	virtual void draw(float dt) { on_draw(dt); }
+	virtual void draw() { on_draw(); }
 	virtual void handle_input() {
 		sf::Event event;
 		while (this->data->render_window.pollEvent(event)) {
@@ -62,10 +62,7 @@ class State {
 	}
 	virtual void update(float dt) { this->on_update(dt); }
 
-	virtual void set_engine_user_types() {
-		skeleton::setLogger(L);
-		skeleton::setEngineMetadata(L);
-	}
+	virtual void set_engine_user_types() { skeleton::setEngineMetadata(L); }
 };
 
 typedef std::unique_ptr<State> StateRef;

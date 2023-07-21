@@ -34,28 +34,23 @@ void Engine::build_window(sf::Vector2u resolution, std::string Title,
 }
 
 void Engine::run() {
-	float newTime, frameTime, interpolation = 0.0f;
-	float currentTime = this->clock.getElapsedTime().asSeconds();
-	float accumulator = 0.0f;
+	const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
+	sf::Clock clock;
 	sf::Clock deltaClock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	while (this->data->render_window.isOpen()) {
 		this->data->state_machine->process_state_changes();
-		newTime = this->clock.getElapsedTime().asSeconds();
-		frameTime = newTime - currentTime;
-		if (frameTime > 0.25f) {
-			frameTime = 0.25;
-		}
-		currentTime = newTime;
-		accumulator += frameTime;
 
-		while (accumulator >= dt) {
+		sf::Time elapsedTime = clock.restart();
+		timeSinceLastUpdate += elapsedTime;
+
+		while (timeSinceLastUpdate > TimePerFrame) {
+			timeSinceLastUpdate -= TimePerFrame;
 			this->data->state_machine->get_active_state()->handle_input();
-			this->data->state_machine->get_active_state()->update(dt);
-			accumulator -= dt;
+			this->data->state_machine->get_active_state()->update(
+				TimePerFrame.asSeconds());
 		}
-
-		interpolation = accumulator / dt;
-		this->data->fps = 1.0f / frameTime;
+		this->data->fps = 1.0f / elapsedTime.asSeconds();
 
 		if (this->data->debug_mode)
 			ImGui::SFML::Update(this->data->render_window,
@@ -67,7 +62,7 @@ void Engine::run() {
 			this->data->state_machine->get_active_state()
 				->create_debug_window();
 
-		this->data->state_machine->get_active_state()->draw(interpolation);
+		this->data->state_machine->get_active_state()->draw();
 
 		if (this->data->debug_mode)
 			ImGui::SFML::Render(this->data->render_window);
