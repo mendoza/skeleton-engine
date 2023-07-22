@@ -15,6 +15,7 @@ void Engine::build_window(sf::Vector2u resolution, std::string Title,
 	image.loadFromFile(IconFile);
 	this->data->render_window.setIcon(image.getSize().x, image.getSize().y,
 									  image.getPixelsPtr());
+	this->data->render_window.setKeyRepeatEnabled(false);
 
 	if (fullscreen) {
 		this->data->render_window.create(
@@ -46,7 +47,32 @@ void Engine::run() {
 
 		while (timeSinceLastUpdate > TimePerFrame) {
 			timeSinceLastUpdate -= TimePerFrame;
-			this->data->state_machine->get_active_state()->handle_input();
+			sf::Event event;
+			while (this->data->render_window.pollEvent(event)) {
+				if (this->data->debug_mode)
+					ImGui::SFML::ProcessEvent(event);
+				this->data->state_machine->get_active_state()->handle_input(
+					event);
+				switch (event.type) {
+					case sf::Event::Closed: {
+						this->data->render_window.close();
+						break;
+					}
+
+					case sf::Event::Resized: {
+						sf::FloatRect visibleArea(0, 0, event.size.width,
+												  event.size.height);
+						this->data->render_window.setView(
+							sf::View(visibleArea));
+						break;
+					}
+
+					default: {
+						break;
+					}
+				}
+			}
+
 			this->data->state_machine->get_active_state()->update(
 				TimePerFrame.asSeconds());
 		}

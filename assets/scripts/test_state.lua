@@ -4,7 +4,6 @@ actor_parameters = {
         sprite_filepath = "assets/spritesheets/player.png",
         animated = true,
         animation = {
-            switch_time = 1 / 60,
             rows = 4,
             cols = 3,
             initial_image = {
@@ -13,20 +12,16 @@ actor_parameters = {
             },
             animations = {{
                 name = "idle",
-                row = 0,
-                should_loop = true
+                row = 0
             }, {
                 name = "walking",
-                row = 1,
-                should_loop = true
+                row = 1
             }, {
                 name = "punching",
-                row = 2,
-                should_loop = false
+                row = 2
             }, {
                 name = "dying",
-                row = 3,
-                should_loop = true
+                row = 3
             }}
         },
         scale = {
@@ -53,60 +48,36 @@ actor_parameters = {
 }
 
 direction = vector_2f.new(0.0, 0.0)
-should_move = false
-is_punching = false
+speed = 0
 function on_update(dt)
-    if should_move and not is_punching then
-        local speed = actor_parameters.physics_parameters.speed
-        direction = actor:get_direction()
-        new_direction = vector_2f.new(direction.x * (speed * dt), direction.y * (speed * dt))
-        actor:move(new_direction)
-        actor:play_animation("walking", true)
-    end
-
-    if not should_move and not is_punching then
-        actor:play_animation("idle", true)
-    end
-
-    if is_punching then
-        is_punching = false
-        actor:play_animation("punching", false)
-    end
-
+    direction = actor:get_direction()
+    new_direction = vector_2f.new(direction.x * (speed * dt), direction.y * (speed * dt))
+    actor:move(new_direction)
 end
-
-function tprint (tbl, indent)
-    if not indent then indent = 0 end
-    for k, v in pairs(tbl) do
-      formatting = string.rep("  ", indent) .. k .. ": "
-      if type(v) == "table" then
-        print(formatting)
-        tprint(v, indent+1)
-      else
-        print(formatting .. v)
-      end
-    end
-  end
-
 
 function handle_input(event)
     if event.type == skeleton.event_type.key_pressed then
         direction = actor:get_direction()
-        tprint(skeleton)
         if event.key.code == skeleton.keyboard["right"] then
             if (direction.x < 0) then
                 actor:flip_horizontal()
             end
-            should_move = true
+            actor:play_animation("walking", true)
+            speed = 100
         elseif event.key.code == skeleton.keyboard["left"] then
             if (direction.x > 0) then
                 actor:flip_horizontal()
             end
-            should_move = true
+            actor:play_animation("walking", true)
+            speed = 100
         elseif event.key.code == skeleton.keyboard["space"] then
-            is_punching = true
+            actor:play_animation("punching", false)
+            speed = 0
         end
     elseif event.type == skeleton.event_type.key_released then
-        should_move = false
+        if event.key.code == skeleton.keyboard["right"] or event.key.code == skeleton.keyboard["left"] then
+            speed = 0
+            actor:play_animation("idle", false)
+        end
     end
 end

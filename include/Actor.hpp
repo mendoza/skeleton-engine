@@ -7,7 +7,7 @@
 #include <sol.hpp>
 #include <string>
 
-class Actor : public ecs::EntityAlias<GraphicComponent> {
+class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {
   public:
 	Actor() {}
 	Actor(skeleton::GameDataRef data, sol::table graphic_component);
@@ -17,7 +17,7 @@ class Actor : public ecs::EntityAlias<GraphicComponent> {
 	void stop();
 	void flip_horizontal();
 	void flip_vertical();
-	void play_animation(std::string name, bool should_loop);
+	void play_animation(std::string name);
 	sf::Vector2f get_position();
 	sf::Vector2f get_direction();
 };

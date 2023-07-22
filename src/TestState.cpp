@@ -56,6 +56,11 @@ void TestState::create_debug_window() {
 }
 
 void TestState::on_draw() {
-	for (auto entity : Actors.with<GraphicComponent>())
+	for (auto entity : Actors.with<GraphicComponent, PositionComponent>()) {
+		entity.get<GraphicComponent>().sprite.setPosition(
+			entity.get<PositionComponent>().x,
+			entity.get<PositionComponent>().y);
+
 		this->data->render_window.draw(entity.get<GraphicComponent>().sprite);
+	}
 }

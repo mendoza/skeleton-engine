@@ -33,33 +33,7 @@ class State {
 	virtual void resume() {}
 	virtual void init() { on_init(); }
 	virtual void draw() { on_draw(); }
-	virtual void handle_input() {
-		sf::Event event;
-		while (this->data->render_window.pollEvent(event)) {
-			if (this->data->debug_mode)
-				ImGui::SFML::ProcessEvent(event);
-
-			on_input(event);
-
-			switch (event.type) {
-				case sf::Event::Closed: {
-					this->data->render_window.close();
-					break;
-				}
-
-				case sf::Event::Resized: {
-					sf::FloatRect visibleArea(0, 0, event.size.width,
-											  event.size.height);
-					this->data->render_window.setView(sf::View(visibleArea));
-					break;
-				}
-
-				default: {
-					break;
-				}
-			}
-		}
-	}
+	virtual void handle_input(sf::Event event) { on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
 
 	virtual void set_engine_user_types() { skeleton::setEngineMetadata(L); }
