@@ -57,7 +57,15 @@
     "fstream": "cpp",
     "cinttypes": "cpp",
     "stack": "cpp",
-    "cerrno": "cpp"
+    "cerrno": "cpp",
+    "chrono": "cpp",
+    "condition_variable": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp",
+    "ratio": "cpp",
+    "iomanip": "cpp",
+    "mutex": "cpp",
+    "thread": "cpp",
+    "cfenv": "cpp"
   },
-  "C_Cpp.errorSquiggles": "Disabled",
 }
