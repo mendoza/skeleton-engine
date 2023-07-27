@@ -5,7 +5,7 @@
             "name": "C++ Debug (gdb)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/main",
+            "program": "${workspaceFolder}/build/skeleton",
             "preLaunchTask": "Build C++ project",
             "args": [],
             "stopAtEntry": false,

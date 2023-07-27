@@ -8,7 +8,7 @@ add_compile_options(-Wall -ggdb)
 # setting skeleton source
 file(GLOB TARGET_SRC "./src/*.cpp" )
 include_directories("./include")
-add_executable(main ${TARGET_SRC})
+add_executable(${PROJECT_NAME} ${TARGET_SRC})
 
 # Setting lua54
 find_library(
@@ -48,11 +48,11 @@ set(BUILD_SHARED_LIBS FALSE)
 # END ADDITION
 FetchContent_MakeAvailable(SDL2_image)
 
-target_link_libraries(main PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static ${LUA_LIB} ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static ${LUA_LIB} ${CMAKE_DL_LIBS})
 
 # Setting up assets file dependency to copy folder
 add_custom_command(
-  TARGET main
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND}
   ARGS -E copy_directory_if_different "${PROJECT_SOURCE_DIR}/assets" "${PROJECT_SOURCE_DIR}/build/assets"

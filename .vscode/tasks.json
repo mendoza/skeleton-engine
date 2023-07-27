@@ -21,7 +21,7 @@
         {
             "label": "Build & run C++ project",
             "type": "shell",
-            "command": "./main",
+            "command": "./skeleton",
             "dependsOn": [
                 "Build C++ project"
             ],
