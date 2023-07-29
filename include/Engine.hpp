@@ -2,20 +2,19 @@
 #define SKELETON_ENGINE_HPP
 
 #include <GameData.hpp>
-#include <SFML/System/Clock.hpp>
+#include <SDL2/SDL.h>
 #include <StateMachine.hpp>
-#include <ctime>
+#include <chrono>
 
 namespace skeleton {
 
 class Engine {
   public:
 	Engine(bool debug_mode = false);
-	void build_window(sf::Vector2u resolution, std::string Title,
+	void build_window(uint32_t width, uint32_t height, std::string Title,
 					  std::string IconFile, bool fullscreen);
 
   private:
-	sf::Clock clock;
 	GameDataRef data = std::make_shared<GameData>();
 	void run();
 };

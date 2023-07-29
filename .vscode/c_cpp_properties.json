@@ -16,10 +16,9 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/include",
-                "C:/SFML/include/**"
             ],
             "defines": [],
-            "compilerPath": "C:/mingw32/bin/g++.exe",
+            "compilerPath": "C:/mingw64/bin/g++.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",

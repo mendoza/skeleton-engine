@@ -1,9 +1,7 @@
 #ifndef SKELETON_ANIMATION_MANAGER_HPP
 #define SKELETON_ANIMATION_MANAGER_HPP
-
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-
+#include <string>
+#include <map>
 namespace skeleton {
 class AnimationManager {
 

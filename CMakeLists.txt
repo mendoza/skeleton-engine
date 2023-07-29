@@ -2,13 +2,6 @@ cmake_minimum_required(VERSION 3.9)
 include(FetchContent)
 project(skeleton)
 
-set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -ggdb)
-
-# setting skeleton source
-file(GLOB TARGET_SRC "./src/*.cpp" )
-include_directories("./include")
-add_executable(${PROJECT_NAME} ${TARGET_SRC})
 
 # Setting lua54
 find_library(
@@ -48,7 +41,13 @@ set(BUILD_SHARED_LIBS FALSE)
 # END ADDITION
 FetchContent_MakeAvailable(SDL2_image)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static ${LUA_LIB} ${CMAKE_DL_LIBS})
+# setting skeleton source
+file(GLOB TARGET_SRC "./src/*.cpp" )
+include_directories("./include")
+add_executable(${PROJECT_NAME} ${TARGET_SRC})
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_options(${PROJECT_NAME} PUBLIC Wall ggdb)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static LUA_LIB CMAKE_DL_LIBS)
 
 # Setting up assets file dependency to copy folder
 add_custom_command(

@@ -5,11 +5,11 @@ config = {
         height = 600
     },
     fullscreen = true,
-    debug_mode = true,
+    debug_mode = false,
     icon = "assets/icon.png",
     splash = {
         backgroud_img_file = "assets/splash.png",
-        time = 1,
+        time = 10,
         background = {
             r = 255,
             g = 255,

@@ -1,36 +1,15 @@
 #include <AssetManager.hpp>
 
 namespace skeleton {
-void AssetManager::load_texture(std::string name, std::string file_name) {
-	sf::Texture tex;
-	if (tex.loadFromFile(file_name)) {
-		this->textures[name] = tex;
+void AssetManager::add_surface(std::string name, std::string file_name) {
+	SDL_Surface *surf = IMG_Load(file_name.c_str());
+	if (this->surfaces.find(name) == this->surfaces.end()) {
+		this->surfaces[name] = surf;
 	}
 }
 
-sf::Texture &AssetManager::get_texture(std::string name) {
-	return this->textures.at(name);
+SDL_Surface *AssetManager::get_surface(std::string name) {
+	return this->surfaces.at(name);
 }
 
-void AssetManager::load_font(std::string name, std::string file_name) {
-	sf::Font font;
-	if (font.loadFromFile(file_name)) {
-		this->fonts[name] = font;
-	}
-}
-
-sf::Font &AssetManager::get_font(std::string name) {
-	return this->fonts.at(name);
-}
-
-void AssetManager::load_sound(std::string name, std::string file_name) {
-	sf::SoundBuffer soundbuffer;
-	if (soundbuffer.loadFromFile(file_name)) {
-		this->sound_buffers[name] = soundbuffer;
-	}
-}
-
-sf::SoundBuffer &AssetManager::get_sound(std::string name) {
-	return this->sound_buffers.at(name);
-}
 }; // namespace skeleton

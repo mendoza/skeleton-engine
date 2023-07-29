@@ -1,29 +1,29 @@
 #ifndef SKELETON_ASSET_MANAGER_HPP
 #define SKELETON_ASSET_MANAGER_HPP
 
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
+#include <SDL_image.h>
+#include <map>
+#include <string>
 
 namespace skeleton {
 class AssetManager {
 
   public:
 	AssetManager() {}
-	~AssetManager() {}
+	~AssetManager() {
+		// go key by key removing surfaces
 
-	void load_texture(std::string, std::string file_name);
-	sf::Texture &get_texture(std::string name);
+		for (const auto &myPair : this->surfaces) {
+			SDL_FreeSurface(myPair.second);
+		}
+	}
 
-	void load_font(std::string name, std::string file_name);
-	sf::Font &get_font(std::string Name);
-
-	void load_sound(std::string Name, std::string file_name);
-	sf::SoundBuffer &get_sound(std::string name);
+	void add_surface(std::string name, std::string file_name);
+	SDL_Surface *get_surface(std::string name);
 
   private:
-	std::map<std::string, sf::Texture> textures;
-	std::map<std::string, sf::Font> fonts;
-	std::map<std::string, sf::SoundBuffer> sound_buffers;
+	std::map<std::string, SDL_Surface *> surfaces;
 };
 }; // namespace skeleton
 

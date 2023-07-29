@@ -2,8 +2,6 @@
 #define SPLASH_STATE_HPP
 
 #include <GameData.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Window/Event.hpp>
 #include <State.hpp>
 #include <StateMachine.hpp>
 class SplashState : public skeleton::State {
@@ -11,13 +9,14 @@ class SplashState : public skeleton::State {
   public:
 	SplashState(skeleton::GameDataRef data);
 	void on_init();
-	void on_input(sf::Event event);
+	void on_input(SDL_Event &event);
 	void on_update(float dt);
 	void on_draw();
 	void create_debug_window();
 
   private:
-	sf::Sprite background;
+	SDL_Surface *background;
+	uint64_t initial_time = SDL_GetPerformanceCounter();
 	sol::table config;
 	sol::table splash;
 };
