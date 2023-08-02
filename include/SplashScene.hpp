@@ -2,16 +2,18 @@
 #define SPLASH_STATE_HPP
 
 #include <GameData.hpp>
-#include <State.hpp>
-#include <StateMachine.hpp>
-class SplashState : public skeleton::State {
+#include <Scene.hpp>
+#include <SceneManager.hpp>
+
+class SplashScene : public skeleton::Scene {
 
   public:
-	SplashState(skeleton::GameDataRef data);
+	SplashScene();
 	void on_init();
 	void on_input(SDL_Event &event);
 	void on_update(float dt);
 	void on_draw();
+	void on_destroy();
 	void create_debug_window();
 
   private:

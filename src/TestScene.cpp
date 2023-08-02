@@ -1,19 +1,19 @@
-#include <TestState.hpp>
+#include <TestScene.hpp>
 
-TestState::TestState(skeleton::GameDataRef Data) : State(Data) {}
+TestScene::TestScene() {}
 
-void TestState::on_init() {
+void TestScene::on_init() {
 	setupLuaState();
 	this->Systems.add<GraphicSystem>();
 }
 
-void TestState::setupLuaState() {
+void TestScene::setupLuaState() {
 	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
 					 sol::lib::io, sol::lib::os);
 	this->set_engine_user_types();
 	L.script_file("assets/scripts/test_state.lua");
 	sol::table gc = L["actor_parameters"]["graphic_parameters"];
-	Actor actor_instance = this->Actors.create<Actor>(this->data, gc);
+	Actor actor_instance = this->Actors.create<Actor>(gc);
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
@@ -27,14 +27,14 @@ void TestState::setupLuaState() {
 	this->script_handle_input = L["handle_input"];
 }
 
-void TestState::on_input(SDL_Event &event) { this->script_handle_input(event); }
+void TestScene::on_input(SDL_Event &event) { this->script_handle_input(event); }
 
-void TestState::on_update(float dt) {
+void TestScene::on_update(float dt) {
 	this->Systems.update(dt);
 	this->script_on_update(dt);
 }
 
-void TestState::create_debug_window() {
+void TestScene::create_debug_window() {
 	// ImGui::Begin("Test State");
 	// console.Draw("Console: Test State", &is_open, L);
 	// this->data->log_engine();
@@ -50,7 +50,7 @@ void TestState::create_debug_window() {
 	// ImGui::End();
 }
 
-void TestState::on_draw() {
+void TestScene::on_draw() {
 	for (auto entity : Actors.with<GraphicComponent, PositionComponent>()) {
 		// entity.get<GraphicComponent>().sprite.setPosition(
 		// 	entity.get<PositionComponent>().x,
@@ -58,3 +58,5 @@ void TestState::on_draw() {
 		// this->data->render_window.draw(entity.get<GraphicComponent>().sprite);
 	}
 }
+
+void TestScene::on_destroy() {}

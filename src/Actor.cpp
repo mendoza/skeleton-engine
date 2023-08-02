@@ -1,7 +1,7 @@
 #include <Actor.hpp>
 
-Actor::Actor(skeleton::GameDataRef data, sol::table graphic_component) {
-	this->add<GraphicComponent>(data, graphic_component);
+Actor::Actor(sol::table graphic_component) {
+	this->add<GraphicComponent>(graphic_component);
 	this->add<PositionComponent>(0, 0);
 }
 

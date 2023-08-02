@@ -6,17 +6,17 @@
 #include <SDL2/SDL.h>
 #include <memory>
 namespace skeleton {
-class StateMachine;
+class SceneManager;
 class GameData {
   public:
 	GameData();
 	~GameData();
-	StateMachine *state_machine;
+	SceneManager *state_machine;
 	AssetManager asset_manager;
 	bool is_running;
 	float fps;
 	bool debug_mode;
-	void set_state_machine(StateMachine *);
+	void set_state_machine(SceneManager *);
 	void log_engine();
 };
 

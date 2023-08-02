@@ -6,7 +6,7 @@ GameData::GameData() {}
 
 GameData::~GameData() {}
 
-void GameData::set_state_machine(StateMachine *new_ptr) {
+void GameData::set_state_machine(SceneManager *new_ptr) {
 	this->state_machine = new_ptr;
 }
 

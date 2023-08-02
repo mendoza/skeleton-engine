@@ -3,7 +3,7 @@
 
 #include <GameData.hpp>
 #include <SDL2/SDL.h>
-#include <StateMachine.hpp>
+#include <SceneManager.hpp>
 #include <chrono>
 
 namespace skeleton {

@@ -3,20 +3,20 @@
 
 #include <Actor.hpp>
 #include <Components.hpp>
-#include <ConsoleWidget.hpp>
 #include <OpenECS.hpp>
 #include <SDL2/SDL.h>
-#include <State.hpp>
+#include <Scene.hpp>
 #include <Systems.hpp>
 #include <sol.hpp>
 
-class TestState : public skeleton::State {
+class TestScene : public skeleton::Scene {
   public:
-	TestState(skeleton::GameDataRef data);
+	TestScene();
 	void on_init();
 	void on_input(SDL_Event &event);
 	void on_update(float dt);
 	void on_draw();
+	void on_destroy();
 	void create_debug_window();
 	void setupLuaState();
 

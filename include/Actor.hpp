@@ -9,7 +9,7 @@
 class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {
   public:
 	Actor() {}
-	Actor(skeleton::GameDataRef data, sol::table graphic_component);
+	Actor(sol::table graphic_component);
 	~Actor();
 	void flip_horizontal();
 	void flip_vertical();

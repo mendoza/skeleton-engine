@@ -23,11 +23,11 @@ class PositionComponent : public Component {
 
 class GraphicComponent : public Component {
   public:
-	GraphicComponent(skeleton::GameDataRef data, sol::table graphic_component) {
+	GraphicComponent(sol::table graphic_component) {
 		this->name = graphic_component["sprite_name"];
-		data->asset_manager.add_surface(this->name,
-										graphic_component["sprite_filepath"]);
-		this->spritesheet_image = data->asset_manager.get_surface(this->name);
+		// data->asset_manager.add_surface(this->name,
+		// 								graphic_component["sprite_filepath"]);
+		// this->spritesheet_image = data->asset_manager.get_surface(this->name);
 
 		if (graphic_component["animated"] != sol::nil) {
 			this->is_animated = graphic_component["animated"];
