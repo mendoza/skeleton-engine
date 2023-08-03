@@ -6,7 +6,9 @@ namespace skeleton {
 Engine::Engine(bool debug_mode) {
 	this->data->debug_mode = debug_mode;
 	this->data->set_state_machine(new SceneManager());
-	this->data->state_machine->add_scene(std::move(std::make_unique<SplashScene>()));
+	this->data->state_machine->add_scene(
+		std::move(std::make_unique<SplashScene>()));
+	this->serviceLocator = ServiceLocator();
 }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
@@ -15,7 +17,8 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 	}
-
+	std::unique_ptr<RenderService> rs = std::make_unique<RenderService>();
+	serviceLocator.Provide(std::move(rs));
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 
