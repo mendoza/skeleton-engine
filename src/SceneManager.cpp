@@ -1,7 +1,7 @@
 #include <SceneManager.hpp>
 
 namespace skeleton {
-void SceneManager::add_scene(std::unique_ptr<Scene> newState,
+void SceneManager::add_scene(SceneRef newState,
 							 bool isReplacing) {
 	this->is_adding = true;
 	this->is_replacing = isReplacing;
@@ -34,7 +34,5 @@ void SceneManager::process_scene_changes() {
 	}
 }
 
-std::unique_ptr<Scene> &SceneManager::get_active_scene() {
-	return this->scenes.top();
-}
+Scene *SceneManager::get_active_scene() { return this->scenes.top().get(); }
 }; // namespace skeleton

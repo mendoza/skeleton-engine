@@ -12,17 +12,17 @@ class SceneManager {
 	SceneManager() {}
 	~SceneManager() {}
 
-	void add_scene(std::unique_ptr<Scene> new_scene, bool is_replacing = true);
+	void add_scene(SceneRef new_scene, bool is_replacing = true);
 	void remove_scene();
 	void process_scene_changes();
-	std::unique_ptr<Scene> &get_active_scene();
+	Scene *get_active_scene();
 
   private:
-	std::stack<std::unique_ptr<Scene>> scenes;
-	std::unique_ptr<Scene> latest_scene;
-	bool is_removing;
-	bool is_adding;
-	bool is_replacing;
+	std::stack<SceneRef> scenes;
+	SceneRef latest_scene;
+	bool is_removing = false;
+	bool is_adding = false;
+	bool is_replacing = false;
 };
 }; // namespace skeleton
 

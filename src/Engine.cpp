@@ -6,9 +6,7 @@ namespace skeleton {
 Engine::Engine(bool debug_mode) {
 	this->data->debug_mode = debug_mode;
 	this->data->set_state_machine(new SceneManager());
-	;
-	this->data->state_machine->add_scene(
-		std::unique_ptr<skeleton::Scene>(new SplashScene()));
+	this->data->state_machine->add_scene(std::move(std::make_unique<SplashScene>()));
 }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,

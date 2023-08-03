@@ -16,7 +16,7 @@ void SplashScene::on_update(float dt) {
 	float Time = this->splash["time"];
 	if ((this->initial_time - SDL_GetPerformanceCounter()) > Time) {
 		// this->data->state_machine->add_scene(
-		// 	skeleton::SceneRef(new TestScene(this->data)));
+		// 	std::move(new TestScene()));
 	}
 }
 void SplashScene::create_debug_window() {

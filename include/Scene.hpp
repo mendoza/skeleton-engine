@@ -14,6 +14,7 @@ class Scene {
 	// ConsoleWidget console;
 	bool is_open = false;
 	Scene() {}
+	~Scene() {}
 	// User's Functions
 	virtual void on_init() = 0;
 	virtual void on_input(SDL_Event &event) = 0;
@@ -33,6 +34,7 @@ class Scene {
 
 	virtual void set_engine_user_types() { skeleton::setEngineMetadata(L); }
 };
+typedef std::unique_ptr<Scene> SceneRef;
 
 }; // namespace skeleton
 
