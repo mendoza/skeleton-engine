@@ -1,17 +1,17 @@
-# Skeleton Engine :skull: made with :heart:, :coffee: and some :beer:
+# Skeleton Engine :skull: made with :heart:, and mostly :beer:
 
-![License](https://img.shields.io/github/license/Dmendoza99/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/Dmendoza99/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/Dmendoza99/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/Dmendoza99/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/dmendoza99/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg)
+![License](https://img.shields.io/github/license/mendoza/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/mendoza/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/mendoza/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/mendoza/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/mendoza/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg)
 
 ![splash](assets/splash.png) 
 ## Description
 Small game engine framework , made with just 4 dependencies.
 
-1.  SFML [Repo](https://github.com/SFML/SFML)
+1.  SDL [Repo](https://github.com/libsdl-org/SDL)
 2.  OpenEcs [Repo](https://github.com/Gronis/OpenEcs)
 3.  Lua54 [Repo](https://github.com/lua/lua)
 4.  Sol3 [Repo](https://github.com/ThePhD/sol2)
 
-Which 3 of them are implemented on the source right away (OpenEcs, Sol3 and Lua)
+Which 3 of them are implemented on the source right away (OpenEcs, Sol3 and Lua) and sdl2's repo and sdl2_image's repo is cloned and compiled.
 
 ## Motivation
 
@@ -19,21 +19,16 @@ Just for fun and learning
 
 ## Installation
 
-Be sure to have sfml.
-
-```bash
-sudo apt-get install libsfml-dev #debian based OS
-```
-
 ```bash
 git clone https://github.com/mendoza/skeleton-engine
 cd skeleton-engine
 mkdir build
 cd build
 cmake .. 
-cmake -G "MinGW Makefiles" .. # For windows
+# For windows: cmake -G "MinGW Makefiles" ..
 make
-./main
+# For Windows: mingw32-make
+./skeleton
 ```
 
 ## Bugs 🐛
@@ -42,4 +37,4 @@ This project is getting upgrades in my free time if there is a problem please cr
 
 ## License
 
-- Licensed under [GNU GPLv3](https://github.com/Dmendoza99/Skeleton-Engine/blob/master/LICENSE)
+- Licensed under [GNU GPLv3](https://github.com/mendoza/Skeleton-Engine/blob/master/LICENSE)
