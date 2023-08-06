@@ -11,9 +11,6 @@ class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {
 	Actor() {}
 	Actor(sol::table graphic_component);
 	~Actor();
-	void flip_horizontal();
-	void flip_vertical();
-	void play_animation(std::string name);
 };
 
 #endif

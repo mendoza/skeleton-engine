@@ -2,10 +2,10 @@
 #define SKELETON_ENGINE_HPP
 
 #include <GameData.hpp>
-#include <RenderService.hpp>
 #include <SDL2/SDL.h>
 #include <SceneManager.hpp>
 #include <ServiceLocator.hpp>
+#include <SkeletonRenderer.hpp>
 #include <chrono>
 
 namespace skeleton {
@@ -19,7 +19,7 @@ class Engine {
   private:
 	GameDataRef data = std::make_shared<GameData>();
 	void run();
-	ServiceLocator serviceLocator;
+	ServiceLocator locator;
 };
 }; // namespace skeleton
 

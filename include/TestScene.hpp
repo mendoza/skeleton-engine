@@ -8,10 +8,10 @@
 #include <Scene.hpp>
 #include <Systems.hpp>
 #include <sol.hpp>
-
 class TestScene : public skeleton::Scene {
   public:
 	TestScene();
+	~TestScene();
 	void on_init();
 	void on_input(SDL_Event &event);
 	void on_update(float dt);
@@ -26,6 +26,7 @@ class TestScene : public skeleton::Scene {
 	ecs::SystemManager Systems = ecs::SystemManager(Actors);
 	sol::function script_on_update;
 	sol::function script_handle_input;
+	skeleton::Spritesheet *spritesheet;
 };
 
 #endif

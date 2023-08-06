@@ -3,8 +3,8 @@
 namespace skeleton {
 class Service {
   public:
-	Service();
-	~Service();
+	Service() {}
+	~Service() {}
 };
 } // namespace skeleton
 #endif

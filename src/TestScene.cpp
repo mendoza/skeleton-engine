@@ -2,6 +2,8 @@
 
 TestScene::TestScene() {}
 
+TestScene::~TestScene() {}
+
 void TestScene::on_init() {
 	setupLuaState();
 	this->Systems.add<GraphicSystem>();
@@ -17,10 +19,6 @@ void TestScene::setupLuaState() {
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
-
-	actor_type["flip_horizontal"] = &Actor::flip_horizontal;
-	actor_type["flip_vertical"] = &Actor::flip_vertical;
-	actor_type["play_animation"] = &Actor::play_animation;
 
 	L["actor"] = actor_instance;
 	this->script_on_update = L["on_update"];
@@ -50,13 +48,6 @@ void TestScene::create_debug_window() {
 	// ImGui::End();
 }
 
-void TestScene::on_draw() {
-	for (auto entity : Actors.with<GraphicComponent, PositionComponent>()) {
-		// entity.get<GraphicComponent>().sprite.setPosition(
-		// 	entity.get<PositionComponent>().x,
-		// 	entity.get<PositionComponent>().y);
-		// this->data->render_window.draw(entity.get<GraphicComponent>().sprite);
-	}
-}
+void TestScene::on_draw() {}
 
 void TestScene::on_destroy() {}

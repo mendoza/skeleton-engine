@@ -1,8 +1,12 @@
 #include <SplashScene.hpp>
-// #include <TestScene.hpp>
 
-SplashScene::SplashScene() {}
+SplashScene::SplashScene() {
+	this->spritesheet =
+		new skeleton::Spritesheet("assets/spritesheets/player.png", 4, 3);
+	this->spritesheet->select_sprite(0, 0);
+}
 
+SplashScene::~SplashScene() { delete this->spritesheet; }
 void SplashScene::on_init() {
 	L.script_file("assets/scripts/config.lua");
 	this->config = L["config"];
@@ -31,6 +35,8 @@ void SplashScene::on_draw() {
 	int r = this->splash["background"]["r"];
 	int g = this->splash["background"]["g"];
 	int b = this->splash["background"]["b"];
+	locator.get<skeleton::SkeletonRenderer>()->drawSprite(spritesheet, 200,
+														  200);
 	// Get window surface
 	// this->data->screenSurface = SDL_GetWindowSurface(this->data->window);
 

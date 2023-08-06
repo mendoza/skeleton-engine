@@ -3,11 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
+#include <Service.hpp>
 #include <map>
 #include <string>
 
 namespace skeleton {
-class AssetManager {
+class AssetManager : Service {
 
   public:
 	AssetManager() {}

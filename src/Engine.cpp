@@ -6,9 +6,6 @@ namespace skeleton {
 Engine::Engine(bool debug_mode) {
 	this->data->debug_mode = debug_mode;
 	this->data->set_state_machine(new SceneManager());
-	this->data->state_machine->add_scene(
-		std::move(std::make_unique<SplashScene>()));
-	this->serviceLocator = ServiceLocator();
 }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
@@ -17,8 +14,17 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 	}
-	std::unique_ptr<RenderService> rs = std::make_unique<RenderService>();
-	serviceLocator.Provide(std::move(rs));
+	SDL_Window *window = SDL_CreateWindow(
+		Title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width,
+		height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+
+	SDL_Renderer *renderer =
+		SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	locator.provide<SkeletonRenderer>(
+		std::make_unique<SkeletonRenderer>(window, renderer));
+
+	this->data->state_machine->add_scene(std::make_unique<SplashScene>());
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 
@@ -26,9 +32,6 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 }
 
 void Engine::run() {
-	auto window = SDL_CreateWindow("WENAS", SDL_WINDOWPOS_UNDEFINED,
-								   SDL_WINDOWPOS_UNDEFINED, 800, 800,
-								   SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	uint64_t NOW = SDL_GetPerformanceCounter();
 	uint64_t LAST = 0;
 	double deltaTime = 0;
@@ -62,24 +65,25 @@ void Engine::run() {
 
 		this->data->fps = 1.0f / deltaTime;
 
+		// if (this->data->debug_mode)
+		// ImGui::SFML::Update(this->data->render_window,
+		// 					deltaClock.restart());
+
+		// this->data->render_window.clear(sf::Color(125, 125, 125));
+		locator.get<SkeletonRenderer>()->clear();
+
 		if (this->data->debug_mode)
-			// ImGui::SFML::Update(this->data->render_window,
-			// 					deltaClock.restart());
-
-			// this->data->render_window.clear(sf::Color(125, 125, 125));
-
-			if (this->data->debug_mode)
-				this->data->state_machine->get_active_scene()
-					->create_debug_window();
+			this->data->state_machine->get_active_scene()
+				->create_debug_window();
 
 		this->data->state_machine->get_active_scene()->draw();
 
 		// if (this->data->debug_mode)
 		// 	ImGui::SFML::Render(this->data->render_window);
-		SDL_UpdateWindowSurface(window);
+		locator.get<SkeletonRenderer>()->update();
 	}
 	// ImGui::SFML::Shutdown();
-	SDL_DestroyWindow(window);
+	SDL_DestroyWindow(locator.get<SkeletonRenderer>()->window);
 	SDL_Quit();
 }
 }; // namespace skeleton
