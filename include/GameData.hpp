@@ -12,7 +12,6 @@ class GameData {
 	GameData();
 	~GameData();
 	SceneManager *state_machine;
-	AssetManager asset_manager;
 	bool is_running;
 	float fps;
 	bool debug_mode;

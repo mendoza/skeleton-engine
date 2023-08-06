@@ -8,23 +8,13 @@
 #include <string>
 
 namespace skeleton {
-class AssetManager : Service {
+class AssetManager : public Service {
 
   public:
 	AssetManager() {}
-	~AssetManager() {
-		// go key by key removing surfaces
 
-		for (const auto &myPair : this->surfaces) {
-			SDL_FreeSurface(myPair.second);
-		}
-	}
-
-	void add_surface(std::string name, std::string file_name);
-	SDL_Surface *get_surface(std::string name);
-
-  private:
-	std::map<std::string, SDL_Surface *> surfaces;
+	virtual void add_surface(std::string name, std::string file_name) = 0;
+	virtual SDL_Surface *get_surface(std::string name) = 0;
 };
 }; // namespace skeleton
 

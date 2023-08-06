@@ -6,6 +6,7 @@ namespace skeleton {
 Engine::Engine(bool debug_mode) {
 	this->data->debug_mode = debug_mode;
 	this->data->set_state_machine(new SceneManager());
+	this->data->state_machine->add_scene(std::make_unique<SplashScene>());
 }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
@@ -24,7 +25,9 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	locator.provide<SkeletonRenderer>(
 		std::make_unique<SkeletonRenderer>(window, renderer));
 
-	this->data->state_machine->add_scene(std::make_unique<SplashScene>());
+	locator.provide<SkeletonAssetsManager>(
+		std::make_unique<SkeletonAssetsManager>());
+
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 

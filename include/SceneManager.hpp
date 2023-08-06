@@ -10,7 +10,12 @@ class SceneManager {
 
   public:
 	SceneManager() {}
-	~SceneManager() {}
+	~SceneManager() {
+		while (!this->scenes.empty()) {
+			delete this->scenes.top().get();
+			this->scenes.pop();
+		}
+	}
 
 	void add_scene(SceneRef new_scene, bool is_replacing = true);
 	void remove_scene();

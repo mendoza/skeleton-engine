@@ -1,8 +1,7 @@
 #include <SceneManager.hpp>
 
 namespace skeleton {
-void SceneManager::add_scene(SceneRef newState,
-							 bool isReplacing) {
+void SceneManager::add_scene(SceneRef newState, bool isReplacing) {
 	this->is_adding = true;
 	this->is_replacing = isReplacing;
 	this->latest_scene = std::move(newState);
@@ -12,6 +11,7 @@ void SceneManager::remove_scene() { this->is_removing = true; }
 
 void SceneManager::process_scene_changes() {
 	if (this->is_removing && !this->scenes.empty()) {
+		this->scenes.top().get()->destroy();
 		this->scenes.pop();
 		if (!this->scenes.empty()) {
 			this->scenes.top()->resume();
