@@ -4,7 +4,7 @@ namespace skeleton {
 Spritesheet::Spritesheet(char *path, int row, int column) {
 	this->spritesheet_image = IMG_Load(path);
 
-	this->clip.w = spritesheet_image->w / column;
+  	this->clip.w = spritesheet_image->w / column;
 	this->clip.h = spritesheet_image->h / row;
 }
 

@@ -1,15 +1,15 @@
-#include <SceneManager.hpp>
+#include <SkeletonSceneManager.hpp>
 
 namespace skeleton {
-void SceneManager::add_scene(SceneRef newState, bool isReplacing) {
+void SkeletonSceneManager::add_scene(SceneRef newState, bool isReplacing) {
 	this->is_adding = true;
 	this->is_replacing = isReplacing;
 	this->latest_scene = std::move(newState);
 }
 
-void SceneManager::remove_scene() { this->is_removing = true; }
+void SkeletonSceneManager::remove_scene() { this->is_removing = true; }
 
-void SceneManager::process_scene_changes() {
+void SkeletonSceneManager::process_scene_changes() {
 	if (this->is_removing && !this->scenes.empty()) {
 		this->scenes.top().get()->destroy();
 		this->scenes.pop();
@@ -34,5 +34,7 @@ void SceneManager::process_scene_changes() {
 	}
 }
 
-Scene *SceneManager::get_active_scene() { return this->scenes.top().get(); }
+Scene *SkeletonSceneManager::get_active_scene() {
+	return this->scenes.top().get();
+}
 }; // namespace skeleton

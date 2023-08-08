@@ -3,11 +3,7 @@
 
 namespace skeleton {
 
-Engine::Engine(bool debug_mode) {
-	this->data->debug_mode = debug_mode;
-	this->data->set_state_machine(new SceneManager());
-	this->data->state_machine->add_scene(std::make_unique<SplashScene>());
-}
+Engine::Engine(bool debug_mode) { this->data->debug_mode = debug_mode; }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 						  std::string IconFile, bool fullscreen) {
@@ -28,6 +24,11 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	locator.provide<SkeletonAssetsManager>(
 		std::make_unique<SkeletonAssetsManager>());
 
+	locator.provide<SkeletonSceneManager>(
+		std::make_unique<SkeletonSceneManager>());
+
+	locator.get<SkeletonSceneManager>()->add_scene(
+		std::make_unique<SplashScene>());
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 
@@ -39,7 +40,7 @@ void Engine::run() {
 	uint64_t LAST = 0;
 	double deltaTime = 0;
 	while (this->data->is_running) {
-		this->data->state_machine->process_scene_changes();
+		locator.get<SkeletonSceneManager>()->process_scene_changes();
 
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
@@ -51,7 +52,9 @@ void Engine::run() {
 		while (SDL_PollEvent(&event)) {
 			// if (this->data->debug_mode)
 			// 	ImGui::SFML::ProcessEvent(event);
-			this->data->state_machine->get_active_scene()->handle_input(event);
+			locator.get<SkeletonSceneManager>()
+				->get_active_scene()
+				->handle_input(event);
 			switch (event.type) {
 				case SDL_QUIT: {
 					this->data->is_running = false;
@@ -64,7 +67,8 @@ void Engine::run() {
 			}
 		}
 
-		this->data->state_machine->get_active_scene()->update(deltaTime);
+		locator.get<SkeletonSceneManager>()->get_active_scene()->update(
+			deltaTime);
 
 		this->data->fps = 1.0f / deltaTime;
 
@@ -76,10 +80,11 @@ void Engine::run() {
 		locator.get<SkeletonRenderer>()->clear();
 
 		if (this->data->debug_mode)
-			this->data->state_machine->get_active_scene()
+			locator.get<SkeletonSceneManager>()
+				->get_active_scene()
 				->create_debug_window();
 
-		this->data->state_machine->get_active_scene()->draw();
+		locator.get<SkeletonSceneManager>()->get_active_scene()->draw();
 
 		// if (this->data->debug_mode)
 		// 	ImGui::SFML::Render(this->data->render_window);

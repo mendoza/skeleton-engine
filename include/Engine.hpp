@@ -7,6 +7,7 @@
 #include <ServiceLocator.hpp>
 #include <SkeletonRenderer.hpp>
 #include <SkeletonAssetsManager.hpp>
+#include <SkeletonSceneManager.hpp>
 #include <chrono>
 
 namespace skeleton {

@@ -8,6 +8,14 @@ namespace skeleton {
 class ServiceLocator {
 
   public:
+	ServiceLocator() {}
+	~ServiceLocator() {
+		std::cout << "bai" << std::endl;
+		for (auto &it : services) {
+			std::unique_ptr ptr = std::move(it.second);
+			ptr.reset();
+		}
+	}
 	template <typename ServiceType>
 	static void provide(std::unique_ptr<ServiceType> new_service) {
 		static_assert(std::is_base_of<Service, ServiceType>::value,
