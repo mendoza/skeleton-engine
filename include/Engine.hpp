@@ -5,23 +5,25 @@
 #include <SDL2/SDL.h>
 #include <SceneManager.hpp>
 #include <ServiceLocator.hpp>
-#include <SkeletonRenderer.hpp>
 #include <SkeletonAssetsManager.hpp>
+#include <SkeletonRenderer.hpp>
 #include <SkeletonSceneManager.hpp>
 #include <chrono>
 
 namespace skeleton {
 
 class Engine {
+  private:
+	bool is_running = true;
+	bool debug_mode = true;
+	ServiceLocator locator;
+
   public:
 	Engine(bool debug_mode = false);
 	void build_window(uint32_t width, uint32_t height, std::string Title,
 					  std::string IconFile, bool fullscreen);
-
-  private:
-	GameDataRef data = std::make_shared<GameData>();
 	void run();
-	ServiceLocator locator;
+
 };
 }; // namespace skeleton
 

@@ -15,5 +15,6 @@ int main(int argv, char **args) {
 	bool fullscreen = config["fullscreen"];
 	skeleton::Engine engine(debug_mode);
 	engine.build_window(Width, Height, title, icon, fullscreen);
+	engine.run();
 	return 0;
 }

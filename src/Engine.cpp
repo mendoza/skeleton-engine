@@ -3,7 +3,7 @@
 
 namespace skeleton {
 
-Engine::Engine(bool debug_mode) { this->data->debug_mode = debug_mode; }
+Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 						  std::string IconFile, bool fullscreen) {
@@ -32,14 +32,13 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 
-	this->run();
 }
 
 void Engine::run() {
 	uint64_t NOW = SDL_GetPerformanceCounter();
 	uint64_t LAST = 0;
 	double deltaTime = 0;
-	while (this->data->is_running) {
+	while (is_running) {
 		locator.get<SkeletonSceneManager>()->process_scene_changes();
 
 		LAST = NOW;
@@ -57,7 +56,7 @@ void Engine::run() {
 				->handle_input(event);
 			switch (event.type) {
 				case SDL_QUIT: {
-					this->data->is_running = false;
+					is_running = false;
 					break;
 				}
 
@@ -70,7 +69,7 @@ void Engine::run() {
 		locator.get<SkeletonSceneManager>()->get_active_scene()->update(
 			deltaTime);
 
-		this->data->fps = 1.0f / deltaTime;
+		
 
 		// if (this->data->debug_mode)
 		// ImGui::SFML::Update(this->data->render_window,
@@ -79,7 +78,7 @@ void Engine::run() {
 		// this->data->render_window.clear(sf::Color(125, 125, 125));
 		locator.get<SkeletonRenderer>()->clear();
 
-		if (this->data->debug_mode)
+		if (debug_mode)
 			locator.get<SkeletonSceneManager>()
 				->get_active_scene()
 				->create_debug_window();
