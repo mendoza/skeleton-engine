@@ -11,10 +11,11 @@ namespace skeleton {
 class Scene {
   public:
 	sol::state L;
-	skeleton::Logger *logger;
+	skeleton::Logger *logger = skeleton::Logger::get_instance();
+
 	// ConsoleWidget console;
 	bool is_open = false;
-	Scene() { logger = skeleton::Logger::get_instance(); }
+	Scene() {}
 	~Scene() { logger->log("scene destroy"); }
 	// User's Functions
 	virtual void on_init() = 0;
@@ -35,8 +36,6 @@ class Scene {
 	virtual void handle_input(SDL_Event &event) { on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
 	virtual void destroy() { this->on_destroy(); }
-
-	virtual void set_engine_user_types() { skeleton::setEngineMetadata(L); }
 };
 typedef std::unique_ptr<Scene> SceneRef;
 

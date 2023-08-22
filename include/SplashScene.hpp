@@ -25,7 +25,6 @@ class SplashScene : public skeleton::Scene {
 	uint64_t initial_time = SDL_GetPerformanceCounter();
 	sol::table config;
 	sol::table splash;
-	skeleton::Spritesheet *spritesheet;
 	skeleton::ServiceLocator locator;
 };
 

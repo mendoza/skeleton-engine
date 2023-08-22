@@ -26,7 +26,6 @@ class TestScene : public skeleton::Scene {
 	ecs::SystemManager Systems = ecs::SystemManager(Actors);
 	sol::function script_on_update;
 	sol::function script_handle_input;
-	skeleton::Spritesheet *spritesheet;
 };
 
 #endif

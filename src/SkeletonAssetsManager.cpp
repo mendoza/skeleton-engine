@@ -3,17 +3,27 @@
 namespace skeleton {
 SkeletonAssetsManager::SkeletonAssetsManager() {}
 
-SkeletonAssetsManager::~SkeletonAssetsManager() {}
-
-void SkeletonAssetsManager::add_surface(std::string name,
-										std::string file_name) {
-	SDL_Surface *surf = IMG_Load(file_name.c_str());
-	if (this->surfaces.find(name) == this->surfaces.end()) {
-		this->surfaces[name] = surf;
+SkeletonAssetsManager::~SkeletonAssetsManager() {
+	for (auto &&p : this->textures) {
+		SDL_DestroyTexture(p.second);
 	}
+	this->textures.clear();
 }
 
-SDL_Surface *SkeletonAssetsManager::get_surface(std::string name) {
-	return this->surfaces.at(name);
+void SkeletonAssetsManager::add_texture(std::string name,
+										std::string file_name) {
+	SDL_Surface *surf = IMG_Load(file_name.c_str());
+	ServiceLocator locator;
+	SDL_Texture *text = SDL_CreateTextureFromSurface(
+		locator.get<SkeletonRenderer>()->renderer, surf);
+
+	if (this->textures.find(name) == this->textures.end()) {
+		this->textures[name] = text;
+	}
+	SDL_FreeSurface(surf);
+}
+
+SDL_Texture *SkeletonAssetsManager::get_texture(std::string name) {
+	return this->textures.at(name);
 }
 } // namespace skeleton

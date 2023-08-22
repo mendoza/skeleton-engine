@@ -16,6 +16,7 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/include",
+                "${workspaceFolder}/include"
             ],
             "defines": [],
             "compilerPath": "C:/mingw64/bin/g++.exe",

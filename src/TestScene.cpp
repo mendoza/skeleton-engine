@@ -12,7 +12,7 @@ void TestScene::on_init() {
 void TestScene::setupLuaState() {
 	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
 					 sol::lib::io, sol::lib::os);
-	this->set_engine_user_types();
+	skeleton::setEngineMetadata(this->L);
 	L.script_file("assets/scripts/test_state.lua");
 	sol::table gc = L["actor_parameters"]["graphic_parameters"];
 	Actor actor_instance = this->Actors.create<Actor>(gc);

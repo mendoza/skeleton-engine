@@ -3,6 +3,8 @@
 #include <AssetManager.hpp>
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
+#include <ServiceLocator.hpp>
+#include <SkeletonRenderer.hpp>
 #include <string>
 
 namespace skeleton {
@@ -10,9 +12,9 @@ class SkeletonAssetsManager : public AssetManager {
   public:
 	SkeletonAssetsManager();
 	~SkeletonAssetsManager();
-	void add_surface(std::string name, std::string file_name);
-	SDL_Surface *get_surface(std::string name);
-	std::map<std::string, SDL_Surface *> surfaces;
+	void add_texture(std::string name, std::string file_name);
+	SDL_Texture *get_texture(std::string name);
+	std::map<std::string, SDL_Texture *> textures;
 };
 } // namespace skeleton
 #endif
