@@ -16,10 +16,10 @@ void TestScene::setupLuaState() {
 	L.script_file("assets/scripts/test_state.lua");
 	sol::table ac = L["actor_parameters"];
 	sol::table gc = ac["graphic_parameters"];
-	Actor actor_instance = this->Actors.create<Actor>(gc);
+	Actor actor_instance = this->entities.create<Actor>(gc);
 
-	sol::usertype<Actor> actor_type =
-		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
+	sol::usertype<Actor> actor_type = L.new_usertype<Actor>(
+		"Actor", sol::constructors<Actor()>());
 
 	L["actor"] = actor_instance;
 	this->script_on_update = L["on_update"];
@@ -33,7 +33,7 @@ void TestScene::on_update(float dt) {
 	this->script_on_update(dt);
 }
 
-void TestScene::create_debug_window() {
+void TestScene::draw_debug_window() {
 	// ImGui::Begin("Test State");
 	// console.Draw("Console: Test State", &is_open, L);
 	// this->data->log_engine();
@@ -49,6 +49,11 @@ void TestScene::create_debug_window() {
 	// ImGui::End();
 }
 
-void TestScene::on_draw() {}
+void TestScene::on_draw() {
+	for (auto entity : entities.with<GraphicComponent>()) {
+		this->locator.get<skeleton::SkeletonRenderer>()->drawSprite(
+			entity.get<GraphicComponent>().spritesheet, 200, 200);
+	}
+}
 
 void TestScene::on_destroy() {}

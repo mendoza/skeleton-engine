@@ -8,6 +8,7 @@
 #include <Scene.hpp>
 #include <Systems.hpp>
 #include <sol.hpp>
+#include<SkeletonRenderer.hpp>
 class TestScene : public skeleton::Scene {
   public:
 	TestScene();
@@ -17,13 +18,13 @@ class TestScene : public skeleton::Scene {
 	void on_update(float dt);
 	void on_draw();
 	void on_destroy();
-	void create_debug_window();
+	void draw_debug_window();
 	void setupLuaState();
 
   private:
 	SDL_Surface *background;
-	ecs::EntityManager Actors;
-	ecs::SystemManager Systems = ecs::SystemManager(Actors);
+	ecs::EntityManager entities;
+	ecs::SystemManager Systems = ecs::SystemManager(entities);
 	sol::function script_on_update;
 	sol::function script_handle_input;
 };

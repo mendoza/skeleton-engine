@@ -24,6 +24,7 @@ class PositionComponent : public Component {
 
 class GraphicComponent : public Component {
   public:
+	skeleton::Spritesheet *spritesheet;
 	GraphicComponent(sol::table graphic_component) {
 		std::string sprite_filepath = graphic_component["sprite_filepath"];
 		std::cout << sprite_filepath << std::endl;
@@ -46,9 +47,6 @@ class GraphicComponent : public Component {
 		// 	this->frame_rect.y = this->current_row * this->frame_rect.h;
 		// }
 	}
-
-  private:
-	skeleton::Spritesheet *spritesheet;
 };
 
 #endif

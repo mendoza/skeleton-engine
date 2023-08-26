@@ -4,38 +4,44 @@
 #include <GameData.hpp>
 #include <Logger.hpp>
 #include <SDL2/SDL.h>
+#include <ServiceLocator.hpp>
 #include <Utils.hpp>
 #include <memory>
 #include <sol.hpp>
 namespace skeleton {
 class Scene {
-  public:
+  protected:
 	sol::state L;
 	skeleton::Logger *logger = skeleton::Logger::get_instance();
+	skeleton::ServiceLocator locator;
 
-	// ConsoleWidget console;
-	bool is_open = false;
-	Scene() {}
-	~Scene() { logger->log("scene destroy"); }
 	// User's Functions
 	virtual void on_init() = 0;
 	virtual void on_input(SDL_Event &event) = 0;
 	virtual void on_update(float dt) = 0;
 	virtual void on_draw() = 0;
 	virtual void on_destroy() = 0;
-	virtual void create_debug_window() = 0;
+
+  public:
+	bool is_open = false;
+	Scene() {}
+	~Scene() {}
 
 	// Engine's Functions
 	virtual void pause() {}
 	virtual void resume() {}
 	virtual void init() {
 		logger->log("scene init");
-		on_init();
+		this->on_init();
 	}
-	virtual void draw() { on_draw(); }
-	virtual void handle_input(SDL_Event &event) { on_input(event); }
+	virtual void draw() { this->on_draw(); }
+	virtual void handle_input(SDL_Event &event) { this->on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
-	virtual void destroy() { this->on_destroy(); }
+	virtual void destroy() {
+		logger->log("scene destroy");
+		this->on_destroy();
+	}
+	virtual void draw_debug_window() = 0;
 };
 typedef std::unique_ptr<Scene> SceneRef;
 

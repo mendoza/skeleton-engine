@@ -60,7 +60,7 @@ add_custom_command(
   TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND}
-  ARGS -E copy_directory_if_different "${PROJECT_SOURCE_DIR}/assets" "${PROJECT_SOURCE_DIR}/build/assets"
+  ARGS -E copy_directory "${PROJECT_SOURCE_DIR}/assets" "${PROJECT_SOURCE_DIR}/build/assets"
   COMMENT "Copying Assets Bundle"
 )
 

@@ -9,11 +9,12 @@ class SkeletonRenderer : public Renderer {
 	SkeletonRenderer();
 	SkeletonRenderer(SDL_Window *window, SDL_Renderer *renderer);
 	~SkeletonRenderer();
-	SDL_Window *window;
-	SDL_Renderer *renderer;
 	void drawSprite(Spritesheet *spritesheet, int x, int y);
 	void update();
 	void clear();
+
+	SDL_Window *window;
+	SDL_Renderer *renderer;
 };
 } // namespace skeleton
 #endif

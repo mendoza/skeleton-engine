@@ -6,6 +6,7 @@
 namespace skeleton {
 class Renderer : public Service {
   public:
+	Renderer() {}
 	~Renderer() {}
 	virtual void drawSprite(Spritesheet *spritesheet, int x, int y) = 0;
 	virtual void update() = 0;

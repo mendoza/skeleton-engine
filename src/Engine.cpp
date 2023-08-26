@@ -4,6 +4,7 @@
 namespace skeleton {
 
 Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
+Engine::~Engine() {}
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 						  std::string IconFile, bool fullscreen) {
@@ -31,7 +32,6 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 		std::make_unique<SplashScene>());
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
-
 }
 
 void Engine::run() {
@@ -39,8 +39,6 @@ void Engine::run() {
 	uint64_t LAST = 0;
 	double deltaTime = 0;
 	while (is_running) {
-		locator.get<SkeletonSceneManager>()->process_scene_changes();
-
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 
@@ -69,8 +67,6 @@ void Engine::run() {
 		locator.get<SkeletonSceneManager>()->get_active_scene()->update(
 			deltaTime);
 
-		
-
 		// if (this->data->debug_mode)
 		// ImGui::SFML::Update(this->data->render_window,
 		// 					deltaClock.restart());
@@ -81,7 +77,7 @@ void Engine::run() {
 		if (debug_mode)
 			locator.get<SkeletonSceneManager>()
 				->get_active_scene()
-				->create_debug_window();
+				->draw_debug_window();
 
 		locator.get<SkeletonSceneManager>()->get_active_scene()->draw();
 

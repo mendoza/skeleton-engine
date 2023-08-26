@@ -5,7 +5,6 @@
 
 namespace skeleton {
 class SkeletonSceneManager : public SceneManager {
-
   public:
 	SkeletonSceneManager() {}
 	~SkeletonSceneManager() {
@@ -19,8 +18,10 @@ class SkeletonSceneManager : public SceneManager {
 
 	void add_scene(SceneRef new_scene, bool is_replacing = true);
 	void remove_scene();
-	void process_scene_changes();
 	Scene *get_active_scene();
+
+  protected:
+	std::stack<SceneRef> scenes;
 };
 }; // namespace skeleton
 

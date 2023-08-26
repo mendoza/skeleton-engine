@@ -20,10 +20,10 @@ class Engine {
 
   public:
 	Engine(bool debug_mode = false);
+	~Engine();
 	void build_window(uint32_t width, uint32_t height, std::string Title,
 					  std::string IconFile, bool fullscreen);
 	void run();
-
 };
 }; // namespace skeleton
 
