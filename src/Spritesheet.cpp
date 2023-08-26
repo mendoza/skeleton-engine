@@ -1,10 +1,10 @@
 #include <Spritesheet.hpp>
 
 namespace skeleton {
-Spritesheet::Spritesheet(char *path, int row, int column) {
-	this->spritesheet_image = IMG_Load(path);
+Spritesheet::Spritesheet(std::string path, int row, int column) {
+	this->spritesheet_image = IMG_Load(path.c_str());
 
-  	this->clip.w = spritesheet_image->w / column;
+	this->clip.w = spritesheet_image->w / column;
 	this->clip.h = spritesheet_image->h / row;
 }
 

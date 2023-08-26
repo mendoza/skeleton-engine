@@ -22,7 +22,7 @@ class SplashScene : public skeleton::Scene {
 
   private:
 	SDL_Surface *background;
-	uint64_t initial_time = SDL_GetPerformanceCounter();
+	uint64_t start_time = SDL_GetPerformanceCounter();
 	sol::table config;
 	sol::table splash;
 	skeleton::ServiceLocator locator;

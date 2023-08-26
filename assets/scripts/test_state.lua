@@ -47,37 +47,36 @@ actor_parameters = {
     }
 }
 
-direction = vector_2f.new(0.0, 0.0)
 speed = 0
 function on_update(dt)
-    direction = actor:get_direction()
-    new_direction = vector_2f.new(direction.x * (speed * dt), direction.y * (speed * dt))
-    actor:move(new_direction)
+    -- direction = actor:get_direction()
+    -- new_direction = vector_2f.new(direction.x * (speed * dt), direction.y * (speed * dt))
+    -- actor:move(new_direction)
 end
 
 function handle_input(event)
-    if event.type == skeleton.event_type.key_pressed then
-        direction = actor:get_direction()
-        if event.key.code == skeleton.keyboard["right"] then
-            if (direction.x < 0) then
-                actor:flip_horizontal()
-            end
-            actor:play_animation("walking", true)
-            speed = 100
-        elseif event.key.code == skeleton.keyboard["left"] then
-            if (direction.x > 0) then
-                actor:flip_horizontal()
-            end
-            actor:play_animation("walking", true)
-            speed = 100
-        elseif event.key.code == skeleton.keyboard["space"] then
-            actor:play_animation("punching", false)
-            speed = 0
-        end
-    elseif event.type == skeleton.event_type.key_released then
-        if event.key.code == skeleton.keyboard["right"] or event.key.code == skeleton.keyboard["left"] then
-            speed = 0
-            actor:play_animation("idle", false)
-        end
-    end
+    -- if event.type == skeleton.event_type.key_pressed then
+    --     direction = actor:get_direction()
+    --     if event.key.code == skeleton.keyboard["right"] then
+    --         if (direction.x < 0) then
+    --             actor:flip_horizontal()
+    --         end
+    --         actor:play_animation("walking", true)
+    --         speed = 100
+    --     elseif event.key.code == skeleton.keyboard["left"] then
+    --         if (direction.x > 0) then
+    --             actor:flip_horizontal()
+    --         end
+    --         actor:play_animation("walking", true)
+    --         speed = 100
+    --     elseif event.key.code == skeleton.keyboard["space"] then
+    --         actor:play_animation("punching", false)
+    --         speed = 0
+    --     end
+    -- elseif event.type == skeleton.event_type.key_released then
+    --     if event.key.code == skeleton.keyboard["right"] or event.key.code == skeleton.keyboard["left"] then
+    --         speed = 0
+    --         actor:play_animation("idle", false)
+    --     end
+    -- end
 end

@@ -11,13 +11,7 @@ class SceneManager : public Service {
 
   public:
 	SceneManager() {}
-	~SceneManager() {
-		while (!this->scenes.empty()) {
-			std::unique_ptr ptr = std::move(this->scenes.top());
-			ptr.reset();
-			this->scenes.pop();
-		}
-	}
+	~SceneManager() {}
 
 	virtual void add_scene(SceneRef new_scene, bool is_replacing = true) = 0;
 	virtual void remove_scene() = 0;

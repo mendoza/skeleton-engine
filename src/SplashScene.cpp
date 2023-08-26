@@ -6,6 +6,7 @@
 SplashScene::SplashScene() {}
 
 SplashScene::~SplashScene() {}
+
 void SplashScene::on_init() {
 	L.script_file("assets/scripts/config.lua");
 	this->config = L["config"];
@@ -13,16 +14,24 @@ void SplashScene::on_init() {
 	std::string file_path = this->splash["backgroud_img_file"];
 	locator.get<skeleton::SkeletonAssetsManager>()->add_texture(
 		"splash_background", file_path);
+	this->start_time = SDL_GetPerformanceCounter();
+	std::cout << "start time:" << start_time << std::endl;
 }
 
 void SplashScene::on_input(SDL_Event &event) {}
 
 void SplashScene::on_update(float dt) {
-	float Time = this->splash["time"];
-	if ((this->initial_time - SDL_GetPerformanceCounter()) > Time) {
+	double time_to_change_scene = this->splash["time"];
+	uint64_t current_time = SDL_GetPerformanceCounter();
+	double elapsedTime =
+		static_cast<double>((current_time - this->start_time) /
+							static_cast<double>(SDL_GetPerformanceFrequency()));
+	std::cout << elapsedTime << std::endl;
+	if (elapsedTime > time_to_change_scene) {
 		locator.get<skeleton::SkeletonSceneManager>()->add_scene(
 			std::make_unique<TestScene>());
 	}
+	this->start_time = current_time;
 }
 void SplashScene::create_debug_window() {
 	// ImGui::Begin("Debug Splash.");
@@ -33,9 +42,10 @@ void SplashScene::create_debug_window() {
 }
 
 void SplashScene::on_draw() {
-	float r = this->splash["background"]["r"];
-	float g = this->splash["background"]["g"];
-	float b = this->splash["background"]["b"];
+	sol::table background = this->splash["background"];
+	float r = background["r"];
+	float g = background["g"];
+	float b = background["b"];
 	SDL_SetRenderDrawColor(locator.get<skeleton::SkeletonRenderer>()->renderer,
 						   r, g, b, 255);
 

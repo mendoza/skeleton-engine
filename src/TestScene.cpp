@@ -14,7 +14,8 @@ void TestScene::setupLuaState() {
 					 sol::lib::io, sol::lib::os);
 	skeleton::setEngineMetadata(this->L);
 	L.script_file("assets/scripts/test_state.lua");
-	sol::table gc = L["actor_parameters"]["graphic_parameters"];
+	sol::table ac = L["actor_parameters"];
+	sol::table gc = ac["graphic_parameters"];
 	Actor actor_instance = this->Actors.create<Actor>(gc);
 
 	sol::usertype<Actor> actor_type =

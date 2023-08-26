@@ -25,13 +25,9 @@ class PositionComponent : public Component {
 class GraphicComponent : public Component {
   public:
 	GraphicComponent(sol::table graphic_component) {
-		// data->asset_manager.add_texture(this->name,
-		// 								graphic_component["sprite_filepath"]);
-		// this->spritesheet_image =
-		// data->asset_manager.get_texture(this->name);
-
-		this->spritesheet = new skeleton::Spritesheet(
-			graphic_component["sprite_filepath"], 4, 3);
+		std::string sprite_filepath = graphic_component["sprite_filepath"];
+		std::cout << sprite_filepath << std::endl;
+		this->spritesheet = new skeleton::Spritesheet(sprite_filepath, 4, 3);
 	}
 	~GraphicComponent() { delete this->spritesheet; }
 

@@ -2,11 +2,11 @@
 #define SKELETON_SPRITESHEET_HPP
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
-
+#include <string>
 namespace skeleton {
 class Spritesheet {
   public:
-	Spritesheet(char *path, int row, int column);
+	Spritesheet(std::string path, int row, int column);
 	~Spritesheet();
 
 	void select_sprite(int x, int y);
