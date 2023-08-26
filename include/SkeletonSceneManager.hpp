@@ -10,7 +10,6 @@ class SkeletonSceneManager : public SceneManager {
 	~SkeletonSceneManager() {
 		logger->log("Started cleaning the  scene manager stack");
 		while (!this->scenes.empty()) {
-			std::shared_ptr ptr = std::move(this->scenes.top());
 			this->scenes.pop();
 		}
 		logger->log("Finished cleaning the  scene manager stack");

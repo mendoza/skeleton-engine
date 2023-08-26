@@ -5,7 +5,7 @@
 #include <GameData.hpp>
 #include <SDL2/SDL.h>
 #include <Spritesheet.hpp>
-#include <sol.hpp>
+#include <sol/sol.hpp>
 
 class Component {
   public:

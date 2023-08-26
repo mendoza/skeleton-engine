@@ -4,6 +4,7 @@
 namespace skeleton {
 
 Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
+
 Engine::~Engine() {}
 
 void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
@@ -86,7 +87,6 @@ void Engine::run() {
 		locator.get<SkeletonRenderer>()->update();
 	}
 	// ImGui::SFML::Shutdown();
-	SDL_DestroyWindow(locator.get<SkeletonRenderer>()->window);
-	SDL_Quit();
+	locator.get<SkeletonRenderer>()->shutdown();
 }
 }; // namespace skeleton

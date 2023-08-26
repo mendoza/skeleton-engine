@@ -7,7 +7,7 @@
 #include <ServiceLocator.hpp>
 #include <Utils.hpp>
 #include <memory>
-#include <sol.hpp>
+#include <sol/sol.hpp>
 namespace skeleton {
 class Scene {
   protected:

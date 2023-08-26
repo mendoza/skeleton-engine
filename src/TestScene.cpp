@@ -51,7 +51,7 @@ void TestScene::draw_debug_window() {
 
 void TestScene::on_draw() {
 	for (auto entity : entities.with<GraphicComponent>()) {
-		this->locator.get<skeleton::SkeletonRenderer>()->drawSprite(
+		this->locator.get<skeleton::SkeletonRenderer>()->drawSpritesheet(
 			entity.get<GraphicComponent>().spritesheet, 200, 200);
 	}
 }

@@ -1,5 +1,5 @@
-#ifndef SKELETON_SERVICE_LOCATOR_HPP
-#define SKELETON_SERVICE_LOCATOR_HPP
+#ifndef SERVICE_LOCATOR_HPP
+#define SERVICE_LOCATOR_HPP
 #include <Service.hpp>
 #include <memory>
 #include <type_traits>

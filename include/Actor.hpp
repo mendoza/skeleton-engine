@@ -3,7 +3,7 @@
 
 #include <Components.hpp>
 #include <OpenECS.hpp>
-#include <sol.hpp>
+#include <sol/sol.hpp>
 #include <string>
 
 class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {

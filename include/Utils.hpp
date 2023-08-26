@@ -3,7 +3,7 @@
 
 #include <Logger.hpp>
 #include <SDL2/SDL_keyboard.h>
-#include <sol.hpp>
+#include <sol/sol.hpp>
 namespace skeleton {
 
 inline void setLogger(sol::state &L) {

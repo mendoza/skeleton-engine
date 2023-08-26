@@ -9,9 +9,10 @@ class SkeletonRenderer : public Renderer {
 	SkeletonRenderer();
 	SkeletonRenderer(SDL_Window *window, SDL_Renderer *renderer);
 	~SkeletonRenderer();
-	void drawSprite(Spritesheet *spritesheet, int x, int y);
+	void drawSpritesheet(Spritesheet *spritesheet, int x, int y);
 	void update();
 	void clear();
+	void shutdown();
 
 	SDL_Window *window;
 	SDL_Renderer *renderer;

@@ -6,9 +6,9 @@
 #include <OpenECS.hpp>
 #include <SDL2/SDL.h>
 #include <Scene.hpp>
+#include <SkeletonRenderer.hpp>
 #include <Systems.hpp>
-#include <sol.hpp>
-#include<SkeletonRenderer.hpp>
+#include <sol/sol.hpp>
 class TestScene : public skeleton::Scene {
   public:
 	TestScene();

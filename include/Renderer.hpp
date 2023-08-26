@@ -8,9 +8,10 @@ class Renderer : public Service {
   public:
 	Renderer() {}
 	~Renderer() {}
-	virtual void drawSprite(Spritesheet *spritesheet, int x, int y) = 0;
+	virtual void drawSpritesheet(Spritesheet *spritesheet, int x, int y) = 0;
 	virtual void update() = 0;
 	virtual void clear() = 0;
+	virtual void shutdown() = 0;
 };
 } // namespace skeleton
 #endif

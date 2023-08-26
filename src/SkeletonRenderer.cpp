@@ -5,6 +5,7 @@ SkeletonRenderer::SkeletonRenderer() {
 	this->window = NULL;
 	this->renderer = NULL;
 }
+
 SkeletonRenderer::SkeletonRenderer(SDL_Window *window, SDL_Renderer *renderer) {
 	this->window = window;
 	this->renderer = renderer;
@@ -15,7 +16,7 @@ SkeletonRenderer::~SkeletonRenderer() {
 	SDL_DestroyRenderer(this->renderer);
 }
 
-void SkeletonRenderer::drawSprite(Spritesheet *spritesheet, int x, int y) {
+void SkeletonRenderer::drawSpritesheet(Spritesheet *spritesheet, int x, int y) {
 	SDL_Rect *position = new SDL_Rect();
 	position->x = x;
 	position->y = y;
@@ -31,4 +32,8 @@ void SkeletonRenderer::clear() {
 	SDL_RenderClear(this->renderer);
 }
 
+void SkeletonRenderer::shutdown() {
+	SDL_DestroyWindow(this->window);
+	SDL_Quit();
+}
 } // namespace skeleton

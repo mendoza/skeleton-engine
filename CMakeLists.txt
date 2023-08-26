@@ -4,20 +4,21 @@ project(skeleton)
 
 
 # Setting lua54
-find_library(
-    LUA_LIB
-    NAMES lua54 
-    HINTS "./libs"
-    REQUIRED
+FetchContent_Declare(
+    lua
+    GIT_REPOSITORY "https://github.com/marovira/lua"
+    GIT_TAG master
 )
+FetchContent_MakeAvailable(lua)
 
+FetchContent_Declare(
+    sol2
+    GIT_REPOSITORY "https://github.com/ThePhD/sol2.git"
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(sol2)
 
-if (NOT LUA_LIB)
-    message(SEND_ERROR "Did not find lib lua54")
-else()
-    message(STATUS "LUA_LIB: [${LUA_LIB}]")
-endif()
-
+# add_subdirectory(${sol2_SOURCE_DIR} ${sol2_BINARY_DIR})
 # Setting up SDL2
 FetchContent_Declare(
         SDL2main
@@ -27,7 +28,7 @@ FetchContent_Declare(
         GIT_PROGRESS TRUE
 )
 # START ADDITION
-set(SDL_TEST OFF)
+set(SDL_TESTS OFF)
 # END ADDITION
 FetchContent_MakeAvailable(SDL2main)
 
@@ -53,7 +54,7 @@ include_directories("./include")
 add_executable(${PROJECT_NAME} ${TARGET_SRC})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_compile_options(${PROJECT_NAME} PUBLIC -Wall -ggdb)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static ${LUA_LIB} ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 ${CMAKE_DL_LIBS})
 
 # Setting up assets file dependency to copy folder
 add_custom_command(
