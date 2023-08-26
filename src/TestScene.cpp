@@ -1,4 +1,4 @@
-#include <TestScene.hpp>
+#include "TestScene.hpp"
 
 TestScene::TestScene() {}
 
@@ -18,8 +18,8 @@ void TestScene::setupLuaState() {
 	sol::table gc = ac["graphic_parameters"];
 	Actor actor_instance = this->entities.create<Actor>(gc);
 
-	sol::usertype<Actor> actor_type = L.new_usertype<Actor>(
-		"Actor", sol::constructors<Actor()>());
+	sol::usertype<Actor> actor_type =
+		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
 
 	L["actor"] = actor_instance;
 	this->script_on_update = L["on_update"];

@@ -1,8 +1,8 @@
 #ifndef RENDER_SERVICE_HPP
 #define RENDER_SERVICE_HPP
+#include "Service.hpp"
+#include "Spritesheet.hpp"
 #include <SDL2/SDL.h>
-#include <Service.hpp>
-#include <Spritesheet.hpp>
 namespace skeleton {
 class Renderer : public Service {
   public:

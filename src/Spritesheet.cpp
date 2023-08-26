@@ -1,4 +1,4 @@
-#include <Spritesheet.hpp>
+#include "Spritesheet.hpp"
 
 namespace skeleton {
 Spritesheet::Spritesheet(std::string path, int row, int column) {

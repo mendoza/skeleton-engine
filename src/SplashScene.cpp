@@ -1,8 +1,8 @@
-#include <SkeletonAssetsManager.hpp>
-#include <SkeletonRenderer.hpp>
-#include <SkeletonSceneManager.hpp>
-#include <SplashScene.hpp>
-#include <TestScene.hpp>
+#include "SplashScene.hpp"
+#include "SkeletonAssetsManager.hpp"
+#include "SkeletonRenderer.hpp"
+#include "SkeletonSceneManager.hpp"
+#include "TestScene.hpp"
 SplashScene::SplashScene() {}
 
 SplashScene::~SplashScene() {}

@@ -1,8 +1,8 @@
 #ifndef SKELETON_SYSTEMS_HPP
 #define SKELETON_SYSTEMS_HPP
 
-#include <Components.hpp>
-#include <OpenECS.hpp>
+#include "Components.hpp"
+#include "OpenECS.hpp"
 
 class GraphicSystem : public ecs::System {
   public:

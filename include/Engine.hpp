@@ -1,13 +1,12 @@
 #ifndef SKELETON_ENGINE_HPP
 #define SKELETON_ENGINE_HPP
 
-#include <GameData.hpp>
+#include "SceneManager.hpp"
+#include "ServiceLocator.hpp"
+#include "SkeletonAssetsManager.hpp"
+#include "SkeletonRenderer.hpp"
+#include "SkeletonSceneManager.hpp"
 #include <SDL2/SDL.h>
-#include <SceneManager.hpp>
-#include <ServiceLocator.hpp>
-#include <SkeletonAssetsManager.hpp>
-#include <SkeletonRenderer.hpp>
-#include <SkeletonSceneManager.hpp>
 #include <chrono>
 
 namespace skeleton {

@@ -1,8 +1,8 @@
 #ifndef ACTOR_HPP
 #define ACTOR_HPP
 
-#include <Components.hpp>
-#include <OpenECS.hpp>
+#include "Components.hpp"
+#include "OpenECS.hpp"
 #include <sol/sol.hpp>
 #include <string>
 

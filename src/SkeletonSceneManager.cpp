@@ -1,4 +1,4 @@
-#include <SkeletonSceneManager.hpp>
+#include "SkeletonSceneManager.hpp"
 
 namespace skeleton {
 void SkeletonSceneManager::add_scene(SceneRef new_state, bool is_replacing) {

@@ -1,7 +1,7 @@
 #ifndef SKELETON_UTILS_HPP
 #define SKELETON_UTILS_HPP
 
-#include <Logger.hpp>
+#include "Logger.hpp"
 #include <SDL2/SDL_keyboard.h>
 #include <sol/sol.hpp>
 namespace skeleton {

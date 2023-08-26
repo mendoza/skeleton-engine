@@ -1,10 +1,9 @@
 #ifndef SKELETON_COMPONENTS_HPP
 #define SKELETON_COMPONENTS_HPP
 
-#include <AnimationManager.hpp>
-#include <GameData.hpp>
+#include "AnimationManager.hpp"
+#include "Spritesheet.hpp"
 #include <SDL2/SDL.h>
-#include <Spritesheet.hpp>
 #include <sol/sol.hpp>
 
 class Component {

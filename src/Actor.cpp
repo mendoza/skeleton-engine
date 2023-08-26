@@ -1,4 +1,4 @@
-#include <Actor.hpp>
+#include "Actor.hpp"
 
 Actor::Actor(sol::table graphic_component) {
 	this->add<GraphicComponent>(graphic_component);

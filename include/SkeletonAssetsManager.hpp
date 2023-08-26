@@ -1,10 +1,10 @@
 #ifndef SKELETON_ASSETS_MANAGER_SERVICE_HPP
 #define SKELETON_ASSETS_MANAGER_SERVICE_HPP
-#include <AssetManager.hpp>
+#include "AssetManager.hpp"
+#include "ServiceLocator.hpp"
+#include "SkeletonRenderer.hpp"
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
-#include <ServiceLocator.hpp>
-#include <SkeletonRenderer.hpp>
 #include <string>
 
 namespace skeleton {

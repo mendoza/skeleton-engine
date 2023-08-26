@@ -1,7 +1,6 @@
 #ifndef SPLASH_STATE_HPP
 #define SPLASH_STATE_HPP
 
-#include <GameData.hpp>
 #include <Scene.hpp>
 #include <SceneManager.hpp>
 #include <ServiceLocator.hpp>

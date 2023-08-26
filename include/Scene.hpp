@@ -1,11 +1,10 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
-#include <GameData.hpp>
-#include <Logger.hpp>
+#include "Logger.hpp"
+#include "ServiceLocator.hpp"
+#include "Utils.hpp"
 #include <SDL2/SDL.h>
-#include <ServiceLocator.hpp>
-#include <Utils.hpp>
 #include <memory>
 #include <sol/sol.hpp>
 namespace skeleton {

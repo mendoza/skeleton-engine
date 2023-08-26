@@ -1,4 +1,4 @@
-#include <SkeletonRenderer.hpp>
+#include "SkeletonRenderer.hpp"
 
 namespace skeleton {
 SkeletonRenderer::SkeletonRenderer() {

@@ -1,7 +1,7 @@
 #ifndef SKELETON_SCENE_MANAGER_HPP
 #define SKELETON_SCENE_MANAGER_HPP
 
-#include <SceneManager.hpp>
+#include "SceneManager.hpp"
 
 namespace skeleton {
 class SkeletonSceneManager : public SceneManager {

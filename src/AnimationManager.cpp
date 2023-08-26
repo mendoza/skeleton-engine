@@ -1,4 +1,4 @@
-#include <AnimationManager.hpp>
+#include "AnimationManager.hpp"
 
 namespace skeleton {
 void AnimationManager::add_animation(std::string name, int animation_row) {

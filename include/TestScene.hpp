@@ -1,13 +1,13 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include <Actor.hpp>
-#include <Components.hpp>
-#include <OpenECS.hpp>
+#include "Actor.hpp"
+#include "Components.hpp"
+#include "Scene.hpp"
+#include "SkeletonRenderer.hpp"
+#include "Systems.hpp"
+#include "OpenECS.hpp"
 #include <SDL2/SDL.h>
-#include <Scene.hpp>
-#include <SkeletonRenderer.hpp>
-#include <Systems.hpp>
 #include <sol/sol.hpp>
 class TestScene : public skeleton::Scene {
   public:
