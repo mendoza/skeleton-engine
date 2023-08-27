@@ -9,7 +9,7 @@
 class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {
   public:
 	Actor() {}
-	Actor(sol::table graphic_component);
+	Actor(std::string texture_name);
 	~Actor();
 };
 

@@ -16,7 +16,11 @@ void TestScene::setupLuaState() {
 	L.script_file("assets/scripts/test_state.lua");
 	sol::table ac = L["actor_parameters"];
 	sol::table gc = ac["graphic_parameters"];
-	Actor actor_instance = this->entities.create<Actor>(gc);
+	std::string file_path = gc["sprite_filepath"];
+	std::string texture_name = gc["sprite_name"];
+	this->locator.get<skeleton::SkeletonRenderer>()->add_texture(file_path,
+																 texture_name);
+	Actor actor_instance = this->entities.create<Actor>(texture_name);
 
 	sol::usertype<Actor> actor_type =
 		L.new_usertype<Actor>("Actor", sol::constructors<Actor()>());
@@ -51,8 +55,10 @@ void TestScene::draw_debug_window() {
 
 void TestScene::on_draw() {
 	for (auto entity : entities.with<GraphicComponent>()) {
-		this->locator.get<skeleton::SkeletonRenderer>()->drawSpritesheet(
-			entity.get<GraphicComponent>().spritesheet, 200, 200);
+		std::string texture_name = entity.get<GraphicComponent>().texture_name;
+		SDL_Rect *clip = entity.get<GraphicComponent>().clip;
+		this->locator.get<skeleton::SkeletonRenderer>()->draw_texture(
+			texture_name, clip, 200, 200);
 	}
 }
 

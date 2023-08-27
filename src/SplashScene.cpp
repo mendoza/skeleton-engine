@@ -1,5 +1,5 @@
 #include "SplashScene.hpp"
-#include "SkeletonAssetsManager.hpp"
+#include "AssetManager.hpp"
 #include "SkeletonRenderer.hpp"
 #include "SkeletonSceneManager.hpp"
 #include "TestScene.hpp"
@@ -13,8 +13,8 @@ void SplashScene::on_init() {
 	this->splash = this->config["splash"];
 	this->time_to_change_scene = this->splash["time"];
 	std::string file_path = this->splash["backgroud_img_file"];
-	locator.get<skeleton::SkeletonAssetsManager>()->add_texture(
-		"splash_background", file_path);
+	locator.get<skeleton::SkeletonRenderer>()->add_texture(file_path,
+														   "splash_background");
 	this->start_time = SDL_GetPerformanceCounter();
 }
 
@@ -45,11 +45,8 @@ void SplashScene::on_draw() {
 	float b = background["b"];
 	SDL_SetRenderDrawColor(locator.get<skeleton::SkeletonRenderer>()->renderer,
 						   r, g, b, 255);
-
-	SDL_RenderCopy(locator.get<skeleton::SkeletonRenderer>()->renderer,
-				   locator.get<skeleton::SkeletonAssetsManager>()->get_texture(
-					   "splash_background"),
-				   NULL, NULL);
+	locator.get<skeleton::SkeletonRenderer>()->draw_texture("splash_background",
+															NULL, 200, 200);
 }
 
 void SplashScene::on_destroy() {}

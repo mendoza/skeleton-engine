@@ -1,6 +1,7 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
+#include "AssetManager.hpp"
 #include "Logger.hpp"
 #include "ServiceLocator.hpp"
 #include "Utils.hpp"
@@ -13,6 +14,7 @@ class Scene {
 	sol::state L;
 	skeleton::Logger *logger = skeleton::Logger::get_instance();
 	skeleton::ServiceLocator locator;
+	skeleton::AssetManager *asset_manager;
 
 	// User's Functions
 	virtual void on_init() = 0;
@@ -23,8 +25,8 @@ class Scene {
 
   public:
 	bool is_open = false;
-	Scene() {}
-	~Scene() {}
+	Scene() { asset_manager = new AssetManager(); }
+	~Scene() { delete asset_manager; }
 
 	// Engine's Functions
 	virtual void pause() {}

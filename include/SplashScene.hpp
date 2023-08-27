@@ -5,7 +5,6 @@
 #include <SceneManager.hpp>
 #include <ServiceLocator.hpp>
 #include <SkeletonRenderer.hpp>
-#include <Spritesheet.hpp>
 
 class SplashScene : public skeleton::Scene {
 

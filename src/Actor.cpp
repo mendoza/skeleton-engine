@@ -1,7 +1,7 @@
 #include "Actor.hpp"
 
-Actor::Actor(sol::table graphic_component) {
-	this->add<GraphicComponent>(graphic_component);
+Actor::Actor(std::string texture_name) {
+	this->add<GraphicComponent>(texture_name);
 	this->add<PositionComponent>(0, 0);
 }
 

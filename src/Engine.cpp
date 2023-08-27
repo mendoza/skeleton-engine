@@ -23,9 +23,6 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 	locator.provide<SkeletonRenderer>(
 		std::make_unique<SkeletonRenderer>(window, renderer));
 
-	locator.provide<SkeletonAssetsManager>(
-		std::make_unique<SkeletonAssetsManager>());
-
 	locator.provide<SkeletonSceneManager>(
 		std::make_unique<SkeletonSceneManager>());
 

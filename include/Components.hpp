@@ -2,7 +2,6 @@
 #define SKELETON_COMPONENTS_HPP
 
 #include "AnimationManager.hpp"
-#include "Spritesheet.hpp"
 #include <SDL2/SDL.h>
 #include <sol/sol.hpp>
 
@@ -23,13 +22,14 @@ class PositionComponent : public Component {
 
 class GraphicComponent : public Component {
   public:
-	skeleton::Spritesheet *spritesheet;
-	GraphicComponent(sol::table graphic_component) {
-		std::string sprite_filepath = graphic_component["sprite_filepath"];
-		std::cout << sprite_filepath << std::endl;
-		this->spritesheet = new skeleton::Spritesheet(sprite_filepath, 4, 3);
+	std::string texture_name;
+	SDL_Rect *clip;
+	GraphicComponent(std::string texture_name) {
+		this->texture_name = texture_name;
+		this->clip = NULL;
 	}
-	~GraphicComponent() { delete this->spritesheet; }
+
+	~GraphicComponent() {}
 
 	void update_component(float dt) override {
 		// if (this->is_animated) {

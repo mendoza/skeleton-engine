@@ -3,7 +3,6 @@
 
 #include "SceneManager.hpp"
 #include "ServiceLocator.hpp"
-#include "SkeletonAssetsManager.hpp"
 #include "SkeletonRenderer.hpp"
 #include "SkeletonSceneManager.hpp"
 #include <SDL2/SDL.h>
