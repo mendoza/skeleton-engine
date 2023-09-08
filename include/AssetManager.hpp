@@ -13,9 +13,9 @@ class AssetManager {
   public:
 	AssetManager();
 	~AssetManager();
-	void add_texture(std::string file_path, std::string name,
+	void add_texture(const std::string& file_path, const std::string& name,
 					 SDL_Renderer *renderer);
-	SDL_Texture *get_texture(std::string name);
+	SDL_Texture *get_texture(const std::string& name);
 	std::map<std::size_t, SDL_Texture *> textures;
 	std::hash<std::string> hasher;
 	skeleton::Logger *logger = skeleton::Logger::get_instance();

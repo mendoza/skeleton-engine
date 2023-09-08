@@ -9,8 +9,8 @@ class AnimationManager {
 	AnimationManager() {}
 	~AnimationManager() {}
 
-	void add_animation(std::string name, int animation_row);
-	int &get_animation(std::string name);
+	void add_animation(const std::string& name, int animation_row);
+	int &get_animation(const std::string& name);
 
   private:
 	std::map<std::string, int> animations;

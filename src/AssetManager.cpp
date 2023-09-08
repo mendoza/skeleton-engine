@@ -10,7 +10,7 @@ AssetManager::~AssetManager() {
 	this->textures.clear();
 }
 
-void AssetManager::add_texture(std::string file_path, std::string name,
+void AssetManager::add_texture(const std::string& file_path, const std::string& name,
 							   SDL_Renderer *renderer) {
 	SDL_Surface *surf = IMG_Load(file_path.c_str());
 	SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surf);
@@ -19,10 +19,10 @@ void AssetManager::add_texture(std::string file_path, std::string name,
 		this->textures[hash] = text;
 	}
 	SDL_FreeSurface(surf);
-	logger->logf("Succesfully added %s (%zu)\n", name.c_str(), hash);
+	logger->logf("Successfully added %s (%zu)\n", name.c_str(), hash);
 }
 
-SDL_Texture *AssetManager::get_texture(std::string name) {
+SDL_Texture *AssetManager::get_texture(const std::string& name) {
 	return this->textures.at(hasher(name));
 }
 } // namespace skeleton

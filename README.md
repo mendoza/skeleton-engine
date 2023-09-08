@@ -7,11 +7,9 @@
 Small game engine framework , made with just 4 dependencies.
 
 1.  SDL [Repo](https://github.com/libsdl-org/SDL)
-2.  OpenEcs [Repo](https://github.com/Gronis/OpenEcs)
+2.  Flecs [Repo](https://github.com/SanderMertens/flecs)
 3.  Lua54 [Repo](https://github.com/lua/lua)
 4.  Sol3 [Repo](https://github.com/ThePhD/sol2)
-
-Which 3 of them are implemented on the source right away (OpenEcs, Sol3 and Lua) and sdl2's repo and sdl2_image's repo is cloned and compiled.
 
 ## Motivation
 

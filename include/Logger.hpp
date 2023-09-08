@@ -10,16 +10,16 @@ class Logger {
   public:
 	static Logger *instance;
 	static Logger *get_instance();
-	void log(std::string);
-	void logf(const char *format, ...);
-	void error(std::string);
-	void warning(std::string);
+	static void log(const std::string&);
+	static void logf(const char *format, ...);
+	static void error(const std::string&);
+	static void warning(const std::string&);
 	~Logger();
 
   private:
 	Logger();
-	void print(std::string, std::string);
-	void custom_printf(std::string, const char *format, ...);
+	static void print(const std::string&, const std::string&);
+	static void custom_printf(const std::string&, const char *format, ...);
 };
 } // namespace skeleton
 

@@ -17,10 +17,10 @@ class Engine {
 	ServiceLocator locator;
 
   public:
-	Engine(bool debug_mode = false);
+	Engine(bool debug_mode);
 	~Engine();
-	void build_window(uint32_t width, uint32_t height, std::string Title,
-					  std::string IconFile, bool fullscreen);
+	void build_window(int width, int height, const std::string& Title,
+					  const std::string& IconFile, bool fullscreen);
 	void run();
 };
 }; // namespace skeleton

@@ -2,20 +2,24 @@
 
 namespace skeleton {
 SkeletonRenderer::SkeletonRenderer() {
-	this->window = NULL;
-	this->renderer = NULL;
+	this->window = nullptr;
+	this->renderer = nullptr;
 	this->asset_manager = new AssetManager();
+	logger->log("Created Renderer Service");
 }
 
 SkeletonRenderer::SkeletonRenderer(SDL_Window *window, SDL_Renderer *renderer) {
 	this->window = window;
 	this->renderer = renderer;
 	this->asset_manager = new AssetManager();
+	logger->log("Created Renderer Service");
 }
 
 SkeletonRenderer::~SkeletonRenderer() {
 	SDL_DestroyWindow(this->window);
 	SDL_DestroyRenderer(this->renderer);
+	delete this->asset_manager;
+	logger->log("Destroyed Renderer service");
 }
 
 void SkeletonRenderer::update() { SDL_RenderPresent(this->renderer); }
@@ -41,7 +45,7 @@ SDL_Texture *SkeletonRenderer::get_texture(std::string name) {
 void SkeletonRenderer::draw_texture(std::string name, SDL_Rect *clip, int x,
 									int y) {
 
-	SDL_RenderCopy(this->renderer, asset_manager->get_texture(name), NULL,
-				   NULL);
+	SDL_RenderCopy(this->renderer, asset_manager->get_texture(name), nullptr,
+				   nullptr);
 }
 } // namespace skeleton

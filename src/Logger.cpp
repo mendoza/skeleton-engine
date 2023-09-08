@@ -1,9 +1,9 @@
 #include "Logger.hpp"
 
 namespace skeleton {
-Logger::Logger() {}
+Logger::Logger() = default;
 
-Logger::~Logger() {}
+Logger::~Logger() = default;
 
 Logger *Logger::get_instance() {
 	if (!instance) {
@@ -12,9 +12,9 @@ Logger *Logger::get_instance() {
 	return instance;
 }
 
-void Logger::log(std::string entry) { this->print("Log", entry); }
-void Logger::error(std::string entry) { this->print("Error", entry); }
-void Logger::warning(std::string entry) { this->print("Warning", entry); }
+void Logger::log(const std::string& entry) { skeleton::Logger::print("Log", entry); }
+void Logger::error(const std::string& entry) { skeleton::Logger::print("Error", entry); }
+void Logger::warning(const std::string& entry) { skeleton::Logger::print("Warning", entry); }
 
 void Logger::logf(const char *format, ...) {
 	va_list args;
@@ -23,7 +23,7 @@ void Logger::logf(const char *format, ...) {
 	va_end(args);
 }
 
-void Logger::print(std::string type, std::string entry) {
+void Logger::print(const std::string& type, const std::string& entry) {
 	std::time_t now = std::time(0);
 	std::tm *ltm = std::localtime(&now);
 
@@ -35,8 +35,8 @@ void Logger::print(std::string type, std::string entry) {
 	printf("[%s at %s] %s\n", type.c_str(), entryTime.c_str(), entry.c_str());
 }
 
-void Logger::custom_printf(std::string type, const char *format, ...) {
-	std::time_t now = std::time(0);
+void Logger::custom_printf(const std::string& type, const char *format, ...) {
+	std::time_t now = std::time(nullptr);
 	std::tm *ltm = std::localtime(&now);
 
 	std::string entryTime =
@@ -46,7 +46,7 @@ void Logger::custom_printf(std::string type, const char *format, ...) {
 
 	va_list args;
 	va_start(args, format);
-	std::cout << "[" << entryTime << "] ";
+	std::cout << "["<< type << " "<<entryTime << "] ";
 	vprintf(format, args);
 	va_end(args);
 }

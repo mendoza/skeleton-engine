@@ -8,6 +8,8 @@
 #include <SDL2/SDL.h>
 #include <memory>
 #include <sol/sol.hpp>
+#include <flecs.h>
+
 namespace skeleton {
 class Scene {
   protected:
@@ -15,7 +17,7 @@ class Scene {
 	skeleton::Logger *logger = skeleton::Logger::get_instance();
 	skeleton::ServiceLocator locator;
 	skeleton::AssetManager *asset_manager;
-
+	flecs::world ecs;
 	// User's Functions
 	virtual void on_init() = 0;
 	virtual void on_input(SDL_Event &event) = 0;
@@ -24,9 +26,8 @@ class Scene {
 	virtual void on_destroy() = 0;
 
   public:
-	bool is_open = false;
 	Scene() { asset_manager = new AssetManager(); }
-	~Scene() { delete asset_manager; }
+	virtual ~Scene() { delete asset_manager; }
 
 	// Engine's Functions
 	virtual void pause() {}

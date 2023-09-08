@@ -8,13 +8,13 @@ class SkeletonRenderer : public Renderer {
   public:
 	SkeletonRenderer();
 	SkeletonRenderer(SDL_Window *window, SDL_Renderer *renderer);
-	~SkeletonRenderer();
-	void update();
-	void clear();
-	void shutdown();
-	void add_texture(std::string file_path, std::string name);
-	void draw_texture(std::string name, SDL_Rect *clip, int x, int y);
-	SDL_Texture *get_texture(std::string name);
+	~SkeletonRenderer() override;
+	void update() override;
+	void clear() override;
+	void shutdown() override;
+	void add_texture(std::string file_path, std::string name) override;
+	void draw_texture(std::string name, SDL_Rect *clip, int x, int y) override;
+	SDL_Texture *get_texture(std::string name) override;
 
 	SDL_Window *window;
 	SDL_Renderer *renderer;

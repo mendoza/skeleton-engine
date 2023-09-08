@@ -5,8 +5,8 @@
 namespace skeleton {
 class Renderer : public Service {
   public:
-	Renderer() {}
-	~Renderer() {}
+	Renderer() = default;
+	~Renderer() override = default;
 	virtual void update() = 0;
 	virtual void clear() = 0;
 	virtual void shutdown() = 0;

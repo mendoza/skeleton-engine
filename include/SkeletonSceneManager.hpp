@@ -6,18 +6,12 @@
 namespace skeleton {
 class SkeletonSceneManager : public SceneManager {
   public:
-	SkeletonSceneManager() {}
-	~SkeletonSceneManager() {
-		logger->log("Started cleaning the  scene manager stack");
-		while (!this->scenes.empty()) {
-			this->scenes.pop();
-		}
-		logger->log("Finished cleaning the  scene manager stack");
-	}
+	SkeletonSceneManager();
+	~SkeletonSceneManager();
 
-	void add_scene(SceneRef new_scene, bool is_replacing = true);
-	void remove_scene();
-	Scene *get_active_scene();
+	void add_scene(SceneRef new_scene, bool is_replacing) override;
+	void remove_scene() override;
+	Scene *get_active_scene() override;
 
   protected:
 	std::stack<SceneRef> scenes;

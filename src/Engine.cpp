@@ -5,10 +5,10 @@ namespace skeleton {
 
 Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
 
-Engine::~Engine() {}
+Engine::~Engine() = default;
 
-void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
-						  std::string IconFile, bool fullscreen) {
+void Engine::build_window(int width, int height, const std::string& Title,
+						  const std::string& IconFile, bool fullscreen) {
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -27,7 +27,7 @@ void Engine::build_window(uint32_t width, uint32_t height, std::string Title,
 		std::make_unique<SkeletonSceneManager>());
 
 	locator.get<SkeletonSceneManager>()->add_scene(
-		std::make_unique<SplashScene>());
+		std::make_unique<SplashScene>(), false);
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 }
@@ -85,5 +85,7 @@ void Engine::run() {
 	}
 	// ImGui::SFML::Shutdown();
 	locator.get<SkeletonRenderer>()->shutdown();
+	locator.shutdown_all_services();
+	// TODO: make a shutdown in the service class, not needed to be overwritten but could be, is this needed? or should I just use the destructor
 }
 }; // namespace skeleton

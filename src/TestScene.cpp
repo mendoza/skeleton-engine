@@ -2,7 +2,7 @@
 
 TestScene::TestScene() {}
 
-TestScene::~TestScene() {}
+TestScene::~TestScene() = default;
 
 void TestScene::on_init() {
 	setupLuaState();
@@ -18,7 +18,7 @@ void TestScene::setupLuaState() {
 	sol::table gc = ac["graphic_parameters"];
 	std::string file_path = gc["sprite_filepath"];
 	std::string texture_name = gc["sprite_name"];
-	this->locator.get<skeleton::SkeletonRenderer>()->add_texture(file_path,
+	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(file_path,
 																 texture_name);
 	Actor actor_instance = this->entities.create<Actor>(texture_name);
 
@@ -57,7 +57,7 @@ void TestScene::on_draw() {
 	for (auto entity : entities.with<GraphicComponent>()) {
 		std::string texture_name = entity.get<GraphicComponent>().texture_name;
 		SDL_Rect *clip = entity.get<GraphicComponent>().clip;
-		this->locator.get<skeleton::SkeletonRenderer>()->draw_texture(
+		skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_texture(
 			texture_name, clip, 200, 200);
 	}
 }

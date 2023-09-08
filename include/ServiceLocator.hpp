@@ -5,6 +5,8 @@
 #include <type_traits>
 #include <unordered_map>
 namespace skeleton {
+class SkeletonRenderer;
+class SkeletonSceneManager;
 class ServiceLocator {
 
   public:
@@ -23,6 +25,8 @@ class ServiceLocator {
 		return static_cast<ServiceType *>(
 			services[typeid(ServiceType).hash_code()].get());
 	}
+
+	void shutdown_all_services() { this->services.clear(); }
 
   private:
 	inline static std::unordered_map<size_t, std::unique_ptr<Service>> services;

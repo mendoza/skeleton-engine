@@ -2,14 +2,13 @@
 #define ACTOR_HPP
 
 #include "Components.hpp"
-#include "OpenECS.hpp"
 #include <sol/sol.hpp>
 #include <string>
 
-class Actor : public ecs::EntityAlias<GraphicComponent, PositionComponent> {
+class Actor {
   public:
-	Actor() {}
-	Actor(std::string texture_name);
+	Actor() = default;
+	explicit Actor(const std::string& texture_name);
 	~Actor();
 };
 

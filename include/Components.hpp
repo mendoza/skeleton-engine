@@ -24,9 +24,9 @@ class GraphicComponent : public Component {
   public:
 	std::string texture_name;
 	SDL_Rect *clip;
-	GraphicComponent(std::string texture_name) {
+	explicit GraphicComponent(std::string texture_name) {
 		this->texture_name = texture_name;
-		this->clip = NULL;
+		this->clip = nullptr;
 	}
 
 	~GraphicComponent() {}
