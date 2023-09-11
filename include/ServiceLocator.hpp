@@ -10,8 +10,6 @@ class SkeletonSceneManager;
 class ServiceLocator {
 
   public:
-	ServiceLocator() {}
-	~ServiceLocator() {}
 	template <typename ServiceType>
 	static void provide(std::unique_ptr<ServiceType> new_service) {
 		static_assert(std::is_base_of<Service, ServiceType>::value,
@@ -26,7 +24,7 @@ class ServiceLocator {
 			services[typeid(ServiceType).hash_code()].get());
 	}
 
-	void shutdown_all_services() { this->services.clear(); }
+	void static shutdown_all_services() { services.clear(); }
 
   private:
 	inline static std::unordered_map<size_t, std::unique_ptr<Service>> services;

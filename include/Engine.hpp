@@ -14,13 +14,12 @@ class Engine {
   private:
 	bool is_running = true;
 	bool debug_mode = true;
-	ServiceLocator locator;
 
   public:
 	Engine(bool debug_mode);
 	~Engine();
-	void build_window(int width, int height, const std::string& Title,
-					  const std::string& IconFile, bool fullscreen);
+	void build_window(int width, int height, const std::string &Title,
+					  const std::string &IconFile, bool fullscreen);
 	void run();
 };
 }; // namespace skeleton

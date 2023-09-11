@@ -7,8 +7,8 @@ Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
 
 Engine::~Engine() = default;
 
-void Engine::build_window(int width, int height, const std::string& Title,
-						  const std::string& IconFile, bool fullscreen) {
+void Engine::build_window(int width, int height, const std::string &Title,
+						  const std::string &IconFile, bool fullscreen) {
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -20,14 +20,15 @@ void Engine::build_window(int width, int height, const std::string& Title,
 	SDL_Renderer *renderer =
 		SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	locator.provide<SkeletonRenderer>(
+	skeleton::ServiceLocator::provide<SkeletonRenderer>(
 		std::make_unique<SkeletonRenderer>(window, renderer));
 
-	locator.provide<SkeletonSceneManager>(
+	skeleton::ServiceLocator::provide<SkeletonSceneManager>(
 		std::make_unique<SkeletonSceneManager>());
 
-	locator.get<SkeletonSceneManager>()->add_scene(
+	skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
 		std::make_unique<SplashScene>(), false);
+
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);
 }
@@ -45,9 +46,9 @@ void Engine::run() {
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
-			// if (this->data->debug_mode)
-			// 	ImGui::SFML::ProcessEvent(event);
-			locator.get<SkeletonSceneManager>()
+			// if (this->debug_mode)
+			// ImGui_ImplSDL2_ProcessEvent(&event);
+			skeleton::ServiceLocator::get<SkeletonSceneManager>()
 				->get_active_scene()
 				->handle_input(event);
 			switch (event.type) {
@@ -62,30 +63,34 @@ void Engine::run() {
 			}
 		}
 
-		locator.get<SkeletonSceneManager>()->get_active_scene()->update(
-			deltaTime);
+		skeleton::ServiceLocator::get<SkeletonSceneManager>()
+			->get_active_scene()
+			->update(deltaTime);
 
 		// if (this->data->debug_mode)
 		// ImGui::SFML::Update(this->data->render_window,
 		// 					deltaClock.restart());
 
 		// this->data->render_window.clear(sf::Color(125, 125, 125));
-		locator.get<SkeletonRenderer>()->clear();
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->clear();
 
 		if (debug_mode)
-			locator.get<SkeletonSceneManager>()
+			skeleton::ServiceLocator::get<SkeletonSceneManager>()
 				->get_active_scene()
 				->draw_debug_window();
 
-		locator.get<SkeletonSceneManager>()->get_active_scene()->draw();
+		skeleton::ServiceLocator::get<SkeletonSceneManager>()
+			->get_active_scene()
+			->draw();
 
-		// if (this->data->debug_mode)
-		// 	ImGui::SFML::Render(this->data->render_window);
-		locator.get<SkeletonRenderer>()->update();
+		// if (this->debug_mode) {
+		// ImGui::Render();
+		// ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+		// }
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->update();
 	}
 	// ImGui::SFML::Shutdown();
-	locator.get<SkeletonRenderer>()->shutdown();
-	locator.shutdown_all_services();
-	// TODO: make a shutdown in the service class, not needed to be overwritten but could be, is this needed? or should I just use the destructor
+	skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
+	skeleton::ServiceLocator::shutdown_all_services();
 }
 }; // namespace skeleton
