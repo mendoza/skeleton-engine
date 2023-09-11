@@ -24,7 +24,7 @@ void SplashScene::on_update(float dt) {
 							static_cast<double>(SDL_GetPerformanceFrequency()));
 	if (elapsedTime > this->time_to_change_scene) {
 		skeleton::ServiceLocator::get<skeleton::SkeletonSceneManager>()->add_scene(
-			std::make_unique<TestScene>(), false);
+			std::make_unique<TestScene>(), true);
 	}
 }
 void SplashScene::draw_debug_window() {

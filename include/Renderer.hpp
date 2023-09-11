@@ -13,6 +13,9 @@ class Renderer : public Service {
 	virtual void add_texture(std::string file_path, std::string name) = 0;
 	virtual void draw_texture(std::string name, SDL_Rect *clip, int x,
 							  int y) = 0;
+	virtual void draw_rect(SDL_Color color, int x, int y, int w, int h) = 0;
+	virtual int get_window_width() = 0;
+	virtual int get_window_height() = 0;
 	virtual SDL_Texture *get_texture(std::string name) = 0;
 };
 } // namespace skeleton

@@ -46,7 +46,7 @@ void Logger::custom_printf(const std::string& type, const char *format, ...) {
 
 	va_list args;
 	va_start(args, format);
-	std::cout << "["<< type << " "<<entryTime << "] ";
+	std::cout << "["<< type << " at "<<entryTime << "] ";
 	vprintf(format, args);
 	va_end(args);
 }

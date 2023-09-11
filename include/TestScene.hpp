@@ -1,12 +1,13 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include "Actor.hpp"
 #include "Components.hpp"
 #include "Scene.hpp"
 #include "SkeletonRenderer.hpp"
 #include "Systems.hpp"
 #include <SDL2/SDL.h>
+#include <ctime>
+#include <random>
 #include <sol/sol.hpp>
 class TestScene : public skeleton::Scene {
   public:
@@ -21,6 +22,7 @@ class TestScene : public skeleton::Scene {
 	void setupLuaState();
 
   private:
+	flecs::world ecs;
 	SDL_Surface *background;
 	sol::function script_on_update;
 	sol::function script_handle_input;

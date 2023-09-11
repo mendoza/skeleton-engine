@@ -48,4 +48,22 @@ void SkeletonRenderer::draw_texture(std::string name, SDL_Rect *clip, int x,
 	SDL_RenderCopy(this->renderer, asset_manager->get_texture(name), nullptr,
 				   nullptr);
 }
+
+void SkeletonRenderer::draw_rect(SDL_Color color, int x, int y, int w, int h) {
+	SDL_Rect rect = {x, y, w, h};
+	SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderFillRect(this->renderer, &rect);
+}
+int SkeletonRenderer::get_window_width() {
+	int w, h;
+	SDL_GetWindowSize(this->window, &w, &h);
+	return w;
+}
+
+int SkeletonRenderer::get_window_height() {
+	int w, h;
+	SDL_GetWindowSize(this->window, &w, &h);
+	return h;
+}
+
 } // namespace skeleton
