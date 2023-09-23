@@ -6,6 +6,8 @@ TestScene::~TestScene() = default;
 
 void TestScene::on_init() {
 	setupLuaState();
+	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
+		->set_clear_color({0, 0, 0, 100});
 
 	ecs.component<Position>();
 	ecs.component<Square>();

@@ -18,6 +18,7 @@ class SkeletonRenderer : public Renderer {
 	SDL_Texture *get_texture(std::string name) override;
 	int get_window_width() override;
 	int get_window_height() override;
+	void set_clear_color(SDL_Color color) override;
 
 	SDL_Window *window;
 	SDL_Renderer *renderer;

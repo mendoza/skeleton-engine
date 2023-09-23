@@ -65,5 +65,7 @@ int SkeletonRenderer::get_window_height() {
 	SDL_GetWindowSize(this->window, &w, &h);
 	return h;
 }
-
+void SkeletonRenderer::set_clear_color(SDL_Color color) {
+	SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
+}
 } // namespace skeleton
