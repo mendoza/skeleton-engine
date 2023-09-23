@@ -11,7 +11,7 @@ class Renderer : public Service {
 	virtual void clear() = 0;
 	virtual void shutdown() = 0;
 	virtual void add_texture(std::string file_path, std::string name) = 0;
-	virtual void draw_texture(std::string name, SDL_Rect *clip, int x,
+	virtual void draw_texture(std::string name, SDL_Rect clip, int x,
 							  int y) = 0;
 	virtual void draw_rect(SDL_Color color, int x, int y, int w, int h) = 0;
 	virtual int get_window_width() = 0;

@@ -42,7 +42,7 @@ SDL_Texture *SkeletonRenderer::get_texture(std::string name) {
 	return this->asset_manager->get_texture(name);
 }
 
-void SkeletonRenderer::draw_texture(std::string name, SDL_Rect *clip, int x,
+void SkeletonRenderer::draw_texture(std::string name, SDL_Rect clip, int x,
 									int y) {
 
 	SDL_RenderCopy(this->renderer, asset_manager->get_texture(name), nullptr,

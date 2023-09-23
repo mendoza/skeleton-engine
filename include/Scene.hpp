@@ -14,7 +14,6 @@
 namespace skeleton {
 class Scene {
   protected:
-	sol::state L;
 	std::string tag;
 	skeleton::Logger *logger = skeleton::Logger::get_instance();
 	skeleton::AssetManager *asset_manager;
@@ -28,21 +27,25 @@ class Scene {
 	virtual void on_destroy() = 0;
 
   public:
-	Scene(std::string tag) : tag(tag) { asset_manager = new AssetManager(); }
-	virtual ~Scene() { delete asset_manager; }
+	Scene(std::string tag) : tag(tag) { 
+		asset_manager = new AssetManager();
+	script_manager = new ScriptManager();
+	 }
+	virtual ~Scene() { delete asset_manager; 
+	delete script_manager;}
 
 	// Engine's Functions
 	virtual void pause() {}
 	virtual void resume() {}
 	virtual void init() {
-		logger->logf("[%s] Scene Init", tag.c_str());
+		logger->logf("[%s] Scene Init\n", tag.c_str());
 		this->on_init();
 	}
 	virtual void draw() { this->on_draw(); }
 	virtual void handle_input(SDL_Event &event) { this->on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
 	virtual void destroy() {
-		logger->logf("[%s] Scene Destroy", tag.c_str());
+		logger->logf("[%s] Scene Destroy\n", tag.c_str());
 		this->on_destroy();
 	}
 	virtual void draw_debug_window() = 0;

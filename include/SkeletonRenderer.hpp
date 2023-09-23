@@ -13,7 +13,7 @@ class SkeletonRenderer : public Renderer {
 	void clear() override;
 	void shutdown() override;
 	void add_texture(std::string file_path, std::string name) override;
-	void draw_texture(std::string name, SDL_Rect *clip, int x, int y) override;
+	void draw_texture(std::string name, SDL_Rect clip, int x, int y) override;
 	void draw_rect(SDL_Color color, int x, int y, int w, int h) override;
 	SDL_Texture *get_texture(std::string name) override;
 	int get_window_width() override;

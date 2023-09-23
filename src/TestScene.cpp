@@ -29,25 +29,29 @@ void TestScene::on_init() {
 }
 
 void TestScene::setupLuaState() {
-	L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
-					 sol::lib::io, sol::lib::os);
-	skeleton::setEngineMetadata(this->L);
-	L.script_file("assets/scripts/test_state.lua");
-	sol::table ac = L["actor_parameters"];
-	sol::table gc = ac["graphic_parameters"];
-	std::string file_path = gc["sprite_filepath"];
-	std::string texture_name = gc["sprite_name"];
-	
-	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(
-		file_path, texture_name);
+	this->script_manager->load_script_file("assets/scripts/test_state.lua");
 
-	this->script_on_update = L["on_update"];
-	this->script_handle_input = L["handle_input"];
+	// L.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
+					//  sol::lib::io, sol::lib::os);
+					 // sol::table ac = L["actor_parameters"];
+					 // sol::table gc = ac["graphic_parameters"];
+					 // std::string file_path = gc["sprite_filepath"];
+					 // std::string texture_name = gc["sprite_name"];
+
+					 // skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(
+					 // file_path, texture_name);
+
+					 // this->script_on_update = L["on_update"];
+					 // this->script_handle_input = L["handle_input"];
 }
 
-void TestScene::on_input(SDL_Event &event) { this->script_handle_input(event); }
+void TestScene::on_input(SDL_Event &event) {
+	//  this->script_handle_input(event);
+}
 
-void TestScene::on_update(float dt) { this->script_on_update(dt); }
+void TestScene::on_update(float dt) {
+	//  this->script_on_update(dt);
+}
 void TestScene::draw_debug_window() {
 	// ImGui::Begin("Test State");
 	// console.Draw("Console: Test State", &is_open, L);

@@ -47,6 +47,8 @@ actor_parameters = {
     }
 }
 
+console.log("testing")
+
 speed = 0
 function on_update(dt)
     -- direction = actor:get_direction()

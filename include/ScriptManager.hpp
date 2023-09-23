@@ -1,5 +1,8 @@
 #ifndef SCRIPT_MANAGER_HPP
 #define SCRIPT_MANAGER_HPP
+#include "Logger.hpp"
+#include "SkeletonRenderer.hpp"
+#include <SDL2/SDL.h>
 #include <sol/sol.hpp>
 
 namespace skeleton {
@@ -9,17 +12,11 @@ class ScriptManager {
 	ScriptManager() { lua.open_libraries(sol::lib::base); }
 	~ScriptManager() = default;
 
-	void registerFunction(const std::string &name, sol::function callback) {
-		lua[name] = callback;
-	}
-
-	template <typename T> void registerClass(const std::string &name) {
-		lua.new_usertype<T>(name);
-	}
-
-	void loadScriptFile(const std::string &filename) {
-		lua.script_file(filename);
-	}
+	void register_function(const std::string &name, sol::function callback);
+	template <typename T> void register_class(const std::string &name);
+	sol::table get_table(std::string variable);
+	void load_script_file(const std::string &filename);
+	void set_engine_data();
 };
 }; // namespace skeleton
 

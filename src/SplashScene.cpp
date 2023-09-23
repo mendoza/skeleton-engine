@@ -5,8 +5,8 @@ SplashScene::SplashScene(std::string tag) : Scene(tag) {}
 SplashScene::~SplashScene() = default;
 
 void SplashScene::on_init() {
-	L.script_file("assets/scripts/config.lua");
-	this->config = L["config"];
+	this->script_manager->load_script_file("assets/scripts/config.lua");
+	this->config = this->script_manager->get_table("config");
 	this->splash = this->config["splash"];
 	this->time_to_change_scene = this->splash["time"];
 	std::string file_path = this->splash["backgroud_img_file"];
@@ -44,7 +44,7 @@ void SplashScene::on_draw() {
 		skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->renderer,
 		r, g, b, 255);
 	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_texture(
-		"splash_background", nullptr, 200, 200);
+		"splash_background", {}, 200, 200);
 }
 
 void SplashScene::on_destroy() {}

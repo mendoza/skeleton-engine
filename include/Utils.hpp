@@ -25,28 +25,6 @@ inline void setLogger(sol::state &L) {
 
 inline void setSDLTypes(sol::state &L) {
 	sol::table skeleton = L["skeleton"];
-	// Register the SDL_Texture type
-	L.new_usertype<SDL_Texture>(
-		"SDL_Texture",
-		// No constructors, as SDL_Texture objects are obtained from the
-		// renderer
-		"width", sol::property([](SDL_Texture &texture) {
-			int width = 0;
-			SDL_QueryTexture(&texture, nullptr, nullptr, &width, nullptr);
-			return width;
-		}),
-		"height", sol::property([](SDL_Texture &texture) {
-			int height = 0;
-			SDL_QueryTexture(&texture, nullptr, nullptr, nullptr, &height);
-			return height;
-		}));
-
-	// Register the SDL_Rect type
-	L.new_usertype<SDL_Rect>(
-		"SDL_Rect", sol::constructors<sol::types<int, int, int, int>>(), "x",
-		&SDL_Rect::x, "y", &SDL_Rect::y, "w", &SDL_Rect::w, "h", &SDL_Rect::h);
-
-	// skeleton.new_enum<SDL_KeyCode>(
 	// 	"keyboard",
 	// 	{{"right", SDLK_RIGHT}, {"left", SDLK_LEFT}, {"space", SDLK_SPACE}});
 
@@ -71,21 +49,21 @@ inline void setExtraTypes(sol::state &L) {
 	// 	&sf::Vector2f::x, "y", &sf::Vector2f::y);
 }
 inline void setRenderService(sol::state &L) {
-	L.new_usertype<skeleton::SkeletonRenderer>(
-		"SkeletonRenderer", "update", &skeleton::SkeletonRenderer::update,
-		"clear", &skeleton::SkeletonRenderer::clear, "shutdown",
-		&skeleton::SkeletonRenderer::shutdown, "add_texture",
-		&skeleton::SkeletonRenderer::add_texture, "draw_texture",
-		&skeleton::SkeletonRenderer::draw_texture, "draw_rect",
-		&skeleton::SkeletonRenderer::draw_rect, "get_texture",
-		&skeleton::SkeletonRenderer::get_texture, "get_window_width",
-		&skeleton::SkeletonRenderer::get_window_width, "get_window_height",
-		&skeleton::SkeletonRenderer::get_window_height, "set_clear_color",
-		&skeleton::SkeletonRenderer::set_clear_color);
+	// L.new_usertype<skeleton::SkeletonRenderer>(
+		// "SkeletonRenderer", "update", &skeleton::SkeletonRenderer::update,
+		// "clear", &skeleton::SkeletonRenderer::clear, "shutdown",
+		// &skeleton::SkeletonRenderer::shutdown, "add_texture",
+		// &skeleton::SkeletonRenderer::add_texture, "draw_texture",
+		// &skeleton::SkeletonRenderer::draw_texture, "draw_rect",
+		// &skeleton::SkeletonRenderer::draw_rect, "get_texture",
+		// &skeleton::SkeletonRenderer::get_texture, "get_window_width",
+		// &skeleton::SkeletonRenderer::get_window_width, "get_window_height",
+		// &skeleton::SkeletonRenderer::get_window_height, "set_clear_color",
+		// &skeleton::SkeletonRenderer::set_clear_color);
 
 	sol::table skeleton = L["skeleton"];
-	skeleton["renderer"] =
-		skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>();
+	// skeleton["renderer"] =
+		// skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>();
 }
 
 inline void setEngineMetadata(sol::state &L) {
