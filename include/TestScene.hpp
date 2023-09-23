@@ -11,7 +11,7 @@
 #include <sol/sol.hpp>
 class TestScene : public skeleton::Scene {
   public:
-	TestScene();
+	TestScene(std::string tag);
 	~TestScene() override;
 	void on_init() override;
 	void on_input(SDL_Event &event) override;
@@ -22,7 +22,12 @@ class TestScene : public skeleton::Scene {
 	void setupLuaState();
 
   private:
-	flecs::world ecs;
+	// flecs::world ecs;
+	// initiante a matrix of ints
+	int *world;
+	int cellSize = 10;
+	int numCellsWidth = -1;
+	int numCellsHeight = -1;
 	SDL_Surface *background;
 	sol::function script_on_update;
 	sol::function script_handle_input;

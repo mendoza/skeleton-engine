@@ -27,7 +27,7 @@ void Engine::build_window(int width, int height, const std::string &Title,
 		std::make_unique<SkeletonSceneManager>());
 
 	skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
-		std::make_unique<SplashScene>(), false);
+		std::make_unique<SplashScene>("Splash Scene"), false);
 
 	// if (this->data->debug_mode)
 	// 	ImGui::SFML::Init(this->data->render_window);

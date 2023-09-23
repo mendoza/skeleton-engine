@@ -11,7 +11,7 @@
 class SplashScene : public skeleton::Scene {
 
   public:
-	SplashScene();
+	SplashScene(std::string tag);
 	~SplashScene() override;
 	void on_init() override;
 	void on_input(SDL_Event &event) override;

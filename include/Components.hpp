@@ -2,13 +2,16 @@
 #define SKELETON_COMPONENTS_HPP
 #include <SDL2/SDL.h>
 struct Position {
-	float x;
-	float y;
+	int x;
+	int y;
 };
 
 struct Velocity {
 	float x;
 	float y;
+};
+struct Cell {
+	bool isAlive;
 };
 
 struct Square {

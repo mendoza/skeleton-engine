@@ -1,6 +1,8 @@
 #include "TestScene.hpp"
 
-TestScene::TestScene() { srand((unsigned)time(NULL)); }
+TestScene::TestScene(std::string tag) : Scene(tag) {
+	srand((unsigned)time(NULL));
+}
 
 TestScene::~TestScene() = default;
 
@@ -9,41 +11,21 @@ void TestScene::on_init() {
 	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
 		->set_clear_color({0, 0, 0, 100});
 
-	ecs.component<Position>();
-	ecs.component<Square>();
-	ecs.component<Velocity>();
 	int width = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
 					->get_window_width();
 	int height = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
 					 ->get_window_height();
-	ecs.system<Position>("Cleaner").each(
-		[width, height](flecs::entity e, Position &p) {
-			if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
-				e.destruct();
-			}
-		});
 
-	ecs.system<Position, Velocity>("Move").each([](Position &p, Velocity &v) {
-		p.x += v.x;
-		p.y += v.y;
-	});
+	this->numCellsHeight = height / this->cellSize;
+	this->numCellsWidth = width / this->cellSize;
 
-	for (float i = 0; i < 360; i++)
-		ecs.entity().set([i](Position &p, Square &s, Velocity &v) {
-			// calculate x and y for a circle in the middle of the screen
-			float angle = i * 3.14159f / 180.0f;
-			float x = 400 + cos(angle) * 200;
-			float y = 300 + sin(angle) * 200;
-			p = {x, y};
+	this->world = new int[numCellsHeight * numCellsWidth];
 
-			uint8_t r = rand() % 256;
-			uint8_t g = rand() % 256;
-			uint8_t b = rand() % 256;
-			s = {10, 10, {r, g, b, 255}};
-
-			float speed = (rand() % 100) / 100.0f;
-			v = {cos(angle) * speed, sin(angle) * speed};
-		});
+	for (int i = 0; i <= numCellsWidth; i++) {
+		for (int j = 0; j <= numCellsHeight; j++) {
+			world[i * j + j] = (rand() % 100000) > 50 ? 1 : 0;
+		}
+	}
 }
 
 void TestScene::setupLuaState() {
@@ -55,6 +37,7 @@ void TestScene::setupLuaState() {
 	sol::table gc = ac["graphic_parameters"];
 	std::string file_path = gc["sprite_filepath"];
 	std::string texture_name = gc["sprite_name"];
+	
 	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(
 		file_path, texture_name);
 
@@ -64,10 +47,7 @@ void TestScene::setupLuaState() {
 
 void TestScene::on_input(SDL_Event &event) { this->script_handle_input(event); }
 
-void TestScene::on_update(float dt) {
-	this->script_on_update(dt);
-	ecs.progress(dt);
-}
+void TestScene::on_update(float dt) { this->script_on_update(dt); }
 void TestScene::draw_debug_window() {
 	// ImGui::Begin("Test State");
 	// console.Draw("Console: Test State", &is_open, L);
@@ -84,11 +64,5 @@ void TestScene::draw_debug_window() {
 	// ImGui::End();
 }
 
-void TestScene::on_draw() {
-	flecs::query<Position, Square> q = ecs.query<Position, Square>();
-	q.each([](flecs::entity e, Position &p, Square &s) {
-		skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
-			s.color, p.x, p.y, s.width, s.height);
-	});
-}
+void TestScene::on_draw() {}
 void TestScene::on_destroy() {}
