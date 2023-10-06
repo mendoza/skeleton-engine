@@ -24,10 +24,6 @@ class TestScene : public skeleton::Scene {
   private:
 	// flecs::world ecs;
 	// initiante a matrix of ints
-	int *world;
-	int cellSize = 10;
-	int numCellsWidth = -1;
-	int numCellsHeight = -1;
 	SDL_Surface *background;
 	sol::function script_on_update;
 	sol::function script_handle_input;
