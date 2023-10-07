@@ -27,7 +27,7 @@ void SkeletonSceneManager::remove_scene() {
 	if (!this->scenes.empty()) {
 		this->scenes.top()->destroy();
 		this->scenes.pop();
-		this->scenes.top()->resume();
+		this->scenes.top()->init();
 	}
 }
 

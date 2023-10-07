@@ -54,19 +54,9 @@ void Engine::run() {
 			->get_active_scene()
 			->update(deltaTime);
 
-		skeleton::ServiceLocator::get<SkeletonRenderer>()->clear();
-
-		if (debug_mode) {
-			skeleton::ServiceLocator::get<SkeletonSceneManager>()
-				->get_active_scene()
-				->draw_debug_window();
-		}
-
 		skeleton::ServiceLocator::get<SkeletonSceneManager>()
 			->get_active_scene()
 			->draw();
-
-		skeleton::ServiceLocator::get<SkeletonRenderer>()->update();
 	}
 	skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
 	skeleton::ServiceLocator::shutdown_all_services();

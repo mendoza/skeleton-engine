@@ -110,7 +110,9 @@ int SkeletonRenderer::get_window_height() {
 void SkeletonRenderer::set_clear_color(SDL_Color color) {
 	SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
 }
+
 void SkeletonRenderer::set_debug_mode(bool debug_mode) {
 	this->debug_mode = debug_mode;
 }
+void SkeletonRenderer::draw_scene() {}
 } // namespace skeleton

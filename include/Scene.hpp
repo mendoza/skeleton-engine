@@ -15,6 +15,7 @@ namespace skeleton {
 class Scene {
   protected:
 	std::string tag;
+	bool debug_mode;
 	skeleton::Logger *logger = skeleton::Logger::get_instance();
 	skeleton::AssetManager *asset_manager;
 	skeleton::ScriptManager *script_manager;
@@ -43,8 +44,14 @@ class Scene {
 		logger->logf("[%s] Scene Init\n", tag.c_str());
 		this->on_init();
 	}
-	virtual void draw() { this->on_draw(); }
-	virtual void handle_input(SDL_Event &event) { this->on_input(event); }
+	virtual void draw() {
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->clear();
+		this->on_draw();
+		this->draw_debug_window();
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->update();
+	}
+
+	virtual void handle_input(SDL_Event event) { this->on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
 	virtual void destroy() {
 		logger->logf("[%s] Scene Destroy\n", tag.c_str());

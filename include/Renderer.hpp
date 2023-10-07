@@ -10,6 +10,7 @@ class Renderer : public Service {
 	virtual void update() = 0;
 	virtual void clear() = 0;
 	virtual void shutdown() = 0;
+	virtual void draw_scene() = 0;
 	virtual void add_texture(std::string file_path, std::string name) = 0;
 	virtual void draw_texture(std::string name, SDL_Rect clip, int x,
 							  int y) = 0;

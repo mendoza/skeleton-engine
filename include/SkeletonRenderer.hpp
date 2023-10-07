@@ -15,6 +15,7 @@ class SkeletonRenderer : public Renderer {
 	void update() override;
 	void clear() override;
 	void shutdown() override;
+	void draw_scene() override;
 	void add_texture(std::string file_path, std::string name) override;
 	void draw_texture(std::string name, SDL_Rect clip, int x, int y) override;
 	void draw_rect(SDL_Color color, int x, int y, int w, int h) override;
