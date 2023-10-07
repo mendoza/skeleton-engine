@@ -18,6 +18,7 @@ class Renderer : public Service {
 	virtual int get_window_height() = 0;
 	virtual void set_clear_color(SDL_Color color) = 0;
 	virtual SDL_Texture *get_texture(std::string name) = 0;
+	virtual void set_debug_mode(bool debug_mode) = 0;
 };
 } // namespace skeleton
 #endif
