@@ -7,6 +7,7 @@
 #include "Systems.hpp"
 #include <SDL2/SDL.h>
 #include <ctime>
+#include <imgui.h>
 #include <random>
 #include <sol/sol.hpp>
 class TestScene : public skeleton::Scene {
