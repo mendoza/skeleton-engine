@@ -58,13 +58,49 @@ FetchContent_Declare(
 )
 set(flecs_shared OFF)
 FetchContent_MakeAvailable(flecs)
+
 # setting skeleton source
 file(GLOB TARGET_SRC "./src/*.cpp" )
 include_directories("./include")
 add_executable(${PROJECT_NAME} ${TARGET_SRC})
+
+# Include ImGui using FetchContent
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(imgui)
+
+# Build ImGui as a static library
+add_library(imgui STATIC
+  ${imgui_SOURCE_DIR}/imgui.cpp
+  ${imgui_SOURCE_DIR}/imgui.h
+  ${imgui_SOURCE_DIR}/imconfig.h
+  ${imgui_SOURCE_DIR}/imgui_demo.cpp
+  ${imgui_SOURCE_DIR}/imgui_draw.cpp
+  ${imgui_SOURCE_DIR}/imgui_internal.h
+  ${imgui_SOURCE_DIR}/imgui_tables.cpp
+  ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+  ${imgui_SOURCE_DIR}/imstb_rectpack.h
+  ${imgui_SOURCE_DIR}/imstb_textedit.h
+  ${imgui_SOURCE_DIR}/imstb_truetype.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer2.h
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer2.cpp
+  )
+
+# Include ImGui's include directory
+target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
+# Specify where to find SDL2 headers
+target_include_directories(imgui PRIVATE ${SDL2_SOURCE_DIR}/include)
+# Link ImGui with the SDL2 library
+target_link_libraries(imgui PRIVATE ${SDL2_LIBRARIES})
+
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_compile_options(${PROJECT_NAME} PUBLIC -Wall -ggdb)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 flecs::flecs_static ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 flecs::flecs_static imgui ${CMAKE_DL_LIBS})
 
 # Setting up assets file dependency to copy folder
 add_custom_command(

@@ -29,8 +29,14 @@ void Engine::build_window(int width, int height, const std::string &Title,
 	skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
 		std::make_unique<SplashScene>("Splash Scene"), false);
 
-	// if (this->data->debug_mode)
-	// 	ImGui::SFML::Init(this->data->render_window);
+	if (this->debug_mode) {
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO &io{ImGui::GetIO()};
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
+		ImGui_ImplSDLRenderer2_Init(renderer);
+	}
 }
 
 void Engine::run() {
@@ -46,8 +52,9 @@ void Engine::run() {
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
-			// if (this->debug_mode)
-			// ImGui_ImplSDL2_ProcessEvent(&event);
+			if (this->debug_mode) {
+				ImGui_ImplSDL2_ProcessEvent(&event);
+			}
 			skeleton::ServiceLocator::get<SkeletonSceneManager>()
 				->get_active_scene()
 				->handle_input(event);
@@ -67,29 +74,35 @@ void Engine::run() {
 			->get_active_scene()
 			->update(deltaTime);
 
-		// if (this->data->debug_mode)
-		// ImGui::SFML::Update(this->data->render_window,
-		// 					deltaClock.restart());
+		if (this->debug_mode) {
+			// Start the Dear ImGui frame
+			ImGui_ImplSDLRenderer2_NewFrame();
+			ImGui_ImplSDL2_NewFrame();
+			ImGui::NewFrame();
+		}
 
 		// this->data->render_window.clear(sf::Color(125, 125, 125));
 		skeleton::ServiceLocator::get<SkeletonRenderer>()->clear();
 
-		if (debug_mode)
+		if (debug_mode) {
 			skeleton::ServiceLocator::get<SkeletonSceneManager>()
 				->get_active_scene()
 				->draw_debug_window();
+			ImGui::Render();
+			ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+		}
 
 		skeleton::ServiceLocator::get<SkeletonSceneManager>()
 			->get_active_scene()
 			->draw();
 
-		// if (this->debug_mode) {
-		// ImGui::Render();
-		// ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
-		// }
 		skeleton::ServiceLocator::get<SkeletonRenderer>()->update();
 	}
-	// ImGui::SFML::Shutdown();
+	if (this->debug_mode) {
+		ImGui_ImplSDLRenderer2_Shutdown();
+		ImGui_ImplSDL2_Shutdown();
+		ImGui::DestroyContext();
+	}
 	skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
 	skeleton::ServiceLocator::shutdown_all_services();
 }

@@ -5,7 +5,7 @@ config = {
         height = 600
     },
     fullscreen = true,
-    debug_mode = false,
+    debug_mode = true,
     icon = "assets/icon.png",
     splash = {
         backgroud_img_file = "assets/splash.png",
