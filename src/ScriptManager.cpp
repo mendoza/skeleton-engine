@@ -14,6 +14,8 @@ void ScriptManager::register_class(const std::string &name) {
 
 void ScriptManager::load_script_file(const std::string &filename) {
 	set_engine_data();
+	lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
+					   sol::lib::io, sol::lib::os);
 	lua.script_file(filename);
 }
 
@@ -31,8 +33,6 @@ void ScriptManager::set_engine_data() {
 								&SDL_Color::a);
 	lua.new_usertype<SDL_Rect>("SDL_Rect", "x", &SDL_Rect::x, "y", &SDL_Rect::y,
 							   "h", &SDL_Rect::h, "w", &SDL_Rect::w);
-
-	// lua.new_usertype<SDL_Texture>("SDL_Texture");
 
 	// 	lua.new_usertype<skeleton::SkeletonRenderer>(
 	// 		"SkeletonRenderer", "new", sol::no_constructor, "update",

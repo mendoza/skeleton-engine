@@ -27,12 +27,14 @@ class Scene {
 	virtual void on_destroy() = 0;
 
   public:
-	Scene(std::string tag) : tag(tag) { 
+	Scene(std::string tag) : tag(tag) {
 		asset_manager = new AssetManager();
-	script_manager = new ScriptManager();
-	 }
-	virtual ~Scene() { delete asset_manager; 
-	delete script_manager;}
+		script_manager = new ScriptManager();
+	}
+	virtual ~Scene() {
+		delete asset_manager;
+		delete script_manager;
+	}
 
 	// Engine's Functions
 	virtual void pause() {}

@@ -74,4 +74,5 @@ void TestScene::draw_debug_window() {
 }
 
 void TestScene::on_draw() {}
+
 void TestScene::on_destroy() {}
