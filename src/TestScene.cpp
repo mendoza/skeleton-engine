@@ -39,18 +39,14 @@ void TestScene::on_init() {
 	}
 
 	ecs.system<Position, const Velocity>("Move").iter(
-		[](flecs::iter &it, Position *p, const Velocity *v) {
+		[width, height](flecs::iter &it, Position *p, const Velocity *v) {
 			for (auto i : it) {
 				p[i].x += v[i].x * it.delta_time();
 				p[i].y += v[i].y * it.delta_time();
-			}
-		});
-
-	ecs.system<Position>("Remove").each(
-		[width, height](flecs::entity e, Position p) {
-			// Remove entities with position outside viewport
-			if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
-				e.destruct();
+				if (p[i].x < 0 || p[i].x > width || p[i].y < 0 ||
+					p[i].y > height) {
+					it.entity(i).destruct();
+				}
 			}
 		});
 }
@@ -74,15 +70,37 @@ void TestScene::setupLuaState() {
 
 void TestScene::on_input(SDL_Event &event) {
 	//  this->script_handle_input(event);
+	if (event.type == SDL_MOUSEBUTTONDOWN) {
+		if (event.button.button == SDL_BUTTON_LEFT) {
+			int mouseX = event.button.x;
+			int mouseY = event.button.y;
+			ecs.entity().set(
+				[mouseX, mouseY](Position &p, Velocity &v, Square &s) {
+					// calculate position and velocity to form a circle from the
+					// middle of the screen
+
+					float angle = 2 * 3.14159 * float(rand() % 1000) / 1000.0f;
+					p.x = mouseX;
+					p.y = mouseY;
+
+					v.x = cos(angle) * 0.1f;
+					v.y = sin(angle) * 0.1f;
+					int r = rand() % 255;
+					int g = rand() % 255;
+					int b = rand() % 255;
+					s = {10, 10, r, g, b, 255};
+				});
+		}
+	}
 }
 
 void TestScene::on_update(float dt) {
 	// std::cout << "TestScene update called" << std::endl;
+	ecs.progress(dt);
 }
 
 void TestScene::on_update_physics(float dt) {
 	// std::cout << "TestScene update physics called" << std::endl;
-	ecs.progress(dt);
 }
 
 void TestScene::draw_debug_window() {
