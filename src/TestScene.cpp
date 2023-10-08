@@ -29,20 +29,28 @@ void TestScene::on_init() {
 				p.x = width / 2 + cos(angle) * 100;
 				p.y = height / 2 + sin(angle) * 100;
 
-				v.x = cos(angle);
-				v.y = sin(angle);
-				// random rgb colo
+				v.x = cos(angle) * 0.1f;
+				v.y = sin(angle) * 0.1f;
 				int r = rand() % 255;
 				int g = rand() % 255;
 				int b = rand() % 255;
 				s = {10, 10, r, g, b, 255};
 			});
 	}
+
 	ecs.system<Position, const Velocity>("Move").iter(
 		[](flecs::iter &it, Position *p, const Velocity *v) {
 			for (auto i : it) {
 				p[i].x += v[i].x * it.delta_time();
 				p[i].y += v[i].y * it.delta_time();
+			}
+		});
+
+	ecs.system<Position>("Remove").each(
+		[width, height](flecs::entity e, Position p) {
+			// Remove entities with position outside viewport
+			if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
+				e.destruct();
 			}
 		});
 }
@@ -70,11 +78,11 @@ void TestScene::on_input(SDL_Event &event) {
 
 void TestScene::on_update(float dt) {
 	// std::cout << "TestScene update called" << std::endl;
-	ecs.progress(dt);
 }
 
 void TestScene::on_update_physics(float dt) {
 	// std::cout << "TestScene update physics called" << std::endl;
+	ecs.progress(dt);
 }
 
 void TestScene::draw_debug_window() {

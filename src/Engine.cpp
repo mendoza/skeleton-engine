@@ -22,7 +22,7 @@ void Engine::build_window(int width, int height, const std::string &Title,
 void Engine::run() {
 	uint64_t NOW = SDL_GetPerformanceCounter();
 	uint64_t LAST = 0;
-	const double dt = 1.0 / 45.0; // Fixed time step for physics (e.g., 60 FPS)
+	const double dt = 1.0 / 60.0; // Fixed time step for physics (e.g., 60 FPS)
 	double t = 0.0;
 	double accumulator = 0.0;
 	// FPS variables
