@@ -15,6 +15,36 @@ void TestScene::on_init() {
 					->get_window_width();
 	int height = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
 					 ->get_window_height();
+
+	ecs.component<Position>();
+	ecs.component<Square>();
+	ecs.component<Velocity>();
+
+	for (int i = 0; i < 1000; i++) {
+		auto e = ecs.entity().set(
+			[i, width, height](Position &p, Velocity &v, Square &s) {
+				// calculate position and velocity to form a circle from the
+				// middle of the screen
+				float angle = 2 * 3.14159 * float(i) / 1000.0f;
+				p.x = width / 2 + cos(angle) * 100;
+				p.y = height / 2 + sin(angle) * 100;
+
+				v.x = cos(angle);
+				v.y = sin(angle);
+				// random rgb colo
+				int r = rand() % 255;
+				int g = rand() % 255;
+				int b = rand() % 255;
+				s = {10, 10, r, g, b, 255};
+			});
+	}
+	ecs.system<Position, const Velocity>("Move").iter(
+		[](flecs::iter &it, Position *p, const Velocity *v) {
+			for (auto i : it) {
+				p[i].x += v[i].x * it.delta_time();
+				p[i].y += v[i].y * it.delta_time();
+			}
+		});
 }
 
 void TestScene::setupLuaState() {
@@ -38,12 +68,19 @@ void TestScene::on_input(SDL_Event &event) {
 	//  this->script_handle_input(event);
 }
 
-void TestScene::on_update(float dt) {}
+void TestScene::on_update(float dt) {
+	// std::cout << "TestScene update called" << std::endl;
+	ecs.progress(dt);
+}
+
+void TestScene::on_update_physics(float dt) {
+	// std::cout << "TestScene update physics called" << std::endl;
+}
 
 void TestScene::draw_debug_window() {
 	// Create a window called "My First Tool", with a menu bar.
 	bool my_tool_active = true;
-	ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("Debug Window", &my_tool_active, ImGuiWindowFlags_MenuBar);
 	if (ImGui::BeginMenuBar()) {
 		if (ImGui::BeginMenu("File")) {
 			if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */
@@ -57,22 +94,25 @@ void TestScene::draw_debug_window() {
 		}
 		ImGui::EndMenuBar();
 	}
-
-	// Generate samples and plot them
-	float samples[100];
-	for (int n = 0; n < 100; n++)
-		samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-	ImGui::PlotLines("Samples", samples, 100);
-
+	ImGui::Text("Scene tag: %s", this->tag.c_str());
 	// Display contents in a scrolling region
-	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+	auto query = ecs.query_builder<Position, Square>().build();
+	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Entities (%d)", query.count());
 	ImGui::BeginChild("Scrolling");
-	for (int n = 0; n < 50; n++)
-		ImGui::Text("%04d: Some text", n);
+	query.each([](flecs::iter itr, size_t it, Position &p, const Square &s) {
+		ImGui::TextColored(ImVec4(s.r / 255.0f, s.g / 255.0f, s.b / 255.0f, 1),
+						   "Entity #%d: (%.2f, %.2f)", it, p.x, p.y);
+	});
 	ImGui::EndChild();
 	ImGui::End();
 }
 
-void TestScene::on_draw() {}
+void TestScene::on_draw() {
+	auto query = ecs.query_builder<Position, Square>().build();
+	query.each([](Position &p, Square &s) {
+		skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
+			p.x, p.y, s.width, s.height, s.r, s.g, s.b, s.a);
+	});
+}
 
 void TestScene::on_destroy() {}

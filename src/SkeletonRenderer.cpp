@@ -45,15 +45,7 @@ SkeletonRenderer::~SkeletonRenderer() {
 	logger->log("Destroyed Renderer service");
 }
 
-void SkeletonRenderer::update() {
-	if (this->debug_mode) {
-		ImGui::Render();
-		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
-	}
-	SDL_RenderPresent(this->renderer);
-}
-
-void SkeletonRenderer::clear() {
+void SkeletonRenderer::begin() {
 	if (this->debug_mode) {
 		// Start the Dear ImGui frame
 		ImGui_ImplSDLRenderer2_NewFrame();
@@ -62,6 +54,14 @@ void SkeletonRenderer::clear() {
 	}
 	SDL_SetRenderDrawColor(this->renderer, 125, 125, 125, 255);
 	SDL_RenderClear(this->renderer);
+}
+
+void SkeletonRenderer::end() {
+	if (this->debug_mode) {
+		ImGui::Render();
+		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+	}
+	SDL_RenderPresent(this->renderer);
 }
 
 void SkeletonRenderer::shutdown() {
@@ -89,9 +89,10 @@ void SkeletonRenderer::draw_texture(std::string name, SDL_Rect clip, int x,
 				   nullptr);
 }
 
-void SkeletonRenderer::draw_rect(SDL_Color color, int x, int y, int w, int h) {
+void SkeletonRenderer::draw_rect(int x, int y, int w, int h, int r, int g,
+								 int b, int a) {
 	SDL_Rect rect = {x, y, w, h};
-	SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
+	SDL_SetRenderDrawColor(this->renderer, r, g, b, a);
 	SDL_RenderFillRect(this->renderer, &rect);
 }
 

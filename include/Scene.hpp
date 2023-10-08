@@ -24,6 +24,7 @@ class Scene {
 	virtual void on_init() = 0;
 	virtual void on_input(SDL_Event &event) = 0;
 	virtual void on_update(float dt) = 0;
+	virtual void on_update_physics(float dt) = 0;
 	virtual void on_draw() = 0;
 	virtual void on_destroy() = 0;
 
@@ -45,14 +46,15 @@ class Scene {
 		this->on_init();
 	}
 	virtual void draw() {
-		skeleton::ServiceLocator::get<SkeletonRenderer>()->clear();
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->begin();
 		this->on_draw();
 		this->draw_debug_window();
-		skeleton::ServiceLocator::get<SkeletonRenderer>()->update();
+		skeleton::ServiceLocator::get<SkeletonRenderer>()->end();
 	}
 
 	virtual void handle_input(SDL_Event event) { this->on_input(event); }
 	virtual void update(float dt) { this->on_update(dt); }
+	virtual void update_physics(float dt) { this->on_update_physics(dt); }
 	virtual void destroy() {
 		logger->logf("[%s] Scene Destroy\n", tag.c_str());
 		this->on_destroy();

@@ -12,13 +12,14 @@ class SkeletonRenderer : public Renderer {
 	SkeletonRenderer();
 	SkeletonRenderer(std::string title, int width, int height, bool debug_mode);
 	~SkeletonRenderer() override;
-	void update() override;
-	void clear() override;
+	void end() override;
+	void begin() override;
 	void shutdown() override;
 	void draw_scene() override;
 	void add_texture(std::string file_path, std::string name) override;
 	void draw_texture(std::string name, SDL_Rect clip, int x, int y) override;
-	void draw_rect(SDL_Color color, int x, int y, int w, int h) override;
+	void draw_rect(int x, int y, int w, int h, int r, int g, int b,
+				   int a) override;
 	SDL_Texture *get_texture(std::string name) override;
 	int get_window_width() override;
 	int get_window_height() override;
@@ -28,6 +29,7 @@ class SkeletonRenderer : public Renderer {
 	bool debug_mode = false;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
+	SDL_Color clear_color = {0, 0, 0, 255};
 	AssetManager *asset_manager;
 };
 } // namespace skeleton

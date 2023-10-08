@@ -27,12 +27,14 @@ void SplashScene::on_update(float dt) {
 			->add_scene(std::make_unique<TestScene>("Test Scene"), true);
 	}
 }
+
+void SplashScene::on_update_physics(float dt) {}
+
 void SplashScene::draw_debug_window() {
-	// ImGui::Begin("Debug Splash.");
-	// this->data->log_engine();
-	// ImGui::Text("Current State: Splash Screen");
-	// ImGui::End();
-	// ImGui::EndFrame();
+	ImGui::Begin("Debug Splash.");
+	ImGui::Text("Current State: Splash Screen");
+	ImGui::End();
+	ImGui::EndFrame();
 }
 
 void SplashScene::on_draw() {

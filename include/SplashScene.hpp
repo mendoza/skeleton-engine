@@ -16,6 +16,7 @@ class SplashScene : public skeleton::Scene {
 	void on_init() override;
 	void on_input(SDL_Event &event) override;
 	void on_update(float dt) override;
+	void on_update_physics(float dt) override;
 	void on_draw() override;
 	void on_destroy() override;
 	void draw_debug_window() override;
