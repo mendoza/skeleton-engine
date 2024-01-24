@@ -8,88 +8,91 @@ Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
 Engine::~Engine() = default;
 
 void Engine::build_window(int width, int height, const std::string &Title,
-						  const std::string &IconFile, bool fullscreen) {
-	skeleton::ServiceLocator::provide<SkeletonRenderer>(
-		std::make_unique<SkeletonRenderer>(Title, width, height, debug_mode));
+                          const std::string &IconFile, bool fullscreen) {
+  skeleton::ServiceLocator::provide<SkeletonRenderer>(
+      std::make_unique<SkeletonRenderer>(Title, width, height, debug_mode));
 
-	skeleton::ServiceLocator::provide<SkeletonSceneManager>(
-		std::make_unique<SkeletonSceneManager>());
+  skeleton::ServiceLocator::provide<SkeletonSceneManager>(
+      std::make_unique<SkeletonSceneManager>());
 
-	skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
-		std::make_unique<SplashScene>("Splash Scene"), false);
+  skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
+      std::make_unique<SplashScene>("Splash Scene"), false);
 }
 
 void Engine::run() {
-	uint64_t NOW = SDL_GetPerformanceCounter();
-	uint64_t LAST = 0;
-	const double dt = 1.0 / 60.0; // Fixed time step for physics (e.g., 60 FPS)
-	double t = 0.0;
-	double accumulator = 0.0;
-	// FPS variables
-	int frameCount = 0;
-	double fps = 0.0;
-	double fpsTimer = 0.0;
+  uint64_t NOW = SDL_GetPerformanceCounter();
+  uint64_t LAST = 0;
+  double deltaTime = 0.0;
+  double physicsTime = 0.0;
+  const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics update
 
-	while (is_running) {
-		LAST = NOW;
-		NOW = SDL_GetPerformanceCounter();
+  // FPS variables
+  int frameCount = 0;
+  double fps = 0.0;
+  double fpsTimer = 0.0;
 
-		double frameTime = (double)((NOW - LAST) * 1000 /
-									(double)SDL_GetPerformanceFrequency());
+  while (is_running) {
+    LAST = NOW;
+    NOW = SDL_GetPerformanceCounter();
 
-		accumulator += frameTime;
+    // Calculate the time since the last frame in seconds
+    deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
 
-		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-			if (this->debug_mode) {
-				ImGui_ImplSDL2_ProcessEvent(&event);
-			}
-			skeleton::ServiceLocator::get<SkeletonSceneManager>()
-				->get_active_scene()
-				->handle_input(event);
-			switch (event.type) {
-				case SDL_QUIT: {
-					is_running = false;
-					break;
-				}
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      if (this->debug_mode) {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+      }
+      skeleton::ServiceLocator::get<SkeletonSceneManager>()
+          ->get_active_scene()
+          ->handle_input(event);
+      switch (event.type) {
+        case SDL_QUIT: {
+          is_running = false;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
 
-				default: {
-					break;
-				}
-			}
-		}
+    // Update FPS-related variables
+    frameCount++;
+    fpsTimer += deltaTime;
 
-		// Update FPS-related variables
-		frameCount++;
-		fpsTimer += frameTime;
+    // Calculate and print FPS
+    if (fpsTimer >= 5.0) {
+      fps = frameCount / fpsTimer;
+      std::cout << "fps: " << fps << std::endl;
+      frameCount = 0;
+      fpsTimer = 0.0;
+    }
 
-		// Calculate and print FPS (same as before)
-		if (fpsTimer >= 1000.0) {
-			fps = frameCount / (fpsTimer / 1000.0);
+    // Accumulate time for physics updates
+    physicsTime += deltaTime;
 
-			frameCount = 0;
-			fpsTimer = 0.0;
-		}
+    // Perform physics updates with a variable time step
+    while (physicsTime >= fixed_dt) {
+      skeleton::ServiceLocator::get<SkeletonSceneManager>()
+          ->get_active_scene()
+          ->update_physics(fixed_dt);
+      physicsTime -= fixed_dt;
+    }
 
-		// Perform fixed updates for physics
-		while (accumulator >= dt) {
-			skeleton::ServiceLocator::get<SkeletonSceneManager>()
-				->get_active_scene()
-				->update_physics(dt);
-			accumulator -= dt;
-			t += dt;
-		}
+    // Update game logic using deltaTime
+    skeleton::ServiceLocator::get<SkeletonSceneManager>()
+        ->get_active_scene()
+        ->update(deltaTime);
 
-		skeleton::ServiceLocator::get<SkeletonSceneManager>()
-			->get_active_scene()
-			->update(frameTime); // Update other game logic using frameTime
+    // Draw the scene
+    skeleton::ServiceLocator::get<SkeletonSceneManager>()
+        ->get_active_scene()
+        ->draw();
+  }
 
-		skeleton::ServiceLocator::get<SkeletonSceneManager>()
-			->get_active_scene()
-			->draw();
-	}
-
-	skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
-	skeleton::ServiceLocator::shutdown_all_services();
+  // Cleanup
+  skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
+  skeleton::ServiceLocator::shutdown_all_services();
 }
 }; // namespace skeleton

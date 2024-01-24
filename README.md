@@ -4,12 +4,11 @@
 
 ![splash](assets/splash.png) 
 ## Description
-Small game engine framework , made with just 4 dependencies.
+Small game engine framework , made with just 3 dependencies.
 
 1.  SDL [Repo](https://github.com/libsdl-org/SDL)
-2.  Flecs [Repo](https://github.com/SanderMertens/flecs)
-3.  Lua54 [Repo](https://github.com/lua/lua)
-4.  Sol3 [Repo](https://github.com/ThePhD/sol2)
+2.  Lua54 [Repo](https://github.com/lua/lua)
+3.  Sol3 [Repo](https://github.com/ThePhD/sol2)
 
 ## Motivation
 

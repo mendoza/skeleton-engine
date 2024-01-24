@@ -1,22 +1,23 @@
 #ifndef SKELETON_COMPONENTS_HPP
 #define SKELETON_COMPONENTS_HPP
+#include <Node.hpp>
 #include <SDL2/SDL.h>
-struct Position {
-	float x;
-	float y;
+namespace skeleton {
+class Transform : public Node {
+public:
+  float x;
+  float y;
+  float rotation;
+  float scale_x;
+  float scale_y;
 };
 
-struct Velocity {
-	float x;
-	float y;
+class Sprite : public Node {
+public:
+  SDL_Texture *texture;
+  SDL_Rect src_rect;
+  SDL_Rect dest_rect;
+  SDL_RendererFlip flip;
 };
-
-struct Square {
-	int width;
-	int height;
-	int r;
-	int b;
-	int g;
-	int a;
-};
+} // namespace skeleton
 #endif

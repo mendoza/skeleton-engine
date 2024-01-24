@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 include(FetchContent)
 project(skeleton)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_EXPORT_COMPILE_COMMANDS, 1)
 
 # Setting third party deps
 # Setting lua54
@@ -50,14 +51,6 @@ set(BUILD_SHARED_LIBS OFF)
 # END ADDITION
 FetchContent_MakeAvailable(SDL2_image)
 
-# Setting flecs
-FetchContent_Declare(
-        flecs
-        GIT_REPOSITORY https://github.com/SanderMertens/flecs.git
-        GIT_TAG        master
-)
-set(flecs_shared OFF)
-FetchContent_MakeAvailable(flecs)
 
 # setting skeleton source
 file(GLOB TARGET_SRC "./src/*.cpp" )
@@ -100,7 +93,7 @@ target_link_libraries(imgui PRIVATE ${SDL2_LIBRARIES})
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_compile_options(${PROJECT_NAME} PUBLIC -Wall -ggdb)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 flecs::flecs_static imgui ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 imgui ${CMAKE_DL_LIBS})
 
 # Setting up assets file dependency to copy folder
 add_custom_command(

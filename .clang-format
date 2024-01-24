@@ -1,7 +1,6 @@
 BasedOnStyle: LLVM
-IndentWidth: 4
-TabWidth: 4
-UseTab: Always
+IndentWidth: 2
+TabWidth: 2
 DerivePointerAlignment: false
 PointerAlignment: Right
 IndentCaseLabels: true

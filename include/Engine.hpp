@@ -10,6 +10,7 @@
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <chrono>
 #include <imgui.h>
+#include <string.h>
 
 namespace skeleton {
 

@@ -10,6 +10,7 @@
 #include <imgui.h>
 #include <random>
 #include <sol/sol.hpp>
+#include <string>
 class TestScene : public skeleton::Scene {
   public:
 	TestScene(std::string tag);
