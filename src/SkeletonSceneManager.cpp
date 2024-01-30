@@ -20,14 +20,14 @@ void SkeletonSceneManager::add_scene(SceneRef new_state, bool is_replacing) {
 	}
 
 	this->scenes.push(std::move(new_state));
-	this->scenes.top()->init();
+	this->scenes.top()->initialize();
 }
 
 void SkeletonSceneManager::remove_scene() {
 	if (!this->scenes.empty()) {
 		this->scenes.top()->destroy();
 		this->scenes.pop();
-		this->scenes.top()->init();
+		this->scenes.top()->initialize();
 	}
 }
 

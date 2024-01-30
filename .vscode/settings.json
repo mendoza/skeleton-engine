@@ -69,7 +69,8 @@
     "thread": "cpp",
     "cfenv": "cpp",
     "typeinfo": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "regex": "cpp",
+    "future": "cpp"
   },
-  "C_Cpp.errorSquiggles": "enabled",
 }

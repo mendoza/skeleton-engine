@@ -1,5 +1,5 @@
 #include "Engine.hpp"
-#include "SplashScene.hpp"
+#include "TestScene.hpp"
 
 namespace skeleton {
 
@@ -16,15 +16,16 @@ void Engine::build_window(int width, int height, const std::string &Title,
       std::make_unique<SkeletonSceneManager>());
 
   skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
-      std::make_unique<SplashScene>("Splash Scene"), false);
+      std::make_unique<TestScene>("Test Scene"), false);
 }
 
 void Engine::run() {
   uint64_t NOW = SDL_GetPerformanceCounter();
   uint64_t LAST = 0;
   double deltaTime = 0.0;
-  double physicsTime = 0.0;
-  const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics update
+  // double physicsTime = 0.0;
+  // const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
+  // update
 
   // FPS variables
   int frameCount = 0;
@@ -37,15 +38,15 @@ void Engine::run() {
 
     // Calculate the time since the last frame in seconds
     deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
+    Scene *active_scene = skeleton::ServiceLocator::get<SkeletonSceneManager>()
+                              ->get_active_scene();
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       if (this->debug_mode) {
         ImGui_ImplSDL2_ProcessEvent(&event);
       }
-      skeleton::ServiceLocator::get<SkeletonSceneManager>()
-          ->get_active_scene()
-          ->handle_input(event);
+      active_scene->handle_input(event);
       switch (event.type) {
         case SDL_QUIT: {
           is_running = false;
@@ -70,25 +71,21 @@ void Engine::run() {
     }
 
     // Accumulate time for physics updates
-    physicsTime += deltaTime;
+    // physicsTime += deltaTime;
 
     // Perform physics updates with a variable time step
-    while (physicsTime >= fixed_dt) {
-      skeleton::ServiceLocator::get<SkeletonSceneManager>()
-          ->get_active_scene()
-          ->update_physics(fixed_dt);
-      physicsTime -= fixed_dt;
-    }
+    // while (physicsTime >= fixed_dt) {
+    //   skeleton::ServiceLocator::get<SkeletonSceneManager>()
+    //       ->get_active_scene()
+    //       ->fixed_update(fixed_dt);
+    //   physicsTime -= fixed_dt;
+    // }
 
     // Update game logic using deltaTime
-    skeleton::ServiceLocator::get<SkeletonSceneManager>()
-        ->get_active_scene()
-        ->update(deltaTime);
+    active_scene->update(deltaTime);
 
     // Draw the scene
-    skeleton::ServiceLocator::get<SkeletonSceneManager>()
-        ->get_active_scene()
-        ->draw();
+    active_scene->draw();
   }
 
   // Cleanup

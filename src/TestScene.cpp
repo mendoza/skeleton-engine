@@ -6,7 +6,7 @@ TestScene::TestScene(std::string tag) : Scene(tag) {
 
 TestScene::~TestScene() = default;
 
-void TestScene::on_init() {
+void TestScene::initialize() {
   setupLuaState();
   skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->set_clear_color(
       {0, 0, 0, 100});
@@ -16,39 +16,10 @@ void TestScene::on_init() {
   int height = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
                    ->get_window_height();
 
-  // for (int i = 0; i < 1000; i++) {
-  // 	auto e = ecs.entity().set(
-  // 		[i, width, height](Position &p, Velocity &v, Square &s) {
-  // 			// calculate position and velocity to form a circle from the
-  // 			// middle of the screen
-  // 			float angle = 2 * 3.14159 * float(i) / 1000.0f;
-  // 			p.x = width / 2 + cos(angle) * 100;
-  // 			p.y = height / 2 + sin(angle) * 100;
-
-  // 			v.x = cos(angle) * 10.f;
-  // 			v.y = sin(angle) * 10.f;
-  // 			int r = rand() % 255;
-  // 			int g = rand() % 255;
-  // 			int b = rand() % 255;
-  // 			s = {10, 10, r, g, b, 255};
-  // 		});
-  // }
-
-  // ecs.system<Position, const Velocity>("Move").iter(
-  // 	[](flecs::iter &it, Position *p, const Velocity *v) {
-  // 		for (auto i : it) {
-  // 			p[i].x += v[i].x * it.delta_time();
-  // 			p[i].y += v[i].y * it.delta_time();
-  // 		}
-  // 	});
-
-  // ecs.system<Position>("Remove").each(
-  // 	[width, height](flecs::entity e, Position p) {
-  // 		// Remove entities with position outside viewport
-  // 		if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
-  // 			e.destruct();
-  // 		}
-  // 	});
+  this->addChild(new skeleton::ParticleSystem("particle_system: 1", 200, 200));
+  this->addChild(new skeleton::ParticleSystem("particle_system: 2", 200, 400));
+  this->addChild(new skeleton::ParticleSystem("particle_system: 3", 400, 200));
+  this->addChild(new skeleton::ParticleSystem("particle_system: 4", 400, 400));
 }
 
 void TestScene::setupLuaState() {
@@ -68,38 +39,52 @@ void TestScene::setupLuaState() {
   // this->script_handle_input = L["handle_input"];
 }
 
-void TestScene::on_input(SDL_Event &event) {
-	//  this->script_handle_input(event);
-	if (event.type == SDL_MOUSEBUTTONDOWN) {
-		if (event.button.button == SDL_BUTTON_LEFT) {
-			int mouseX = event.button.x;
-			int mouseY = event.button.y;
-			// ecs.entity().set(
-			// 	[mouseX, mouseY](Position &p, Velocity &v, Square &s) {
-			// 		// calculate position and velocity to form a circle from the
-			// 		// middle of the screen
+void TestScene::handle_input(SDL_Event &event) {
+  //  this->script_handle_input(event);
+  if (event.type == SDL_MOUSEBUTTONDOWN) {
+    if (event.button.button == SDL_BUTTON_LEFT) {
+      int mouseX = event.button.x;
+      int mouseY = event.button.y;
+      // ecs.entity().set(
+      // 	[mouseX, mouseY](Position &p, Velocity &v, Square &s) {
+      // 		// calculate position and velocity to form a circle from the
+      // 		// middle of the screen
 
-			// 		float angle = 2 * 3.14159 * float(rand() % 1000) / 1000.0f;
-			// 		p.x = mouseX;
-			// 		p.y = mouseY;
+      // 		float angle = 2 * 3.14159 * float(rand() % 1000) / 1000.0f;
+      // 		p.x = mouseX;
+      // 		p.y = mouseY;
 
-			// 		v.x = cos(angle) * 0.1f;
-			// 		v.y = sin(angle) * 0.1f;
-			// 		int r = rand() % 255;
-			// 		int g = rand() % 255;
-			// 		int b = rand() % 255;
-			// 		s = {10, 10, r, g, b, 255};
-			// 	});
-		}
-	}
+      // 		v.x = cos(angle) * 0.1f;
+      // 		v.y = sin(angle) * 0.1f;
+      // 		int r = rand() % 255;
+      // 		int g = rand() % 255;
+      // 		int b = rand() % 255;
+      // 		s = {10, 10, r, g, b, 255};
+      // 	});
+    }
+  }
 }
 
-void TestScene::on_update(float dt) {
-	// std::cout << "TestScene update called" << std::endl;
-}
+void DrawNodeTree(skeleton::Node *node) {
+  // Ensure the node is valid
+  if (!node) {
+    return;
+  }
 
-void TestScene::on_update_physics(float dt) {
-	// std::cout << "TestScene update physics called" << std::endl;
+  // Determine the flags based on whether the node has children
+  ImGuiTreeNodeFlags nodeFlags =
+      (node->children.empty()) ? ImGuiTreeNodeFlags_Leaf : 0;
+
+  // Display node in the tree
+  if (ImGui::TreeNodeEx(node->tag.c_str(), nodeFlags)) {
+    // Recursively draw children
+    for (auto &child : node->children) {
+      DrawNodeTree(child);
+    }
+
+    // Close the tree node
+    ImGui::TreePop();
+  }
 }
 
 void TestScene::draw_debug_window() {
@@ -120,24 +105,8 @@ void TestScene::draw_debug_window() {
     ImGui::EndMenuBar();
   }
   ImGui::Text("Scene tag: %s", this->tag.c_str());
-  // Display contents in a scrolling region
-  // auto query = ecs.query_builder<Position, Square>().build();
-  // ImGui::TextColored(ImVec4(1, 1, 0, 1), "Entities (%d)", query.count());
-  // ImGui::BeginChild("Scrolling");
-  // query.each([](flecs::iter itr, size_t it, Position &p, const Square &s) {
-  // 	ImGui::TextColored(ImVec4(s.r / 255.0f, s.g / 255.0f, s.b / 255.0f, 1),
-  // 					   "Entity #%d: (%.2f, %.2f)", it, p.x, p.y);
-  // });
-  // ImGui::EndChild();
+  DrawNodeTree(this);
   ImGui::End();
 }
 
-void TestScene::on_draw() {
-  // auto query = ecs.query_builder<Position, Square>().build();
-  // query.each([](Position &p, Square &s) {
-  // 	skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
-  // 		p.x, p.y, s.width, s.height, s.r, s.g, s.b, s.a);
-  // });
-}
-
-void TestScene::on_destroy() {}
+void TestScene::destroy() {}

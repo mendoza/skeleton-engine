@@ -13,12 +13,12 @@ class SplashScene : public skeleton::Scene {
   public:
 	SplashScene(std::string tag);
 	~SplashScene() override;
-	void on_init() override;
-	void on_input(SDL_Event &event) override;
-	void on_update(float dt) override;
-	void on_update_physics(float dt) override;
-	void on_draw() override;
-	void on_destroy() override;
+	void initialize() override;
+	void handle_input(SDL_Event &event) override;
+	void update(float dt) override;
+	// void fixed_update(float dt) override;
+	void draw() override;
+	void destroy() override;
 	void draw_debug_window() override;
 
   private:
