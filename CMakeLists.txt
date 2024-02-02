@@ -84,6 +84,7 @@ add_library(imgui STATIC
   ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer2.cpp
   )
 
+target_compile_features(imgui PUBLIC cxx_std_17)
 # Include ImGui's include directory
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 # Specify where to find SDL2 headers
