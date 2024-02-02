@@ -10,9 +10,7 @@
             "windows": {
                 "command": "mingw32-make"
             },
-            "linux": {
-                "command": "make"
-            },
+            "command": "make",
             "group": {
                 "kind": "build",
                 "isDefault": true,
