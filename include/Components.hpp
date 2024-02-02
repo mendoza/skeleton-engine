@@ -23,11 +23,13 @@ public:
 
 class Particle : public DrawableNode {
 public:
-  int width = 10;
+  int width = 1;
+  int life_time = 0;
   int r, g, b = 0;
   int velocity_x = 0;
   int velocity_y = 0;
-  Particle(std::string tag, int x, int y) {
+  Particle(std::string tag, int x, int y, int velocity_x = 0,
+           int velocity_y = 0) {
     this->tag = tag;
     this->x = x;
     this->y = y;
@@ -37,7 +39,8 @@ public:
     this->r = rand() % 255;
     this->g = rand() % 255;
     this->b = rand() % 255;
-    // define velocity to scatter squares
+    this->velocity_x = velocity_x;
+    this->velocity_y = velocity_y;
   };
 
   virtual void draw() override {
@@ -47,12 +50,15 @@ public:
   };
 
   virtual void update(double deltaTime) override {
+    this->life_time++;
     this->x += velocity_x * deltaTime;
     this->y += velocity_y * deltaTime;
   };
 };
 
 class ParticleSystem : public DrawableNode {
+  int last_spawn = 0;
+
 public:
   ParticleSystem(std::string tag, int x, int y) {
     this->tag = tag;
@@ -61,9 +67,14 @@ public:
     this->rotation = 0;
     this->scale_x = 1;
     this->scale_y = 1;
-    for (int i = 0; i < 100; i++) {
-      this->children.push_back(
-          new Particle("particle_id: " + std::to_string(i), this->x, this->y));
+    for (int i = 0; i < 360; i++) {
+      float angle = 2 * 3.14159 * float(i) / 360.0f;
+      float velocity_x = cos(angle) * 10;
+      float velocity_y = sin(angle) * 10;
+      this->children.push_back(new Particle("particle_id: " + std::to_string(i),
+                                            this->x, this->y, velocity_x,
+                                            velocity_y));
+      this->last_spawn++;
     }
   };
 
@@ -75,24 +86,16 @@ public:
 
   virtual void update(double deltaTime) override {
     // keep adding particles to look like a flow of particles
-    if (this->children.size() < 100) {
-      this->children.push_back(
-          new Particle("particle_id: " + std::to_string(this->children.size()),
-                       this->x, this->y));
-    }
-    for (auto &node : this->children) {
-      auto particle = dynamic_cast<Particle *>(node);
-      particle->velocity_y += 1;
-      if (particle->y > 600) {
-        this->children.erase(
-            std::remove(this->children.begin(), this->children.end(), node),
-            this->children.end());
+    for (int i = 0; i < this->children.size(); i++) {
+      auto particle = dynamic_cast<Particle *>(this->children[i]);
+      if (particle->life_time > 1000) {
+        this->children.erase(this->children.begin() + i);
+        i--; // Decrement i to account for the erased element
       } else {
         particle->update(deltaTime);
       }
     }
-  };
+  }
 };
-
 } // namespace skeleton
 #endif

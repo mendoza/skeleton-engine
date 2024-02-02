@@ -9,6 +9,13 @@ namespace skeleton {
 class Node {
 public:
   std::string tag;
+
+  virtual ~Node() {
+    for (auto child : children) {
+      delete child;
+    }
+  }
+
   virtual void update(double deltaTime) {
     for (auto child : children) {
       child->update(deltaTime);

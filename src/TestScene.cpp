@@ -1,4 +1,5 @@
 #include "TestScene.hpp"
+#include <memory>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
   srand((unsigned)time(NULL));
@@ -16,10 +17,13 @@ void TestScene::initialize() {
   int height = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
                    ->get_window_height();
 
-  this->addChild(new skeleton::ParticleSystem("particle_system: 1", 200, 200));
-  this->addChild(new skeleton::ParticleSystem("particle_system: 2", 200, 400));
-  this->addChild(new skeleton::ParticleSystem("particle_system: 3", 400, 200));
-  this->addChild(new skeleton::ParticleSystem("particle_system: 4", 400, 400));
+  // create a circle of particle systems around the center of the screen
+  for (int i = 0; i < 360; i += 1) {
+    float angle = 2 * 3.14159 * float(i) / 360.0f;
+    float x = cos(angle) * 200 + width / 2;
+    float y = sin(angle) * 200 + height / 2;
+    this->addChild(new skeleton::ParticleSystem("particle_system", x, y));
+  }
 }
 
 void TestScene::setupLuaState() {
