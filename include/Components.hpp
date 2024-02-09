@@ -4,26 +4,35 @@
 #include "ServiceLocator.hpp"
 #include "SkeletonRenderer.hpp"
 #include <SDL2/SDL.h>
-#include <iostream>
-#include <string>
+
 namespace skeleton {
-class TransformNode : public Node {
+class Base2DNode : public Node<Base2DNode> {
 public:
-  float x;
-  float y;
-  float rotation;
-  float scale_x;
-  float scale_y;
+  Base2DNode() : Node("base_2d_node"){};
+  virtual void update(double deltaTime) = 0;
 };
 
-class DrawableNode : public TransformNode {
+class DrawableNode : public Base2DNode {
 public:
+  int x = 0;
+  int y = 0;
+  int width = 0;
+  int height = 0;
+  int rotation = 0;
+  int scale_x = 1;
+  int scale_y = 1;
   virtual void draw() = 0;
+
+  virtual void update(double deltaTime) override {
+    for (auto child : this->children) {
+      child->update(deltaTime);
+    }
+  };
 };
 
 class Particle : public DrawableNode {
 public:
-  int width = 1;
+  int width = 10;
   int life_time = 0;
   int r, g, b = 0;
   int velocity_x = 0;
@@ -45,8 +54,8 @@ public:
 
   virtual void draw() override {
     skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
-        this->x, this->y, this->width, this->width, this->r, this->g, this->b,
-        255);
+        this->x, this->y, this->width * this->scale_x,
+        this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
 
   virtual void update(double deltaTime) override {
@@ -71,6 +80,7 @@ public:
       float angle = 2 * 3.14159 * float(i) / 360.0f;
       float velocity_x = cos(angle) * 10;
       float velocity_y = sin(angle) * 10;
+
       this->children.push_back(new Particle("particle_id: " + std::to_string(i),
                                             this->x, this->y, velocity_x,
                                             velocity_y));
@@ -80,7 +90,11 @@ public:
 
   virtual void draw() override {
     for (auto &particle : this->children) {
-      particle->draw();
+      // test if node is a particle by casting
+      // if it is a particle, draw
+      if (dynamic_cast<Particle *>(particle)) {
+        dynamic_cast<Particle *>(particle)->draw();
+      };
     }
   };
 
@@ -88,7 +102,7 @@ public:
     // keep adding particles to look like a flow of particles
     for (int i = 0; i < this->children.size(); i++) {
       auto particle = dynamic_cast<Particle *>(this->children[i]);
-      if (particle->life_time > 1000) {
+      if (particle->life_time > 10000) {
         this->children.erase(this->children.begin() + i);
         i--; // Decrement i to account for the erased element
       } else {

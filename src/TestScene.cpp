@@ -1,5 +1,5 @@
 #include "TestScene.hpp"
-#include <memory>
+#include <string>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
   srand((unsigned)time(NULL));
@@ -18,12 +18,16 @@ void TestScene::initialize() {
                    ->get_window_height();
 
   // create a circle of particle systems around the center of the screen
-  for (int i = 0; i < 360; i += 1) {
-    float angle = 2 * 3.14159 * float(i) / 360.0f;
-    float x = cos(angle) * 200 + width / 2;
-    float y = sin(angle) * 200 + height / 2;
-    this->addChild(new skeleton::ParticleSystem("particle_system", x, y));
-  }
+  // for (int i = 0; i < 360; i += 1) {
+  //   float angle = 2 * 3.14159 * float(i) / 360.0f;
+  //   float x = cos(angle) * 200 + width / 2;
+  //   float y = sin(angle) * 200 + height / 2;
+  //   this->addChild(new
+  //   skeleton::ParticleSystem("particle_system_"+std::to_string(i), x, y));
+  // }
+
+  this->addChild(
+      new skeleton::ParticleSystem("particle_system_1", width / 2, height / 2));
 }
 
 void TestScene::setupLuaState() {
@@ -69,7 +73,7 @@ void TestScene::handle_input(SDL_Event &event) {
   }
 }
 
-void DrawNodeTree(skeleton::Node *node) {
+template <typename T> void DrawNodeTree(skeleton::Node<T> *node) {
   // Ensure the node is valid
   if (!node) {
     return;

@@ -1,14 +1,15 @@
 #ifndef SKELETON_NODE_HPP
 #define SKELETON_NODE_HPP
-#include "ServiceLocator.hpp"
-#include "SkeletonRenderer.hpp"
 #include <SDL2/SDL.h>
-#include <string>
 #include <vector>
+#include <string>
+
 namespace skeleton {
-class Node {
+template <typename T> class Node {
 public:
-  std::string tag;
+    std::string tag;
+
+  Node(std::string tag) : tag(tag) {}
 
   virtual ~Node() {
     for (auto child : children) {
@@ -16,29 +17,9 @@ public:
     }
   }
 
-  virtual void update(double deltaTime) {
-    for (auto child : children) {
-      child->update(deltaTime);
-    }
-  }
+  void addChild(T *child) { children.push_back(child); }
 
-  virtual void draw() {
-    for (auto child : children) {
-      child->draw();
-    }
-  }
-
-  virtual void handle_input(SDL_Event &event) {
-    for (auto child : children) {
-      child->handle_input(event);
-    }
-  }
-
-  void addChild(Node *child) { children.push_back(child); }
-
-  std::vector<Node *> children;
-
-protected:
+  std::vector<T *> children;
 };
 } // namespace skeleton
 #endif
