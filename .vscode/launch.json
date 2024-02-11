@@ -12,8 +12,10 @@
             "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": true,
+            "osx": {
+                "MIMode": "lldb"
+            },
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
