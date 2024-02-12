@@ -3,8 +3,6 @@
 
 #include "Scene.hpp"
 #include "Service.hpp"
-#include <memory>
-#include <stack>
 
 namespace skeleton {
 class SceneManager : public Service {

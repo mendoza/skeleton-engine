@@ -18,13 +18,11 @@ protected:
   skeleton::Logger *logger = skeleton::Logger::get_instance();
   skeleton::AssetManager *asset_manager;
   skeleton::ScriptManager *script_manager;
-  std::string tag;
 
 public:
-  Scene(std::string tag): Node<Base2DNode>("root_node") {
+  Scene(std::string tag): Node<Base2DNode>(tag) {
     asset_manager = new AssetManager();
     script_manager = new ScriptManager();
-    this->tag = tag;
   }
   virtual ~Scene() {
     delete asset_manager;

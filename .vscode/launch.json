@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++ Debug (gdb)",
+            "name": "Debug Skeleton",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/skeleton",

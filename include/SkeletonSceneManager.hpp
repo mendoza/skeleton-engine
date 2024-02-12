@@ -2,6 +2,8 @@
 #define SKELETON_SCENE_MANAGER_HPP
 
 #include "SceneManager.hpp"
+#include <stack>
+
 
 namespace skeleton {
 class SkeletonSceneManager : public SceneManager {

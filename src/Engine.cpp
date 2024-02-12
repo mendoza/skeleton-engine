@@ -1,5 +1,4 @@
 #include "Engine.hpp"
-#include "TestScene.hpp"
 
 namespace skeleton {
 
@@ -14,9 +13,6 @@ void Engine::build_window(int width, int height, const std::string &Title,
 
   skeleton::ServiceLocator::provide<SkeletonSceneManager>(
       std::make_unique<SkeletonSceneManager>());
-
-  skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(
-      std::make_unique<TestScene>("Test Scene"), false);
 }
 
 void Engine::run() {
@@ -91,5 +87,10 @@ void Engine::run() {
   // Cleanup
   skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
   skeleton::ServiceLocator::shutdown_all_services();
+}
+
+void Engine::add_scene(SceneRef scene, bool is_active) {
+  skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(std::move(scene),
+                                                                   is_active);
 }
 }; // namespace skeleton
