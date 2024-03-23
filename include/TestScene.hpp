@@ -1,7 +1,7 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include "Components.hpp"
+#include "Nodes.hpp"
 #include "Node.hpp"
 #include "Scene.hpp"
 #include "Utils.hpp"

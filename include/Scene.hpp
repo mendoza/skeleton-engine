@@ -2,7 +2,7 @@
 #define SKELETON_SCENE_HPP
 
 #include "AssetManager.hpp"
-#include "Components.hpp"
+#include "Nodes.hpp"
 #include "Logger.hpp"
 #include "Node.hpp"
 #include "ScriptManager.hpp"
@@ -12,7 +12,7 @@
 #include <sol/sol.hpp>
 
 namespace skeleton {
-class Scene : public Node<Base2DNode> {
+class Scene : public Node2D {
 protected:
   bool debug_mode;
   skeleton::Logger *logger = skeleton::Logger::get_instance();
@@ -20,10 +20,11 @@ protected:
   skeleton::ScriptManager *script_manager;
 
 public:
-  Scene(std::string tag): Node<Base2DNode>(tag) {
+  Scene(std::string tag): Node2D(tag) {
     asset_manager = new AssetManager();
     script_manager = new ScriptManager();
   }
+
   virtual ~Scene() {
     delete asset_manager;
     delete script_manager;
@@ -31,13 +32,7 @@ public:
 
   virtual void initialize() = 0;
   virtual void handle_input(SDL_Event &event) = 0;
-  virtual void update(float dt) {
-    for (auto child : this->children) {
-      if (dynamic_cast<Base2DNode *>(child)) {
-        dynamic_cast<Base2DNode *>(child)->update(dt);
-      }
-    }
-  }
+
   virtual void draw() {
     skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->begin();
     draw_debug_window();

@@ -5,19 +5,19 @@ SplashScene::SplashScene(std::string tag) : Scene(tag) {}
 SplashScene::~SplashScene() = default;
 
 void SplashScene::initialize() {
-  this->script_manager->load_script_file("assets/scripts/config.lua");
-  this->config = this->script_manager->get_table("config");
-  this->splash = this->config["splash"];
-  this->time_to_change_scene = this->splash["time"];
-  std::string file_path = this->splash["backgroud_img_file"];
-  skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(
-      file_path, "splash_background");
+  // this->script_manager->load_script_file("assets/scripts/config.lua");
+  // this->config = this->script_manager->get_table("config");
+  // this->splash = this->config["splash"];
+  // this->time_to_change_scene = this->splash["time"];
+  // std::string file_path = this->splash["backgroud_img_file"];
+  // skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->add_texture(
+  //     file_path, "splash_background");
   this->start_time = SDL_GetPerformanceCounter();
 }
 
 void SplashScene::handle_input(SDL_Event &event) {}
 
-void SplashScene::update(float dt) {
+void SplashScene::update(double dt) {
   uint64_t current_time = SDL_GetPerformanceCounter();
   auto elapsedTime =
       static_cast<double>((current_time - this->start_time) /

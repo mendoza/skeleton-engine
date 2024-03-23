@@ -54,7 +54,7 @@ FetchContent_MakeAvailable(SDL2_image)
 
 # setting skeleton source
 file(GLOB TARGET_SRC "./src/*.cpp" )
-include_directories("./include")
+include_directories("include")
 add_executable(${PROJECT_NAME} ${TARGET_SRC})
 
 # Include ImGui using FetchContent

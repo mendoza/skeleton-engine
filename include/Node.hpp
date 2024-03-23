@@ -1,14 +1,14 @@
 #ifndef SKELETON_NODE_HPP
 #define SKELETON_NODE_HPP
+#include <string>
 #include <SDL2/SDL.h>
 #include <vector>
-#include <string>
 
 namespace skeleton {
-template <typename T> class Node {
+class Node {
 public:
-    std::string tag;
-
+  std::string tag;
+  Node() {}
   Node(std::string tag) : tag(tag) {}
 
   virtual ~Node() {
@@ -17,9 +17,9 @@ public:
     }
   }
 
-  void addChild(T *child) { children.push_back(child); }
+  void addChild(Node *child) { children.push_back(child); }
 
-  std::vector<T *> children;
+  std::vector<Node *> children;
 };
 } // namespace skeleton
 #endif
