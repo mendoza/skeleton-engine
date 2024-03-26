@@ -13,8 +13,7 @@ public:
   int velocity_x = 0;
   int velocity_y = 0;
   Particle(std::string tag, int x, int y, int velocity_x = 0,
-           int velocity_y = 0) {
-    this->tag = tag;
+           int velocity_y = 0): DrawableNode(tag) {
     this->width = 10;
     this->x = x;
     this->y = y;
@@ -45,8 +44,7 @@ class ParticleSystem : public DrawableNode {
   int last_spawn = 0;
 
 public:
-  ParticleSystem(std::string tag, int x, int y) {
-    this->tag = tag;
+  ParticleSystem(std::string tag, int x, int y): DrawableNode(tag) {
     this->x = x;
     this->y = y;
     for (int i = 0; i < 360; i++) {

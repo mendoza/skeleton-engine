@@ -1,5 +1,4 @@
 #include "TestScene.hpp"
-#include <string>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
   srand((unsigned)time(NULL));
@@ -19,6 +18,22 @@ void TestScene::initialize() {
 
   this->addChild(
       new skeleton::ParticleSystem("particle_system_1", width / 2, height / 2));
+
+    skeleton::Vector2<double> a(1, 2);
+    skeleton::Vector2<double> b(3, 4);
+    skeleton::Vector2<double> c = a + b;
+    skeleton::Vector2<double> d = a - b;
+    skeleton::Vector2<double> e = a * 2;
+    skeleton::Vector2<double> f = a / 2;
+    bool g = a == b;
+    bool h = a != b;
+    std::cout << c << std::endl;
+    std::cout << d << std::endl;
+    std::cout << e << std::endl;
+    std::cout << f << std::endl;
+    std::cout << g << std::endl;
+    std::cout << h << std::endl;
+
 }
 
 void TestScene::setupLuaState() {

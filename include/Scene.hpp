@@ -1,10 +1,9 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
-#include "AssetManager.hpp"
-#include "Nodes.hpp"
 #include "Logger.hpp"
 #include "Node.hpp"
+#include "Nodes.hpp"
 #include "ScriptManager.hpp"
 #include "ServiceLocator.hpp"
 #include <SDL2/SDL.h>
@@ -16,19 +15,12 @@ class Scene : public Node2D {
 protected:
   bool debug_mode;
   skeleton::Logger *logger = skeleton::Logger::get_instance();
-  skeleton::AssetManager *asset_manager;
   skeleton::ScriptManager *script_manager;
 
 public:
-  Scene(std::string tag): Node2D(tag) {
-    asset_manager = new AssetManager();
-    script_manager = new ScriptManager();
-  }
+  Scene(std::string tag) : Node2D(tag) { script_manager = new ScriptManager(); }
 
-  virtual ~Scene() {
-    delete asset_manager;
-    delete script_manager;
-  }
+  virtual ~Scene() { delete script_manager; }
 
   virtual void initialize() = 0;
   virtual void handle_input(SDL_Event &event) = 0;
