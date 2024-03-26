@@ -19,12 +19,12 @@ void TestScene::initialize() {
   this->addChild(
       new skeleton::ParticleSystem("particle_system_1", width / 2, height / 2));
 
-    skeleton::Vector2<double> a(1, 2);
-    skeleton::Vector2<double> b(3, 4);
-    skeleton::Vector2<double> c = a + b;
-    skeleton::Vector2<double> d = a - b;
-    skeleton::Vector2<double> e = a * 2;
-    skeleton::Vector2<double> f = a / 2;
+    skeleton::Vector2f a(1, 2);
+    skeleton::Vector2f b(3, 4);
+    skeleton::Vector2f c = a + b;
+    skeleton::Vector2f d = a - b;
+    skeleton::Vector2f e = a * 2;
+    skeleton::Vector2f f = a / 2;
     bool g = a == b;
     bool h = a != b;
     std::cout << c << std::endl;

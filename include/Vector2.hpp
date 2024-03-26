@@ -27,5 +27,9 @@ public:
     return os << "(" << v.x << ", " << v.y << ")";
   }
 };
+
+typedef Vector2<int> Vector2i;
+typedef Vector2<float> Vector2f;
+typedef Vector2<double> Vector2d;
 } // namespace skeleton
 #endif
