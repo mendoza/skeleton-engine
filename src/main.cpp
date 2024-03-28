@@ -1,6 +1,7 @@
 #include "Engine.hpp"
 #include "TestScene.hpp"
 #include <lua.hpp>
+#include <sol/sol.hpp>
 skeleton::Logger *skeleton::Logger::instance = 0;
 
 int main(int argv, char **args) {

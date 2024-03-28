@@ -2,10 +2,6 @@
 #define SKELETON_RENDER_SERVICE_HPP
 #include "Renderer.hpp"
 #include <SDL.h>
-#include <backends/imgui_impl_sdl2.h>
-#include <backends/imgui_impl_sdlrenderer2.h>
-#include <imgui.h>
-#include <vector>
 namespace skeleton {
 class SkeletonRenderer : public Renderer {
 public:

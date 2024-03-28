@@ -19,11 +19,14 @@ public:
   Node2D(std::string tag) : Node(tag){};
 
   virtual void update(double deltaTime) {
+    handle_update(deltaTime);
     for (auto child : this->children) {
       if (dynamic_cast<Node2D *>(child))
         dynamic_cast<Node2D *>(child)->update(deltaTime);
     }
   }
+
+  virtual void handle_update(double deltaTime) = 0;
 };
 } // namespace skeleton
 #endif

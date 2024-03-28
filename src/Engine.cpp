@@ -1,4 +1,7 @@
 #include "Engine.hpp"
+#include "SkeletonRenderer.hpp"
+#include "SkeletonSceneManager.hpp"
+#include "ServiceLocator.hpp"
 
 namespace skeleton {
 

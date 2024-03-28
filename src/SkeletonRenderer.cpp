@@ -1,4 +1,7 @@
 #include "SkeletonRenderer.hpp"
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_sdlrenderer2.h>
+#include <imgui.h>
 
 namespace skeleton {
 SkeletonRenderer::SkeletonRenderer() {

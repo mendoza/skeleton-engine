@@ -1,15 +1,12 @@
 #ifndef SKELETON_ENGINE_HPP
 #define SKELETON_ENGINE_HPP
 
-#include "ServiceLocator.hpp"
-#include "SkeletonRenderer.hpp"
-#include "SkeletonSceneManager.hpp"
 #include <SDL.h>
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
-#include <memory>
 #include <string>
+#include "Scene.hpp"
 
 namespace skeleton {
 

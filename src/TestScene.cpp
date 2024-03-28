@@ -1,4 +1,7 @@
 #include "TestScene.hpp"
+#include "Nodes.hpp"
+#include "Node.hpp"
+#include "Vector2.hpp"
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
   srand((unsigned)time(NULL));
@@ -6,7 +9,7 @@ TestScene::TestScene(std::string tag) : Scene(tag) {
 
 TestScene::~TestScene() = default;
 
-void TestScene::initialize() {
+void TestScene::handle_init() {
   setupLuaState();
   skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->set_clear_color(
       {0, 0, 0, 100});
@@ -65,6 +68,15 @@ void TestScene::handle_input(SDL_Event &event) {
   }
 }
 
+void TestScene::handle_update(double dt) {
+}
+
+void TestScene::handle_draw() {
+}
+
+void TestScene::handle_destroy() {}
+
+
 void DrawNodeTree(skeleton::Node *node) {
   // Ensure the node is valid
   if (!node) {
@@ -108,4 +120,4 @@ void TestScene::draw_debug_window() {
   ImGui::End();
 }
 
-void TestScene::destroy() {}
+

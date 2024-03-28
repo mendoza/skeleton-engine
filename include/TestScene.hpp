@@ -1,11 +1,7 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include "Nodes.hpp"
-#include "Node.hpp"
 #include "Scene.hpp"
-#include "Utils.hpp"
-#include "Vector2.hpp"
 #include <SDL.h>
 #include <imgui.h>
 #include <sol/sol.hpp>
@@ -14,11 +10,14 @@ class TestScene : public skeleton::Scene {
 public:
   TestScene(std::string tag);
   ~TestScene() override;
-  void initialize() override;
+  void handle_init() override;
   void handle_input(SDL_Event &event) override;
+  void handle_update(double dt) override;
   // void fixed_update(float dt) override;
+  void handle_draw() override;
+  void handle_destroy() override;
+
   void draw_debug_window() override;
-  void destroy() override;
   void setupLuaState();
 
 private:

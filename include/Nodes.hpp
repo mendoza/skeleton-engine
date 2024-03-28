@@ -27,13 +27,13 @@ public:
     this->velocity_y = velocity_y;
   };
 
-  virtual void draw() override {
+  virtual void handle_draw() override {
     skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
         this->x, this->y, this->width * this->scale_x,
         this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
 
-  virtual void update(double deltaTime) override {
+  virtual void handle_update(double deltaTime) override {
     this->life_time++;
     this->x += velocity_x * deltaTime;
     this->y += velocity_y * deltaTime;
@@ -59,24 +59,10 @@ public:
     }
   };
 
-  virtual void draw() override {
-    for (auto &particle : this->children) {
-      // test if node is a particle by casting
-      // if it is a particle, draw
-      if (dynamic_cast<Particle *>(particle)) {
-        dynamic_cast<Particle *>(particle)->draw();
-      };
-    }
+  virtual void handle_draw() override {
   };
 
-  virtual void update(double deltaTime) override {
-    for (auto &particle : this->children) {
-      // test if node is a particle by casting
-      // if it is a particle, update
-      if (dynamic_cast<Particle *>(particle)) {
-        dynamic_cast<Particle *>(particle)->update(deltaTime);
-      };
-    }
+  virtual void handle_update(double dt) override {
   }
 };
 } // namespace skeleton
