@@ -6,7 +6,7 @@
 #include "Scene.hpp"
 #include "Utils.hpp"
 #include "Vector2.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <imgui.h>
 #include <sol/sol.hpp>
 #include <string>

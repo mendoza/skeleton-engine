@@ -2,7 +2,7 @@
 #define SCRIPT_MANAGER_HPP
 #include "Logger.hpp"
 #include "SkeletonRenderer.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <sol/sol.hpp>
 
 namespace skeleton {

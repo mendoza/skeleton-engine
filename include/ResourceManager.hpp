@@ -2,7 +2,7 @@
 #ifndef SKELETON_RESOURCE_MANAGER_HPP
 #define SKELETON_RESOURCE_MANAGER_HPP
 #include "resource.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <map>
 #include <string>
 namespace skeleton {

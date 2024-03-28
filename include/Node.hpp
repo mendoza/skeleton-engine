@@ -1,7 +1,6 @@
 #ifndef SKELETON_NODE_HPP
 #define SKELETON_NODE_HPP
 #include <string>
-#include <SDL2/SDL.h>
 #include <vector>
 
 namespace skeleton {

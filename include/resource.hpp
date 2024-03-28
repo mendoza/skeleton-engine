@@ -1,6 +1,6 @@
 #ifndef SKELETON_RESOURCE_HPP
 #define SKELETON_RESOURCE_HPP
-#include <SDL2/SDL.h> // Updated include statement
+#include <SDL.h> // Updated include statement
 #include <sol/sol.hpp>
 #include <string>
 namespace skeleton {

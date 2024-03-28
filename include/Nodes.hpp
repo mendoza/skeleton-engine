@@ -3,7 +3,7 @@
 #include "DrawableNode.hpp"
 #include "ServiceLocator.hpp"
 #include "SkeletonRenderer.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace skeleton {
 class Particle : public DrawableNode {

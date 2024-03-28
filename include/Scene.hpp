@@ -6,7 +6,7 @@
 #include "Nodes.hpp"
 #include "ScriptManager.hpp"
 #include "ServiceLocator.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <memory>
 #include <sol/sol.hpp>
 

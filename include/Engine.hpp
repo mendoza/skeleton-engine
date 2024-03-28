@@ -4,7 +4,7 @@
 #include "ServiceLocator.hpp"
 #include "SkeletonRenderer.hpp"
 #include "SkeletonSceneManager.hpp"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>

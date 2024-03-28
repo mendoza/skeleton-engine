@@ -4,8 +4,8 @@
 #include "Logger.hpp"
 #include "ServiceLocator.hpp"
 #include "SkeletonRenderer.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_keyboard.h>
+#include <SDL.h>
+#include <SDL_keyboard.h>
 #include <sol/sol.hpp>
 namespace skeleton {
 
