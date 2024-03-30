@@ -88,14 +88,13 @@ target_compile_features(imgui PUBLIC cxx_std_17)
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 # Specify where to find SDL2 headers
 target_include_directories(imgui PRIVATE ${SDL2_SOURCE_DIR}/include)
-
 # Link ImGui with the SDL2 library
 target_link_libraries(imgui PRIVATE ${SDL2_LIBRARIES})
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_compile_options(${PROJECT_NAME} PUBLIC -Wall -ggdb)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 imgui ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2-static SDL2_image::SDL2_image-static lua::lua sol2::sol2 imgui ${CMAKE_DL_LIBS})
 
 # Setting up assets file dependency to copy folder
 add_custom_command(

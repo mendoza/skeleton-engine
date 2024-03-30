@@ -49,8 +49,6 @@ public:
     this->x = x;
     this->y = y;
     for (int i = 0; i < 360; i++) {
-      // create a particle with 2d velocity to form a circle
-      // with radius 1000
       int velocity_x = cos(i) * 1000;
       int velocity_y = sin(i) * 1000;
       this->addChild(new Particle("particle", x, y, velocity_x, velocity_y));

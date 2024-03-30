@@ -23,13 +23,14 @@ void Engine::run() {
   uint64_t LAST = 0;
   double deltaTime = 0.0;
   // double physicsTime = 0.0;
-  // const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
+  const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
   // update
 
   // FPS variables
   int frameCount = 0;
   double fps = 0.0;
   double fpsTimer = 0.0;
+  double physicsTime = 0.0;
 
   while (is_running) {
     LAST = NOW;
@@ -70,15 +71,13 @@ void Engine::run() {
     }
 
     // Accumulate time for physics updates
-    // physicsTime += deltaTime;
+    physicsTime += deltaTime;
 
     // Perform physics updates with a variable time step
-    // while (physicsTime >= fixed_dt) {
-    //   skeleton::ServiceLocator::get<SkeletonSceneManager>()
-    //       ->get_active_scene()
-    //       ->fixed_update(fixed_dt);
-    //   physicsTime -= fixed_dt;
-    // }
+    while (physicsTime >= fixed_dt) {
+          active_scene->fixed_update(fixed_dt);
+      physicsTime -= fixed_dt;
+    }
 
     // Update game logic using deltaTime
     active_scene->update(deltaTime);

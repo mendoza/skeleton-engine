@@ -17,6 +17,7 @@ public:
   }
 
   void addChild(Node *child) { children.push_back(child); }
+  std::string get_tag() { return tag; }
 
   std::vector<Node *> children;
 };

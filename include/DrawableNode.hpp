@@ -17,5 +17,5 @@ public:
 
   virtual void handle_draw() = 0;
 };
-#endif
 } // namespace skeleton
+#endif
