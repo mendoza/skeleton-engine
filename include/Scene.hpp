@@ -2,7 +2,7 @@
 #define SKELETON_SCENE_HPP
 
 #include "Logger.hpp"
-#include "Nodes.hpp"
+#include "Particles.hpp"
 #include "ScriptManager.hpp"
 #include "ServiceLocator.hpp"
 #include <SDL.h>

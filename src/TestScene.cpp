@@ -1,5 +1,6 @@
+#include <string>
 #include "TestScene.hpp"
-#include "Nodes.hpp"
+#include "Particles.hpp"
 #include "Node.hpp"
 #include "Vector2.hpp"
 
@@ -8,6 +9,10 @@ TestScene::TestScene(std::string tag) : Scene(tag) {
 }
 
 TestScene::~TestScene() = default;
+
+std::string TestScene::get_particle_system_name() {
+  return "particle_system_" + std::to_string(this->particle_system_count++);
+}
 
 void TestScene::handle_init() {
   setupLuaState();
@@ -20,7 +25,7 @@ void TestScene::handle_init() {
                    ->get_window_height();
 
   this->addChild(
-      new skeleton::ParticleSystem("particle_system_1", width / 2, height / 2));
+      new skeleton::ParticleSystem(get_particle_system_name(), width / 2, height / 2));
 
     skeleton::Vector2f a(1, 2);
     skeleton::Vector2f b(3, 4);
@@ -62,7 +67,7 @@ void TestScene::handle_input(SDL_Event &event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
       int mouseX = event.button.x;
       int mouseY = event.button.y;
-      this->addChild(new skeleton::ParticleSystem("particle_system_1", mouseX,
+      this->addChild(new skeleton::ParticleSystem(get_particle_system_name(), mouseX,
                                                  mouseY));
     }
   }

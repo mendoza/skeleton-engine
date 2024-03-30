@@ -19,11 +19,13 @@ public:
 
   void draw_debug_window() override;
   void setupLuaState();
+  std::string get_particle_system_name();
 
 private:
   SDL_Surface *background;
   sol::function script_on_update;
   sol::function script_handle_input;
+  int particle_system_count = 0;
 };
 
 #endif

@@ -34,6 +34,7 @@ public:
   };
 
   virtual void handle_update(double deltaTime) override {
+    // std::cout << "Particle update"/*  */ << deltaTime << std::endl;
     this->life_time++;
     this->x += velocity_x * deltaTime;
     this->y += velocity_y * deltaTime;
@@ -48,13 +49,11 @@ public:
     this->x = x;
     this->y = y;
     for (int i = 0; i < 360; i++) {
-      float angle = 2 * 3.14159 * float(i) / 360.0f;
-      float velocity_x = cos(angle) * 10;
-      float velocity_y = sin(angle) * 10;
-
-      this->children.push_back(new Particle("particle_id: " + std::to_string(i),
-                                            this->x, this->y, velocity_x,
-                                            velocity_y));
+      // create a particle with 2d velocity to form a circle
+      // with radius 1000
+      int velocity_x = cos(i) * 1000;
+      int velocity_y = sin(i) * 1000;
+      this->addChild(new Particle("particle", x, y, velocity_x, velocity_y));
       this->last_spawn++;
     }
   };
