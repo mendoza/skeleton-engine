@@ -1,7 +1,6 @@
 #ifndef SKELETON_COMPONENTS_HPP
 #define SKELETON_COMPONENTS_HPP
 #include "DrawableNode.hpp"
-#include "ServiceLocator.hpp"
 #include "Renderer.hpp"
 #include <SDL.h>
 

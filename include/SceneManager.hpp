@@ -7,16 +7,24 @@
 
 namespace skeleton {
 class SceneManager : public skeleton::ISceneManager {
-  public:
-	SceneManager();
-	~SceneManager();
+	public:
+		static SceneManager& get_instance() {
+				static SceneManager instance;
+				return instance;
+		}
 
-	void add_scene(SceneRef new_scene, bool is_replacing) override;
-	void remove_scene() override;
-	Scene *get_active_scene() override;
+		SceneManager(const SceneManager&) = delete;
+		SceneManager& operator=(const SceneManager&) = delete;
 
-  protected:
-	std::stack<SceneRef> scenes;
+		void add_scene(SceneRef new_scene, bool is_replacing) override;
+		void remove_scene() override;
+		Scene* get_active_scene() override;
+
+	private:
+		SceneManager();
+		~SceneManager();
+
+		std::stack<SceneRef> scenes;
 };
 }; // namespace skeleton
 

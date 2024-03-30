@@ -1,5 +1,4 @@
 #include "Engine.hpp"
-#include "ServiceLocator.hpp"
 #include "Renderer.hpp"
 #include "SceneManager.hpp"
 
@@ -12,9 +11,7 @@ Engine::~Engine() = default;
 void Engine::build_window(int width, int height, const std::string &Title,
                           const std::string &IconFile, bool fullscreen) {
   skeleton::Renderer::get_instance().create_window(Title, width, height,
-                                                  debug_mode);
-  skeleton::ServiceLocator::provide<SceneManager>(
-      std::make_unique<SceneManager>());
+                                                   debug_mode);
 }
 
 void Engine::run() {
@@ -37,8 +34,8 @@ void Engine::run() {
 
     // Calculate the time since the last frame in seconds
     deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
-    Scene *active_scene = skeleton::ServiceLocator::get<SceneManager>()
-                              ->get_active_scene();
+    Scene *active_scene =
+        skeleton::SceneManager::get_instance().get_active_scene();
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -87,11 +84,6 @@ void Engine::run() {
 
   // Cleanup
   skeleton::Renderer::get_instance().shutdown();
-  skeleton::ServiceLocator::shutdown_all_services();
-}
-
-void Engine::add_scene(SceneRef scene, bool is_active) {
-  skeleton::ServiceLocator::get<SceneManager>()->add_scene(
-      std::move(scene), is_active);
+  // skeleton::SceneManager::get_instance().shutdown();
 }
 }; // namespace skeleton

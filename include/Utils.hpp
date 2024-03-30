@@ -2,7 +2,6 @@
 #define SKELETON_UTILS_HPP
 
 #include "Logger.hpp"
-#include "ServiceLocator.hpp"
 #include "Renderer.hpp"
 #include <SDL.h>
 #include <SDL_keyboard.h>

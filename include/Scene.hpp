@@ -3,7 +3,6 @@
 
 #include "Logger.hpp"
 #include "ScriptManager.hpp"
-#include "ServiceLocator.hpp"
 #include "Node2D.hpp"
 #include "DrawableNode.hpp"
 #include <SDL.h>
