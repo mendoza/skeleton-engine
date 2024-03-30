@@ -1,7 +1,7 @@
 #include "Engine.hpp"
-#include "SkeletonRenderer.hpp"
-#include "SkeletonSceneManager.hpp"
 #include "ServiceLocator.hpp"
+#include "Renderer.hpp"
+#include "SceneManager.hpp"
 
 namespace skeleton {
 
@@ -11,11 +11,10 @@ Engine::~Engine() = default;
 
 void Engine::build_window(int width, int height, const std::string &Title,
                           const std::string &IconFile, bool fullscreen) {
-  skeleton::ServiceLocator::provide<SkeletonRenderer>(
-      std::make_unique<SkeletonRenderer>(Title, width, height, debug_mode));
-
-  skeleton::ServiceLocator::provide<SkeletonSceneManager>(
-      std::make_unique<SkeletonSceneManager>());
+  skeleton::Renderer::get_instance().create_window(Title, width, height,
+                                                  debug_mode);
+  skeleton::ServiceLocator::provide<SceneManager>(
+      std::make_unique<SceneManager>());
 }
 
 void Engine::run() {
@@ -38,7 +37,7 @@ void Engine::run() {
 
     // Calculate the time since the last frame in seconds
     deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
-    Scene *active_scene = skeleton::ServiceLocator::get<SkeletonSceneManager>()
+    Scene *active_scene = skeleton::ServiceLocator::get<SceneManager>()
                               ->get_active_scene();
 
     SDL_Event event;
@@ -75,7 +74,7 @@ void Engine::run() {
 
     // Perform physics updates with a variable time step
     while (physicsTime >= fixed_dt) {
-          active_scene->fixed_update(fixed_dt);
+      active_scene->fixed_update(fixed_dt);
       physicsTime -= fixed_dt;
     }
 
@@ -87,12 +86,12 @@ void Engine::run() {
   }
 
   // Cleanup
-  skeleton::ServiceLocator::get<SkeletonRenderer>()->shutdown();
+  skeleton::Renderer::get_instance().shutdown();
   skeleton::ServiceLocator::shutdown_all_services();
 }
 
 void Engine::add_scene(SceneRef scene, bool is_active) {
-  skeleton::ServiceLocator::get<SkeletonSceneManager>()->add_scene(std::move(scene),
-                                                                   is_active);
+  skeleton::ServiceLocator::get<SceneManager>()->add_scene(
+      std::move(scene), is_active);
 }
 }; // namespace skeleton

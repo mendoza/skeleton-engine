@@ -5,8 +5,8 @@
 #include <type_traits>
 #include <unordered_map>
 namespace skeleton {
-class SkeletonRenderer;
-class SkeletonSceneManager;
+class Renderer;
+class SceneManager;
 class ServiceLocator {
 
   public:

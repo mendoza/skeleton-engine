@@ -1,7 +1,7 @@
 #ifndef SCRIPT_MANAGER_HPP
 #define SCRIPT_MANAGER_HPP
 #include "Logger.hpp"
-#include "SkeletonRenderer.hpp"
+#include "Renderer.hpp"
 #include <SDL.h>
 #include <sol/sol.hpp>
 

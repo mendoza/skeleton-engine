@@ -2,7 +2,7 @@
 #define SKELETON_COMPONENTS_HPP
 #include "DrawableNode.hpp"
 #include "ServiceLocator.hpp"
-#include "SkeletonRenderer.hpp"
+#include "Renderer.hpp"
 #include <SDL.h>
 
 namespace skeleton {
@@ -13,7 +13,8 @@ public:
   int velocity_x = 0;
   int velocity_y = 0;
   Particle(std::string tag, int x, int y, int velocity_x = 0,
-           int velocity_y = 0): DrawableNode(tag) {
+           int velocity_y = 0)
+      : DrawableNode(tag) {
     this->width = 10;
     this->x = x;
     this->y = y;
@@ -28,7 +29,7 @@ public:
   };
 
   virtual void handle_draw() override {
-    skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->draw_rect(
+    skeleton::Renderer::get_instance().draw_rect(
         this->x, this->y, this->width * this->scale_x,
         this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
@@ -45,7 +46,7 @@ class ParticleSystem : public DrawableNode {
   int last_spawn = 0;
 
 public:
-  ParticleSystem(std::string tag, int x, int y): DrawableNode(tag) {
+  ParticleSystem(std::string tag, int x, int y) : DrawableNode(tag) {
     this->x = x;
     this->y = y;
     for (int i = 0; i < 360; i++) {
@@ -56,11 +57,9 @@ public:
     }
   };
 
-  virtual void handle_draw() override {
-  };
+  virtual void handle_draw() override{};
 
-  virtual void handle_update(double dt) override {
-  }
+  virtual void handle_update(double dt) override {}
 };
 } // namespace skeleton
 #endif

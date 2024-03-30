@@ -35,7 +35,7 @@ public:
 
 
   virtual void draw() {
-    skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->begin();
+    skeleton::Renderer::get_instance().begin();
     handle_draw();
     draw_debug_window();
     for (auto child : this->children) {
@@ -43,7 +43,7 @@ public:
         dynamic_cast<DrawableNode *>(child)->draw();
       }
     }
-    skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->end();
+    skeleton::Renderer::get_instance().end();
   }
 
   virtual void init() {

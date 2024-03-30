@@ -1,19 +1,22 @@
-#ifndef SCENE_MANAGER_SERVICE_HPP
-#define SCENE_MANAGER_SERVICE_HPP
+#ifndef SKELETON_SCENE_MANAGER_HPP
+#define SKELETON_SCENE_MANAGER_HPP
 
-#include "Scene.hpp"
-#include "Service.hpp"
+#include "ISceneManager.hpp"
+#include <stack>
+
 
 namespace skeleton {
-class SceneManager : public Service {
-
+class SceneManager : public skeleton::ISceneManager {
   public:
-	SceneManager() {}
-	~SceneManager() {}
+	SceneManager();
+	~SceneManager();
 
-	virtual void add_scene(SceneRef new_scene, bool is_replacing) = 0;
-	virtual void remove_scene() = 0;
-	virtual Scene *get_active_scene() = 0;
+	void add_scene(SceneRef new_scene, bool is_replacing) override;
+	void remove_scene() override;
+	Scene *get_active_scene() override;
+
+  protected:
+	std::stack<SceneRef> scenes;
 };
 }; // namespace skeleton
 

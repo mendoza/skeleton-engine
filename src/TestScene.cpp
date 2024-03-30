@@ -1,7 +1,7 @@
-#include <string>
 #include "TestScene.hpp"
-#include "Particles.hpp"
 #include "Node.hpp"
+#include "Particles.hpp"
+#include <string>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
   srand((unsigned)time(NULL));
@@ -14,18 +14,14 @@ std::string TestScene::get_particle_system_name() {
 }
 
 void TestScene::handle_init() {
-  skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()->set_clear_color(
-      {0, 0, 0, 100});
+  skeleton::Renderer::get_instance().set_clear_color({0, 0, 0, 100});
 
-  int width = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
-                  ->get_window_width();
-  int height = skeleton::ServiceLocator::get<skeleton::SkeletonRenderer>()
-                   ->get_window_height();
+  int width = skeleton::Renderer::get_instance().get_window_width();
+  int height = skeleton::Renderer::get_instance().get_window_height();
 
-  this->addChild(
-      new skeleton::ParticleSystem(get_particle_system_name(), width / 2, height / 2));
+  this->addChild(new skeleton::ParticleSystem(get_particle_system_name(),
+                                              width / 2, height / 2));
 }
-
 
 void TestScene::handle_input(SDL_Event &event) {
   //  this->script_handle_input(event);
@@ -33,24 +29,19 @@ void TestScene::handle_input(SDL_Event &event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
       int mouseX = event.button.x;
       int mouseY = event.button.y;
-      this->addChild(new skeleton::ParticleSystem(get_particle_system_name(), mouseX,
-                                                 mouseY));
+      this->addChild(new skeleton::ParticleSystem(get_particle_system_name(),
+                                                  mouseX, mouseY));
     }
   }
 }
 
-void TestScene::handle_update(double dt) {
-}
+void TestScene::handle_update(double dt) {}
 
-void TestScene::handle_fixed_update(double dt) {
-}
+void TestScene::handle_fixed_update(double dt) {}
 
-void TestScene::handle_draw() {
-}
+void TestScene::handle_draw() {}
 
-void TestScene::handle_destroy() {
-}
-
+void TestScene::handle_destroy() {}
 
 void DrawNodeTree(skeleton::Node *node) {
   // Ensure the node is valid
@@ -94,5 +85,3 @@ void TestScene::draw_debug_window() {
   DrawNodeTree(this);
   ImGui::End();
 }
-
-

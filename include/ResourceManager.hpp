@@ -1,12 +1,13 @@
 
 #ifndef SKELETON_RESOURCE_MANAGER_HPP
 #define SKELETON_RESOURCE_MANAGER_HPP
-#include "resource.hpp"
+#include "Resource.hpp"
+#include "Service.hpp"
 #include <SDL.h>
 #include <map>
 #include <string>
 namespace skeleton {
-class ResourceManager {
+class ResourceManager : public Service {
 public:
   ResourceManager();
   ~ResourceManager();

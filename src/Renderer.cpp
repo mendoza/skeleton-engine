@@ -1,17 +1,17 @@
-#include "SkeletonRenderer.hpp"
+#include "Renderer.hpp"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
 
 namespace skeleton {
-SkeletonRenderer::SkeletonRenderer() {
+Renderer::Renderer() {
   this->window = nullptr;
   this->renderer = nullptr;
   logger->log("Created Renderer Service");
 }
 
-SkeletonRenderer::SkeletonRenderer(std::string title, int width, int height,
-                                   bool debug_mode) {
+void Renderer::create_window(std::string title, int width, int height,
+                             bool debug_mode) {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
   }
@@ -39,13 +39,13 @@ SkeletonRenderer::SkeletonRenderer(std::string title, int width, int height,
   logger->log("Created Renderer Service");
 }
 
-SkeletonRenderer::~SkeletonRenderer() {
+Renderer::~Renderer() {
   SDL_DestroyWindow(this->window);
   SDL_DestroyRenderer(this->renderer);
   logger->log("Destroyed Renderer service");
 }
 
-void SkeletonRenderer::begin() {
+void Renderer::begin() {
   if (this->debug_mode) {
     // Start the Dear ImGui frame
     ImGui_ImplSDLRenderer2_NewFrame();
@@ -56,7 +56,7 @@ void SkeletonRenderer::begin() {
   SDL_RenderClear(this->renderer);
 }
 
-void SkeletonRenderer::end() {
+void Renderer::end() {
   if (this->debug_mode) {
     ImGui::Render();
     ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
@@ -64,7 +64,7 @@ void SkeletonRenderer::end() {
   SDL_RenderPresent(this->renderer);
 }
 
-void SkeletonRenderer::shutdown() {
+void Renderer::shutdown() {
   if (this->debug_mode) {
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
@@ -74,30 +74,30 @@ void SkeletonRenderer::shutdown() {
   SDL_Quit();
 }
 
-void SkeletonRenderer::draw_rect(int x, int y, int w, int h, int r, int g,
-                                 int b, int a) {
+void Renderer::draw_rect(int x, int y, int w, int h, int r, int g, int b,
+                         int a) {
   SDL_Rect rect = {x, y, w, h};
   SDL_SetRenderDrawColor(this->renderer, r, g, b, a);
   SDL_RenderFillRect(this->renderer, &rect);
 }
 
-int SkeletonRenderer::get_window_width() {
+int Renderer::get_window_width() {
   int w, h;
   SDL_GetWindowSize(this->window, &w, &h);
   return w;
 }
 
-int SkeletonRenderer::get_window_height() {
+int Renderer::get_window_height() {
   int w, h;
   SDL_GetWindowSize(this->window, &w, &h);
   return h;
 }
 
-void SkeletonRenderer::set_clear_color(SDL_Color color) {
+void Renderer::set_clear_color(SDL_Color color) {
   SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
 }
 
-void SkeletonRenderer::set_debug_mode(bool debug_mode) {
+void Renderer::set_debug_mode(bool debug_mode) {
   this->debug_mode = debug_mode;
 }
 } // namespace skeleton

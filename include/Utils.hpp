@@ -3,7 +3,7 @@
 
 #include "Logger.hpp"
 #include "ServiceLocator.hpp"
-#include "SkeletonRenderer.hpp"
+#include "Renderer.hpp"
 #include <SDL.h>
 #include <SDL_keyboard.h>
 #include <sol/sol.hpp>

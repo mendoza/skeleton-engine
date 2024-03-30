@@ -1,10 +1,10 @@
-#include "SkeletonSceneManager.hpp"
+#include "SceneManager.hpp"
 
 namespace skeleton {
 
-SkeletonSceneManager::SkeletonSceneManager() = default;
+SceneManager::SceneManager() = default;
 
-SkeletonSceneManager::~SkeletonSceneManager() {
+SceneManager::~SceneManager() {
 	logger->log("Cleaning the  scene manager stack");
 	while (!this->scenes.empty()){
 		skeleton::SceneRef scene = std::move(this->scenes.top());
@@ -20,7 +20,7 @@ SkeletonSceneManager::~SkeletonSceneManager() {
 	logger->log("Finished cleaning the  scene manager stack");
 }
 
-void SkeletonSceneManager::add_scene(SceneRef new_state, bool is_replacing) {
+void SceneManager::add_scene(SceneRef new_state, bool is_replacing) {
 	if (is_replacing && !this->scenes.empty()) {
 		this->scenes.top()->destroy();
 		this->scenes.pop();
@@ -30,7 +30,7 @@ void SkeletonSceneManager::add_scene(SceneRef new_state, bool is_replacing) {
 	this->scenes.top()->init();
 }
 
-void SkeletonSceneManager::remove_scene() {
+void SceneManager::remove_scene() {
 	if (!this->scenes.empty()) {
 		this->scenes.top()->destroy();
 		this->scenes.pop();
@@ -40,7 +40,7 @@ void SkeletonSceneManager::remove_scene() {
 	}
 }
 
-Scene *SkeletonSceneManager::get_active_scene() {
+Scene *SceneManager::get_active_scene() {
 	if (this->scenes.empty()) {
 		return nullptr;
 	}
