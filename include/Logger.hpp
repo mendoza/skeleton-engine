@@ -11,6 +11,7 @@ class Logger {
 	static Logger *instance;
 	static Logger *get_instance();
 	static void log(const std::string &);
+	static void info(const std::string &);
 	static void logf(const char *format, ...);
 	static void error(const std::string &);
 	static void warning(const std::string &);

@@ -7,13 +7,13 @@
 namespace skeleton {
 class Particle : public DrawableNode {
 public:
-  int life_time = 0;
+  double life_time = 0;
   int r, g, b = 0;
   int velocity_x = 0;
   int velocity_y = 0;
-  Particle(std::string tag, int x, int y, int velocity_x = 0,
-           int velocity_y = 0)
-      : DrawableNode(tag) {
+  bool is_ready_to_die = false;
+  Particle(int x, int y, int velocity_x = 0, int velocity_y = 0)
+      : DrawableNode() {
     this->width = 10;
     this->x = x;
     this->y = y;
@@ -33,9 +33,12 @@ public:
         this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
 
+  virtual void handle_fixed_update(double deltaTime) override {
+    this->life_time += deltaTime;
+  };
+
   virtual void handle_update(double deltaTime) override {
-    // std::cout << "Particle update"/*  */ << deltaTime << std::endl;
-    this->life_time++;
+    this->is_ready_to_die = this->life_time > 2;
     this->x += velocity_x * deltaTime;
     this->y += velocity_y * deltaTime;
   };
@@ -51,14 +54,27 @@ public:
     for (int i = 0; i < 360; i++) {
       int velocity_x = cos(i) * 1000;
       int velocity_y = sin(i) * 1000;
-      this->addChild(new Particle("particle", x, y, velocity_x, velocity_y));
-      this->last_spawn++;
+      this->add_child(new Particle(x, y, velocity_x, velocity_y));
     }
   };
 
   virtual void handle_draw() override{};
 
-  virtual void handle_update(double dt) override {}
+  virtual void handle_fixed_update(double deltaTime) override {
+    this->last_spawn += deltaTime;
+  };
+
+  virtual void handle_update(double dt) override {
+    for (auto child : this->children) {
+      if (dynamic_cast<Particle *>(child)) {
+        Particle *particle = dynamic_cast<Particle *>(child);
+        if (particle->is_ready_to_die) {
+          skeleton::Logger::get_instance()->info("Particle is ready to die");
+          // this->remove_child(particle->get_tag());
+        }
+      }
+    }
+  }
 };
 } // namespace skeleton
 #endif

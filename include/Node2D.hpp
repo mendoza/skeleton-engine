@@ -26,7 +26,16 @@ public:
     }
   }
 
+  virtual void fixed_update(double deltaTime) {
+    handle_fixed_update(deltaTime);
+    for (auto child : this->children) {
+      if (dynamic_cast<Node2D *>(child))
+        dynamic_cast<Node2D *>(child)->fixed_update(deltaTime);
+    }
+  }
+
   virtual void handle_update(double deltaTime) = 0;
+  virtual void handle_fixed_update(double deltaTime) = 0;
 };
 } // namespace skeleton
 #endif

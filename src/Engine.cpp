@@ -18,7 +18,7 @@ void Engine::run() {
   uint64_t NOW = SDL_GetPerformanceCounter();
   uint64_t LAST = 0;
   double deltaTime = 0.0;
-  // double physicsTime = 0.0;
+  // double totalElapsedtime = 0.0;
   const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
   // update
 
@@ -26,7 +26,7 @@ void Engine::run() {
   int frameCount = 0;
   double fps = 0.0;
   double fpsTimer = 0.0;
-  double physicsTime = 0.0;
+  double totalElapsedtime = 0.0;
 
   while (is_running) {
     LAST = NOW;
@@ -67,12 +67,12 @@ void Engine::run() {
     }
 
     // Accumulate time for physics updates
-    physicsTime += deltaTime;
+    totalElapsedtime += deltaTime;
 
     // Perform physics updates with a variable time step
-    while (physicsTime >= fixed_dt) {
+    while (totalElapsedtime >= fixed_dt) {
       active_scene->fixed_update(fixed_dt);
-      physicsTime -= fixed_dt;
+      totalElapsedtime -= fixed_dt;
     }
 
     // Update game logic using deltaTime

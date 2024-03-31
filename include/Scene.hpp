@@ -29,7 +29,6 @@ public:
   virtual void handle_fixed_update(double dt) = 0;
   virtual void handle_draw() = 0; 
   virtual void handle_destroy() = 0;
-
   virtual void draw_debug_window() = 0;
 
 
@@ -50,15 +49,6 @@ public:
     for (auto child : this->children) {
       if (dynamic_cast<Scene *>(child)) {
         dynamic_cast<Scene *>(child)->init();
-      }
-    }
-  }
-
-  virtual void fixed_update(float dt) {
-    handle_fixed_update(dt);
-    for (auto child : this->children) {
-      if (dynamic_cast<Scene *>(child)) {
-        dynamic_cast<Scene *>(child)->fixed_update(dt);
       }
     }
   }

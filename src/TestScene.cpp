@@ -19,8 +19,8 @@ void TestScene::handle_init() {
   int width = skeleton::Renderer::get_instance().get_window_width();
   int height = skeleton::Renderer::get_instance().get_window_height();
 
-  this->addChild(new skeleton::ParticleSystem(get_particle_system_name(),
-                                              width / 2, height / 2));
+  this->add_child(new skeleton::ParticleSystem(get_particle_system_name(),
+                                               width / 2, height / 2));
 }
 
 void TestScene::handle_input(SDL_Event &event) {
@@ -29,8 +29,8 @@ void TestScene::handle_input(SDL_Event &event) {
     if (event.button.button == SDL_BUTTON_LEFT) {
       int mouseX = event.button.x;
       int mouseY = event.button.y;
-      this->addChild(new skeleton::ParticleSystem(get_particle_system_name(),
-                                                  mouseX, mouseY));
+      this->add_child(new skeleton::ParticleSystem(get_particle_system_name(),
+                                                   mouseX, mouseY));
     }
   }
 }
@@ -54,7 +54,7 @@ void DrawNodeTree(skeleton::Node *node) {
       (node->children.empty()) ? ImGuiTreeNodeFlags_Leaf : 0;
 
   // Display node in the tree
-  if (ImGui::TreeNodeEx(node->tag.c_str(), nodeFlags)) {
+  if (ImGui::TreeNodeEx(node->get_tag().c_str(), nodeFlags)) {
     // Recursively draw children
     for (auto &child : node->children) {
       DrawNodeTree(child);
