@@ -16,7 +16,7 @@ public:
 
   void create_window(std::string title, int width, int height,
                      bool debug_mode) override;
-  void end() override;
+        void end() override;
   void begin() override;
   void shutdown() override;
   void draw_rect(int x, int y, int w, int h, int r, int g, int b,
@@ -25,6 +25,9 @@ public:
   int get_window_height() override;
   void set_clear_color(SDL_Color color) override;
   void set_debug_mode(bool debug_mode) override;
+  void draw_texture(SDL_Texture *texture, SDL_Rect *src_rect,
+                    SDL_Rect *dst_rect) override;
+  SDL_Renderer *get_renderer() { return this->renderer; }
 
 private:
   Renderer();

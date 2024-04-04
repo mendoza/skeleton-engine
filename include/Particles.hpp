@@ -33,14 +33,14 @@ public:
         this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
 
-  virtual void handle_fixed_update(double deltaTime) override {
-    this->life_time += deltaTime;
+  virtual void handle_fixed_update(double dt) override {
+    this->life_time += dt;
   };
 
-  virtual void handle_update(double deltaTime) override {
+  virtual void handle_update(double dt) override {
     this->is_ready_to_die = this->life_time > 2;
-    this->x += velocity_x * deltaTime;
-    this->y += velocity_y * deltaTime;
+    this->x += velocity_x * dt;
+    this->y += velocity_y * dt;
   };
 };
 
@@ -48,6 +48,7 @@ class ParticleSystem : public DrawableNode {
   int last_spawn = 0;
 
 public:
+  bool is_ready_to_die = false;
   ParticleSystem(std::string tag, int x, int y) : DrawableNode(tag) {
     this->x = x;
     this->y = y;
@@ -60,17 +61,18 @@ public:
 
   virtual void handle_draw() override{};
 
-  virtual void handle_fixed_update(double deltaTime) override {
-    this->last_spawn += deltaTime;
+  virtual void handle_fixed_update(double dt) override {
+    this->last_spawn += dt;
   };
 
   virtual void handle_update(double dt) override {
-    for (auto child : this->children) {
-      if (dynamic_cast<Particle *>(child)) {
-        Particle *particle = dynamic_cast<Particle *>(child);
+    this->is_ready_to_die = this->children.empty();
+    for (auto it = this->children.begin(); it != this->children.end();) {
+      if (auto particle = dynamic_cast<Particle *>(*it)) {
         if (particle->is_ready_to_die) {
-          skeleton::Logger::get_instance()->info("Particle is ready to die");
-          // this->remove_child(particle->get_tag());
+          it = this->children.erase(it);
+        } else {
+          it++;
         }
       }
     }

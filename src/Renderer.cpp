@@ -7,7 +7,7 @@ namespace skeleton {
 Renderer::Renderer() {
   this->window = nullptr;
   this->renderer = nullptr;
-  logger->log("Created Renderer Service");
+  logger->info("Created Renderer Service");
 }
 
 void Renderer::create_window(std::string title, int width, int height,
@@ -36,13 +36,13 @@ void Renderer::create_window(std::string title, int width, int height,
   this->debug_mode = debug_mode;
   this->window = window;
   this->renderer = renderer;
-  logger->log("Created window and renderer");
+  logger->info("Created window and renderer");
 }
 
 Renderer::~Renderer() {
   SDL_DestroyWindow(this->window);
   SDL_DestroyRenderer(this->renderer);
-  logger->log("Destroyed Renderer service");
+  logger->info("Destroyed Renderer service");
 }
 
 void Renderer::begin() {
@@ -96,6 +96,11 @@ int Renderer::get_window_height() {
 
 void Renderer::set_clear_color(SDL_Color color) {
   SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
+}
+
+void Renderer::draw_texture(SDL_Texture *texture, SDL_Rect *src_rect,
+                            SDL_Rect *dst_rect) {
+  SDL_RenderCopy(this->renderer, texture, src_rect, dst_rect);
 }
 
 void Renderer::set_debug_mode(bool debug_mode) {

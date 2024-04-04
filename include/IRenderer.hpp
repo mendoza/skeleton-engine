@@ -19,6 +19,8 @@ public:
   virtual int get_window_height() = 0;
   virtual void set_clear_color(SDL_Color color) = 0;
   virtual void set_debug_mode(bool debug_mode) = 0;
+  virtual void draw_texture(SDL_Texture *texture, SDL_Rect *src_rect,
+                            SDL_Rect *dst_rect) = 0;
 };
 } // namespace skeleton
 #endif

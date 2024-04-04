@@ -4,6 +4,7 @@
 #include "guid.hpp"
 #include <string>
 #include <vector>
+#include <algorithm>
 
 namespace skeleton {
 class Node {

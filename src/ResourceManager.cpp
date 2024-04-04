@@ -11,7 +11,7 @@ ResourceManager::~ResourceManager() {
 }
 
 void ResourceManager::add(Resource *resource) {
-  resources[resource->name] = resource;
+  resources[resource->tag] = resource;
 }
 
 Resource *ResourceManager::get(std::string name) {

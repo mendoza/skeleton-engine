@@ -6,8 +6,8 @@
 namespace skeleton {
 class Node2D : public Node {
 protected:
-  int x = 0;
-  int y = 0;
+  double x = 0;
+  double y = 0;
   int width = 0;
   int height = 0;
   int rotation = 0;
@@ -18,24 +18,24 @@ public:
   Node2D() : Node(){};
   Node2D(std::string tag) : Node(tag){};
 
-  virtual void update(double deltaTime) {
-    handle_update(deltaTime);
+  virtual void update(double dt) {
+    handle_update(dt);
     for (auto child : this->children) {
-      if (dynamic_cast<Node2D *>(child))
-        dynamic_cast<Node2D *>(child)->update(deltaTime);
+      if (auto node2D = dynamic_cast<Node2D *>(child))
+        node2D->update(dt);
     }
   }
 
-  virtual void fixed_update(double deltaTime) {
-    handle_fixed_update(deltaTime);
+  virtual void fixed_update(double dt) {
+    handle_fixed_update(dt);
     for (auto child : this->children) {
       if (dynamic_cast<Node2D *>(child))
-        dynamic_cast<Node2D *>(child)->fixed_update(deltaTime);
+        dynamic_cast<Node2D *>(child)->fixed_update(dt);
     }
   }
 
-  virtual void handle_update(double deltaTime) = 0;
-  virtual void handle_fixed_update(double deltaTime) = 0;
+  virtual void handle_update(double dt) = 0;
+  virtual void handle_fixed_update(double dt) = 0;
 };
 } // namespace skeleton
 #endif

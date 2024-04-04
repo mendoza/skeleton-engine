@@ -15,25 +15,21 @@ void Engine::build_window(int width, int height, const std::string &Title,
 }
 
 void Engine::run() {
+  // Variable time step variables
   uint64_t NOW = SDL_GetPerformanceCounter();
   uint64_t LAST = 0;
-  double deltaTime = 0.0;
-  // double totalElapsedtime = 0.0;
-  const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
-  // update
+  double dt = 0.0;
 
-  // FPS variables
-  int frameCount = 0;
-  double fps = 0.0;
-  double fpsTimer = 0.0;
+  // Fixed time step variables
   double totalElapsedtime = 0.0;
+  const double fixed_dt = 1.0 / 60.0; // once every 60 frames a physics
 
   while (is_running) {
     LAST = NOW;
     NOW = SDL_GetPerformanceCounter();
 
     // Calculate the time since the last frame in seconds
-    deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
+    dt = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
     Scene *active_scene =
         skeleton::SceneManager::get_instance().get_active_scene();
 
@@ -54,20 +50,8 @@ void Engine::run() {
       }
     }
 
-    // Update FPS-related variables
-    frameCount++;
-    fpsTimer += deltaTime;
-
-    // Calculate and print FPS
-    if (fpsTimer >= 5.0) {
-      fps = frameCount / fpsTimer;
-      std::cout << "fps: " << fps << std::endl;
-      frameCount = 0;
-      fpsTimer = 0.0;
-    }
-
     // Accumulate time for physics updates
-    totalElapsedtime += deltaTime;
+    totalElapsedtime += dt;
 
     // Perform physics updates with a variable time step
     while (totalElapsedtime >= fixed_dt) {
@@ -76,7 +60,7 @@ void Engine::run() {
     }
 
     // Update game logic using deltaTime
-    active_scene->update(deltaTime);
+    active_scene->update(dt);
 
     // Draw the scene
     active_scene->draw();

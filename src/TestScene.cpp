@@ -1,6 +1,7 @@
 #include "TestScene.hpp"
 #include "Node.hpp"
 #include "Particles.hpp"
+#include "SpriteNode.hpp"
 #include <string>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {
@@ -21,6 +22,8 @@ void TestScene::handle_init() {
 
   this->add_child(new skeleton::ParticleSystem(get_particle_system_name(),
                                                width / 2, height / 2));
+  this->add_child(new skeleton::SpriteNode("./assets/spritesheets/player.png",
+                                           width / 2, height / 2));
 }
 
 void TestScene::handle_input(SDL_Event &event) {
@@ -35,7 +38,19 @@ void TestScene::handle_input(SDL_Event &event) {
   }
 }
 
-void TestScene::handle_update(double dt) {}
+void TestScene::handle_update(double dt) {
+  // for (auto it = this->children.begin(); it != this->children.end();) {
+  //   if (auto particle_system = dynamic_cast<skeleton::ParticleSystem *>(*it))
+  //   {
+  //     if (particle_system->is_ready_to_die) {
+  //       it = this->children.erase(it);
+  //       delete particle_system;
+  //     }
+  //   } else {
+  //     it++;
+  //   }
+  // }
+}
 
 void TestScene::handle_fixed_update(double dt) {}
 
