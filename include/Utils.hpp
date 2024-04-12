@@ -57,8 +57,8 @@ inline void setRenderService(sol::state &L) {
   // &skeleton::SkeletonRenderer::draw_rect, "get_texture",
   // &skeleton::SkeletonRenderer::get_texture, "get_window_width",
   // &skeleton::SkeletonRenderer::get_window_width, "get_window_height",
-  // &skeleton::SkeletonRenderer::get_window_height, "set_clear_color",
-  // &skeleton::SkeletonRenderer::set_clear_color);
+  // &skeleton::SkeletonRenderer::get_window_height, "set_draw_color",
+  // &skeleton::SkeletonRenderer::set_draw_color);
 
   sol::table skeleton = L["skeleton"];
   // skeleton["renderer"] =

@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include "ResourceManager.hpp"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
@@ -52,7 +53,8 @@ void Renderer::begin() {
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
   }
-  SDL_SetRenderDrawColor(this->renderer, 125, 125, 125, 255);
+  SDL_SetRenderDrawColor(this->renderer, this->draw_color.r, this->draw_color.g,
+                         this->draw_color.b, this->draw_color.a);
   SDL_RenderClear(this->renderer);
 }
 
@@ -94,13 +96,16 @@ int Renderer::get_window_height() {
   return h;
 }
 
-void Renderer::set_clear_color(SDL_Color color) {
-  SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
-}
+void Renderer::set_draw_color(SDL_Color color) { this->draw_color = color; }
 
-void Renderer::draw_texture(SDL_Texture *texture, SDL_Rect *src_rect,
+void Renderer::draw_texture(std::string tag, SDL_Rect *src_rect,
                             SDL_Rect *dst_rect) {
-  SDL_RenderCopy(this->renderer, texture, src_rect, dst_rect);
+  Resource *resource = skeleton::ResourceManager::get_instance().get(tag);
+  TextureResource *texture = dynamic_cast<TextureResource *>(resource);
+  if (!texture) {
+    return;
+  }
+  SDL_RenderCopy(this->renderer, texture->texture, src_rect, dst_rect);
 }
 
 void Renderer::set_debug_mode(bool debug_mode) {

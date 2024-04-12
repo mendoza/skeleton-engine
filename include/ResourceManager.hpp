@@ -10,21 +10,21 @@
 namespace skeleton {
 class ResourceManager : public Service {
 public:
-  static ResourceManager& get_instance() {
+  static ResourceManager &get_instance() {
     static ResourceManager instance;
     return instance;
   }
 
-  ResourceManager(const ResourceManager&) = delete;
-  ResourceManager& operator=(const ResourceManager&) = delete;
+  ResourceManager(const ResourceManager &) = delete;
+  ResourceManager &operator=(const ResourceManager &) = delete;
 
-  void add(Resource *resource);
-  Resource *get(std::string name);
+  bool load_texture(std::string path, std::string tag);
+  std::string load_texture(std::string path);
+  Resource *get(std::string tag);
 
 private:
   ResourceManager();
   ~ResourceManager();
-
   std::map<std::string, Resource *> resources;
 };
 } // namespace skeleton

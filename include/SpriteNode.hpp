@@ -12,21 +12,16 @@ public:
     this->source = source;
     this->x = x;
     this->y = y;
-    this->texture = new skeleton::TextureResource(source);
-    skeleton::ResourceManager::get_instance().add(texture);
+    skeleton::ResourceManager::get_instance().load_texture(source, this->tag);
   };
 
   void handle_draw() override {
-    if (texture) {
-      SDL_Rect dest;
-      dest.x = x;
-      dest.y = y;
-      dest.w = 64;
-      dest.h = 64;
-      // TODO: make it render resource instead of texture or resource tag
-      skeleton::Renderer::get_instance().draw_texture(texture->texture, nullptr,
-                                                      &dest);
-    }
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    dest.w = 64;
+    dest.h = 64;
+    skeleton::Renderer::get_instance().draw_texture(this->tag, nullptr, &dest);
   }
 
   void handle_update(double dt) override {}
@@ -35,7 +30,6 @@ public:
 
 private:
   std::string source;
-  TextureResource *texture;
 };
 #endif
 } // namespace skeleton

@@ -18,27 +18,32 @@ public:
   }
   Resource(std::string tag) : tag(tag) { this->last_accessed_at = 0; }
   virtual ~Resource() {}
+  virtual bool load() = 0;
   virtual void unload() = 0;
 };
 
 class TextureResource : public Resource {
 public:
   TextureResource(std::string path) : Resource() {
-    std::cout << "Texture resource created" << std::endl;
     this->path = path;
-    std::cout << path << std::endl;
     this->tag = skeleton::guid::generate();
-    this->texture = IMG_LoadTexture(
-        skeleton::Renderer::get_instance().get_renderer(), path.c_str());
-    // check for error
+  }
+
+  TextureResource(std::string path, std::string tag) : Resource(tag) {
+    this->path = path;
+  }
+
+  bool load() override{
+    texture = IMG_LoadTexture(skeleton::Renderer::get_instance().get_renderer(),
+                              path.c_str());
     if (!texture) {
       skeleton::Logger::get_instance()->error("Failed to load texture: " +
                                               path);
       skeleton::Logger::get_instance()->error("SDL Error: " +
                                               std::string(SDL_GetError()));
-    } else {
-      skeleton::Logger::get_instance()->info("Texture loaded successfully");
+      return false;
     }
+    return true;
   }
 
   void unload() override {
@@ -48,9 +53,9 @@ public:
     }
   }
 
-  SDL_Texture *texture;
-
+  friend class Renderer;
 private:
+  SDL_Texture *texture;
   std::string path;
 };
 } // namespace skeleton

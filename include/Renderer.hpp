@@ -23,9 +23,9 @@ public:
                  int a) override;
   int get_window_width() override;
   int get_window_height() override;
-  void set_clear_color(SDL_Color color) override;
+  void set_draw_color(SDL_Color color) override;
   void set_debug_mode(bool debug_mode) override;
-  void draw_texture(SDL_Texture *texture, SDL_Rect *src_rect,
+  void draw_texture(std::string tag, SDL_Rect *src_rect,
                     SDL_Rect *dst_rect) override;
   SDL_Renderer *get_renderer() { return this->renderer; }
 
@@ -36,7 +36,7 @@ private:
   bool debug_mode = false;
   SDL_Window *window;
   SDL_Renderer *renderer;
-  SDL_Color clear_color = {0, 0, 0, 255};
+  SDL_Color draw_color = {0, 0, 0, 255};
 };
 } // namespace skeleton
 #endif

@@ -2,9 +2,9 @@
 #define SKELETON_NODE_HPP
 #include "Logger.hpp"
 #include "guid.hpp"
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 namespace skeleton {
 class Node {
@@ -56,7 +56,7 @@ public:
   std::string get_tag() { return tag; }
   std::vector<Node *> children;
 
-private:
+protected:
   std::string tag;
 };
 } // namespace skeleton

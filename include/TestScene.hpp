@@ -24,7 +24,6 @@ private:
   sol::function script_on_update;
   sol::function script_handle_input;
   int particle_system_count = 0;
-  double elapsed_time = 0.0;
 };
 
 #endif
