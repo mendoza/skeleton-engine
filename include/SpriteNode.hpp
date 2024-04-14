@@ -9,12 +9,14 @@ namespace skeleton {
 class SpriteNode : public DrawableNode {
 public:
   size_t test_tag;
-  SpriteNode() : DrawableNode(){};
+  SpriteNode() : DrawableNode() { this->name = "SpriteNode"; };
   SpriteNode(std::string source, double x, double y) : DrawableNode() {
+    this->name = "SpriteNode";
     this->source = source;
     this->x = x;
     this->y = y;
-    std::shared_ptr<Resource> texture = skeleton::ResourceManager::get_instance().load_texture(source);
+    std::shared_ptr<Resource> texture =
+        skeleton::ResourceManager::get_instance().load_texture(source);
     this->test_tag = texture.get()->tag;
   };
 
@@ -24,7 +26,8 @@ public:
     dest.y = y;
     dest.w = 64;
     dest.h = 64;
-    skeleton::Renderer::get_instance().draw_texture(this->test_tag, nullptr, &dest);
+    skeleton::Renderer::get_instance().draw_texture(this->test_tag, nullptr,
+                                                    &dest);
   }
 
   void handle_update(double dt) override {}

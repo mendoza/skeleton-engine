@@ -5,8 +5,14 @@
 namespace skeleton {
 class DrawableNode : public Node2D {
 public:
-  DrawableNode() : Node2D(){};
-  DrawableNode(std::string tag) : Node2D(tag){};
+  DrawableNode() : Node2D(){
+    this->name = "DrawableNode";
+  };
+  DrawableNode(std::string tag) : Node2D(tag){
+    this->name = "DrawableNode";
+  };
+
+  virtual ~DrawableNode() {}
   virtual void draw() {
     handle_draw();
     for (auto child : this->children) {

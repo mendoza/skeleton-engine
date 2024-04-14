@@ -14,6 +14,7 @@ public:
   bool is_ready_to_die = false;
   Particle(int x, int y, int velocity_x = 0, int velocity_y = 0)
       : DrawableNode() {
+    this->name = "Particle";
     this->width = 10;
     this->x = x;
     this->y = y;
@@ -26,6 +27,8 @@ public:
     this->velocity_x = velocity_x;
     this->velocity_y = velocity_y;
   };
+
+  virtual ~Particle(){};
 
   virtual void handle_draw() override {
     skeleton::Renderer::get_instance().draw_rect(
@@ -50,6 +53,7 @@ class ParticleSystem : public DrawableNode {
 public:
   bool is_ready_to_die = false;
   ParticleSystem(std::string tag, int x, int y) : DrawableNode(tag) {
+    this->name = "ParticleSystem";
     this->x = x;
     this->y = y;
     for (int i = 0; i < 360; i++) {
@@ -57,6 +61,9 @@ public:
       int velocity_y = sin(i) * 1000;
       this->add_child(new Particle(x, y, velocity_x, velocity_y));
     }
+  };
+
+  virtual ~ParticleSystem() {
   };
 
   virtual void handle_draw() override{};
@@ -70,6 +77,7 @@ public:
     for (auto it = this->children.begin(); it != this->children.end();) {
       if (auto particle = dynamic_cast<Particle *>(*it)) {
         if (particle->is_ready_to_die) {
+          delete *it;
           it = this->children.erase(it);
         } else {
           it++;

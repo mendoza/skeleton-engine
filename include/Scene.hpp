@@ -17,7 +17,10 @@ protected:
   skeleton::ScriptManager *script_manager;
 
 public:
-  Scene(std::string tag) : Node2D(tag) { script_manager = new ScriptManager(); }
+  Scene(std::string tag) : Node2D(tag) {
+    script_manager = new ScriptManager();
+    name = "Scene";
+  }
 
   virtual ~Scene() { delete script_manager; }
 

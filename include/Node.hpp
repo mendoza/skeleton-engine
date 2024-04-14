@@ -9,12 +9,21 @@
 namespace skeleton {
 class Node {
 public:
-  Node() { tag = skeleton::guid::generate(); }
-  Node(std::string tag) : tag(tag) {}
+  Node() {
+    tag = skeleton::guid::generate();
+    this->name = "Node";
+  }
+  Node(std::string tag) : tag(tag) { this->name = "Node"; }
 
   virtual ~Node() {
-    std::string msg = "Node " + tag + " destroyed";
-    skeleton::Logger::get_instance()->info(msg);
+    if (children.size() > 0) {
+      std::string msg = "Parent " + name + " (" + tag + ") destroyed with " +
+                        std::to_string(children.size()) + " children";
+      skeleton::Logger::get_instance()->info(msg);
+    } else {
+      std::string msg = name + " (" + tag + ") destroyed";
+      skeleton::Logger::get_instance()->info(msg);
+    }
     for (auto child : children) {
       delete child;
     }
@@ -60,6 +69,7 @@ public:
 
 protected:
   std::string tag;
+  std::string name;
 };
 } // namespace skeleton
 #endif

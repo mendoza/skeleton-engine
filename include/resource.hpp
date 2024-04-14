@@ -13,7 +13,7 @@ public:
   bool is_loaded = false;
   size_t tag;
   Resource() {
-    this->last_accessed_at = 0;
+    this->last_accessed_at = -1;
   }
   virtual ~Resource() {}
   virtual bool load() = 0;

@@ -14,8 +14,9 @@ protected:
   int scale_y = 1;
 
 public:
-  Node2D() : Node(){};
-  Node2D(std::string tag) : Node(tag){};
+  Node2D() : Node() { this->name = "Node2D"; };
+  Node2D(std::string tag) : Node(tag) { this->name = "Node2D"; };
+  virtual ~Node2D() {}
 
   virtual void update(double dt) {
     handle_update(dt);

@@ -11,11 +11,6 @@ SceneManager::~SceneManager() {
     scene->destroy();
     std::string scene_name = scene->get_tag();
     this->scenes.pop();
-    if (scene_name.empty()) {
-      logger->info("Delete one scene");
-    } else {
-      logger->info("Delete scene with tag: " + scene_name);
-    }
   }
   logger->info("Finished cleaning the  scene manager stack");
 }
