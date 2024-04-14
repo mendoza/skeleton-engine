@@ -1,41 +1,46 @@
 #include "ResourceManager.hpp"
+#include "Resource.hpp"
+#include <memory>
 
 namespace skeleton {
-ResourceManager::ResourceManager() = default;
+ResourceManager::ResourceManager() {
+  skeleton::Logger::get_instance()->info("Created resource manager");
+};
 
 ResourceManager::~ResourceManager() {
+  skeleton::Logger::get_instance()->info("Deleting resource manager");
+  skeleton::Logger::get_instance()->info("Unloading resources");
   for (auto &resource : resources) {
-    resource.second->unload();
-    delete resource.second;
+    skeleton::Logger::get_instance()->info("Deleting resource with tag: " +
+                                           std::to_string(resource.first));
+    resource.second.get()->unload();
   }
+  skeleton::Logger::get_instance()->info("Resources unloaded");
 }
 
+std::shared_ptr<Resource> ResourceManager::load_texture(std::string path) {
+  std::hash<std::string> hash_fn;
+  size_t tag = hash_fn(path);
+  auto it = resources.find(tag);
+  if (it != resources.end()) {
+    return it->second;
+  }
 
-bool ResourceManager::load_texture(std::string path, std::string tag) {
-  TextureResource *texture = new TextureResource(path, tag);
-  if (texture->load()) {
+  auto texture = std::make_shared<TextureResource>(path);
+  if (texture.get()->load()) {
+    texture->tag = tag;
     resources[tag] = texture;
-    return true;
-  }
-  delete texture;
-  return false;
-}
-
-std::string ResourceManager::load_texture(std::string path) {
-  TextureResource *texture = new TextureResource(path);
-  if (texture->load()) {
-    resources[texture->tag] = texture;
-    return texture->tag;
-  }
-  return "";
-}
-
-
-Resource *ResourceManager::get(std::string name) {
-  if (resources.find(name) != resources.end()) {
-    resources[name]->last_accessed_at = SDL_GetTicks64();
-    return resources[name];
+    return texture;
   }
   return nullptr;
 }
-} // namespace skeletor
+
+std::shared_ptr<Resource> ResourceManager::get(size_t resource_id) {
+  auto it = resources.find(resource_id);
+  if (it != resources.end()) {
+    return it->second;
+  } else {
+    return nullptr;
+  }
+}
+} // namespace skeleton

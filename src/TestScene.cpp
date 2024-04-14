@@ -37,7 +37,7 @@ void TestScene::handle_input(SDL_Event &event) {
       event.button.button == SDL_BUTTON_LEFT) {
     int mouseX = event.button.x;
     int mouseY = event.button.y;
-    this->add_child(new skeleton::ParticleSystem(get_particle_system_name(),
+    this->add_child(new skeleton::SpriteNode("./assets/spritesheets/player.png",
                                                  mouseX, mouseY));
   }
 }

@@ -1,8 +1,10 @@
 #include "Renderer.hpp"
+#include "Resource.hpp"
 #include "ResourceManager.hpp"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
+#include <memory>
 
 namespace skeleton {
 Renderer::Renderer() {
@@ -98,10 +100,12 @@ int Renderer::get_window_height() {
 
 void Renderer::set_draw_color(SDL_Color color) { this->draw_color = color; }
 
-void Renderer::draw_texture(std::string tag, SDL_Rect *src_rect,
+void Renderer::draw_texture(size_t key, SDL_Rect *src_rect,
                             SDL_Rect *dst_rect) {
-  Resource *resource = skeleton::ResourceManager::get_instance().get(tag);
-  TextureResource *texture = dynamic_cast<TextureResource *>(resource);
+  std::shared_ptr<Resource> resource =
+      skeleton::ResourceManager::get_instance().get(key);
+  std::shared_ptr<TextureResource> texture =
+      std::dynamic_pointer_cast<TextureResource>(resource);
   if (!texture) {
     return;
   }

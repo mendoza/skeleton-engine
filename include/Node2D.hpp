@@ -1,4 +1,3 @@
-
 #ifndef SKELETON_NODE2D_HPP
 #define SKELETON_NODE2D_HPP
 #include "Node.hpp"

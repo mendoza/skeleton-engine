@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <string>
 namespace skeleton {
+class TextureResource;
 class Renderer : public IRenderer {
 public:
   static Renderer &get_instance() {
@@ -16,7 +17,7 @@ public:
 
   void create_window(std::string title, int width, int height,
                      bool debug_mode) override;
-        void end() override;
+  void end() override;
   void begin() override;
   void shutdown() override;
   void draw_rect(int x, int y, int w, int h, int r, int g, int b,
@@ -25,7 +26,7 @@ public:
   int get_window_height() override;
   void set_draw_color(SDL_Color color) override;
   void set_debug_mode(bool debug_mode) override;
-  void draw_texture(std::string tag, SDL_Rect *src_rect,
+  void draw_texture(size_t key, SDL_Rect *src_rect,
                     SDL_Rect *dst_rect) override;
   SDL_Renderer *get_renderer() { return this->renderer; }
 

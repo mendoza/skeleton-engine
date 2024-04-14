@@ -2,7 +2,6 @@
 #define SKELETON_RESOURCE_HPP
 #include "Logger.hpp"
 #include "Renderer.hpp"
-#include "guid.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <sol/sol.hpp>
@@ -10,13 +9,12 @@
 namespace skeleton {
 class Resource {
 public:
-  std::string tag;
   std::size_t last_accessed_at;
+  bool is_loaded = false;
+  size_t tag;
   Resource() {
-    this->tag = skeleton::guid::generate();
     this->last_accessed_at = 0;
   }
-  Resource(std::string tag) : tag(tag) { this->last_accessed_at = 0; }
   virtual ~Resource() {}
   virtual bool load() = 0;
   virtual void unload() = 0;
@@ -26,11 +24,10 @@ class TextureResource : public Resource {
 public:
   TextureResource(std::string path) : Resource() {
     this->path = path;
-    this->tag = skeleton::guid::generate();
   }
 
-  TextureResource(std::string path, std::string tag) : Resource(tag) {
-    this->path = path;
+  ~TextureResource() override {
+    unload();
   }
 
   bool load() override{
@@ -43,19 +40,21 @@ public:
                                               std::string(SDL_GetError()));
       return false;
     }
+    is_loaded = true;
     return true;
   }
 
   void unload() override {
-    if (texture) {
+    if (texture != nullptr) {
       SDL_DestroyTexture(texture);
       texture = nullptr;
+      is_loaded = false;
     }
   }
 
   friend class Renderer;
 private:
-  SDL_Texture *texture;
+  SDL_Texture *texture = nullptr;
   std::string path;
 };
 } // namespace skeleton

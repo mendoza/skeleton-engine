@@ -5,6 +5,7 @@
 #include "Service.hpp"
 #include <SDL.h>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace skeleton {
@@ -18,14 +19,13 @@ public:
   ResourceManager(const ResourceManager &) = delete;
   ResourceManager &operator=(const ResourceManager &) = delete;
 
-  bool load_texture(std::string path, std::string tag);
-  std::string load_texture(std::string path);
-  Resource *get(std::string tag);
+  std::shared_ptr<Resource> load_texture(std::string path);
+  std::shared_ptr<Resource> get(size_t resource_id);
 
 private:
   ResourceManager();
   ~ResourceManager();
-  std::map<std::string, Resource *> resources;
+  std::map<size_t, std::shared_ptr<Resource>> resources;
 };
 } // namespace skeleton
 

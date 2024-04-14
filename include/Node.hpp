@@ -13,6 +13,8 @@ public:
   Node(std::string tag) : tag(tag) {}
 
   virtual ~Node() {
+    std::string msg = "Node " + tag + " destroyed";
+    skeleton::Logger::get_instance()->info(msg);
     for (auto child : children) {
       delete child;
     }

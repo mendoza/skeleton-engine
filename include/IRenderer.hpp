@@ -2,7 +2,6 @@
 #define RENDER_SERVICE_HPP
 #include "Service.hpp"
 #include <SDL.h>
-class DrawableNode;
 namespace skeleton {
 class IRenderer : public Service {
 public:
@@ -19,7 +18,7 @@ public:
   virtual int get_window_height() = 0;
   virtual void set_draw_color(SDL_Color color) = 0;
   virtual void set_debug_mode(bool debug_mode) = 0;
-  virtual void draw_texture(std::string tag, SDL_Rect *src_rect,
+  virtual void draw_texture(size_t key, SDL_Rect *src_rect,
                             SDL_Rect *dst_rect) = 0;
 };
 } // namespace skeleton
