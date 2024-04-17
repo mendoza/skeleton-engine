@@ -8,7 +8,6 @@
 namespace skeleton {
 class SpriteNode : public DrawableNode {
 public:
-  size_t test_tag;
   SpriteNode() : DrawableNode() { this->name = "SpriteNode"; };
   SpriteNode(std::string source, double x, double y) : DrawableNode() {
     this->name = "SpriteNode";
@@ -17,7 +16,7 @@ public:
     this->y = y;
     std::shared_ptr<Resource> texture =
         skeleton::ResourceManager::get_instance().load_texture(source);
-    this->test_tag = texture.get()->tag;
+    this->resource_tag = texture.get()->tag;
   };
 
   void handle_draw() override {
@@ -26,7 +25,7 @@ public:
     dest.y = y;
     dest.w = 64;
     dest.h = 64;
-    skeleton::Renderer::get_instance().draw_texture(this->test_tag, nullptr,
+    skeleton::Renderer::get_instance().draw_texture(this->resource_tag, nullptr,
                                                     &dest);
   }
 
@@ -36,6 +35,7 @@ public:
 
 private:
   std::string source;
+  size_t resource_tag;
 };
 #endif
 } // namespace skeleton
