@@ -63,7 +63,7 @@ void Renderer::begin() {
 void Renderer::end() {
   if (this->debug_mode) {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), this->renderer);
   }
   SDL_RenderPresent(this->renderer);
 }
