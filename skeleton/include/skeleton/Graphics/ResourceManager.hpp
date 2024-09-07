@@ -1,8 +1,8 @@
 #ifndef SKELETON_RESOURCE_MANAGER_HPP
 #define SKELETON_RESOURCE_MANAGER_HPP
 
-#include "Resource.hpp"
-#include "Service.hpp"
+#include "skeleton/Graphics/resource.hpp"
+#include "skeleton/Core/Service.hpp"
 #include <SDL.h>
 #include <map>
 #include <memory>

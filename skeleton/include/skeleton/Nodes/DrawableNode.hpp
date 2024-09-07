@@ -1,6 +1,6 @@
 #ifndef SKELETON_DRAWABLENODE_HPP
 #define SKELETON_DRAWABLENODE_HPP
-#include "Node2D.hpp"
+#include "skeleton/Nodes/Node2D.hpp"
 #include <string>
 namespace skeleton {
 class DrawableNode : public Node2D {

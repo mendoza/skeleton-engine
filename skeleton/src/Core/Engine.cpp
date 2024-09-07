@@ -1,6 +1,7 @@
-#include "Engine.hpp"
-#include "Renderer.hpp"
-#include "SceneManager.hpp"
+#include "skeleton/Core/Engine.hpp"
+#include "skeleton/Graphics/Renderer.hpp"
+#include "skeleton/Nodes/DrawableNode.hpp"
+#include "skeleton/Core/SceneManager.hpp"
 
 namespace skeleton {
 

@@ -1,6 +1,6 @@
 #ifndef SKELETON_NODE_HPP
 #define SKELETON_NODE_HPP
-#include "Logger.hpp"
+#include "skeleton/Core/Logger.hpp"
 #include "guid.hpp"
 #include <algorithm>
 #include <string>

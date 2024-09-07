@@ -1,6 +1,6 @@
 #ifndef RENDER_SERVICE_HPP
 #define RENDER_SERVICE_HPP
-#include "Service.hpp"
+#include "skeleton/Core/Service.hpp"
 #include <SDL.h>
 namespace skeleton {
 class IRenderer : public Service {

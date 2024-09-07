@@ -1,10 +1,10 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
-#include "DrawableNode.hpp"
-#include "Logger.hpp"
-#include "Node2D.hpp"
-#include "ScriptManager.hpp"
+#include "skeleton/Nodes/DrawableNode.hpp"
+#include "skeleton/Core/Logger.hpp"
+#include "skeleton/Nodes/Node2D.hpp"
+#include <skeleton/Graphics/Renderer.hpp>
 #include <SDL.h>
 #include <memory>
 #include <sol/sol.hpp>
@@ -14,15 +14,13 @@ class Scene : public Node2D {
 protected:
   bool debug_mode;
   skeleton::Logger *logger = skeleton::Logger::get_instance();
-  skeleton::ScriptManager *script_manager;
 
 public:
   Scene(std::string tag) : Node2D(tag) {
-    script_manager = new ScriptManager();
     name = "Scene";
   }
 
-  virtual ~Scene() { delete script_manager; }
+  virtual ~Scene() { }
 
   // NOTE: these should be implemented by the user
   virtual void handle_init() = 0;

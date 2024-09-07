@@ -1,4 +1,4 @@
-#include "SceneManager.hpp"
+#include "skeleton/Core/SceneManager.hpp"
 
 namespace skeleton {
 

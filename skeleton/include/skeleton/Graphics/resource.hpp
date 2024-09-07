@@ -1,7 +1,7 @@
 #ifndef SKELETON_RESOURCE_HPP
 #define SKELETON_RESOURCE_HPP
-#include "Logger.hpp"
-#include "Renderer.hpp"
+#include "skeleton/Core/Logger.hpp"
+#include "skeleton/Graphics/Renderer.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <sol/sol.hpp>

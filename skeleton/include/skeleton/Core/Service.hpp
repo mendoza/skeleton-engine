@@ -1,6 +1,6 @@
 #ifndef SKELETON_SERVICE_HPP
 #define SKELETON_SERVICE_HPP
-#include "Logger.hpp"
+#include "skeleton/Core/Logger.hpp"
 #include <string>
 namespace skeleton {
 class Service {

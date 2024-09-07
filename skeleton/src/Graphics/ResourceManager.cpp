@@ -1,5 +1,5 @@
-#include "ResourceManager.hpp"
-#include "Resource.hpp"
+#include "skeleton/Graphics/ResourceManager.hpp"
+#include "skeleton/Graphics/resource.hpp"
 #include <memory>
 
 namespace skeleton {
