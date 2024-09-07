@@ -21,7 +21,11 @@ add_executable(conway
   # src/GameUI.cpp
   # src/Game.cpp
   src/main.cpp
+  # Scenes
+  src/TestScene.cpp
 )
+
+target_include_directories(conway PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
 set_target_properties(conway PROPERTIES
   CXX_STANDARD 17

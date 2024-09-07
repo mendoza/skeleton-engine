@@ -1,5 +1,5 @@
 #include <skeleton/Core/Engine.hpp>
-#include "SceneManager.hpp"
+#include "skeleton/Core/SceneManager.hpp"
 #include "TestScene.hpp"
 #include <sol/sol.hpp>
 skeleton::Logger *skeleton::Logger::instance = 0;

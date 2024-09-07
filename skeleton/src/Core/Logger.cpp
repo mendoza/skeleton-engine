@@ -3,6 +3,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+skeleton::Logger* skeleton::Logger::instance = nullptr;
 namespace skeleton {
 Logger::Logger() = default;
 

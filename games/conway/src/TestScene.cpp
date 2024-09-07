@@ -1,7 +1,7 @@
 #include "TestScene.hpp"
-#include "Node.hpp"
-#include "Particles.hpp"
-#include "SpriteNode.hpp"
+#include "skeleton/Nodes/Node.hpp"
+#include "skeleton/Nodes/Particles.hpp"
+#include "skeleton/Nodes/SpriteNode.hpp"
 #include <string>
 
 TestScene::TestScene(std::string tag) : Scene(tag) {

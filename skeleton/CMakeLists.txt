@@ -32,11 +32,6 @@ set_target_properties(skeleton PROPERTIES
 
 target_include_directories(skeleton PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
-target_link_libraries(skeleton
-  PUBLIC
-    imgui::imgui
-)
-
 # SDL
 if(BUILD_SHARED_LIBS)
   target_link_libraries(skeleton PUBLIC
@@ -52,4 +47,4 @@ if(WIN32)
   target_link_libraries(skeleton PRIVATE SDL2::SDL2main)
 endif()
 
-target_link_libraries(skeleton PUBLIC sol2 lua::lua)
+target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua)

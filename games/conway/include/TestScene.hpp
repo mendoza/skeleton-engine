@@ -1,7 +1,7 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include "Scene.hpp"
+#include "skeleton/Core/Scene.hpp"
 #include <SDL.h>
 #include <imgui.h>
 #include <sol/sol.hpp>

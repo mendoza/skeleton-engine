@@ -20,6 +20,7 @@ set(IMGUI_SOURCES
   "misc/cpp/imgui_stdlib.cpp"
   # backend
   "backends/imgui_impl_sdl2.cpp"
+  "backends/imgui_impl_sdlrenderer2.cpp"
 )
 
 list(TRANSFORM IMGUI_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/imgui/")
