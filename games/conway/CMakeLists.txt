@@ -19,8 +19,7 @@ add_executable(conway
   # src/GameDevTools.cpp
   # src/GameEntityInit.cpp
   # src/GameUI.cpp
-  # src/Game.cpp
-  src/main.cpp
+  src/Game.cpp
   # Scenes
   src/TestScene.cpp
 )
