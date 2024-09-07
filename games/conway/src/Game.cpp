@@ -2,7 +2,6 @@
 #include "skeleton/Core/SceneManager.hpp"
 #include "TestScene.hpp"
 #include <sol/sol.hpp>
-skeleton::Logger *skeleton::Logger::instance = 0;
 
 int main(int argv, char **args) {
   sol::state L;
