@@ -1,6 +1,7 @@
 add_subdirectory(third_party)
 
-add_library(skeleton
+add_library(
+  skeleton
   # Core
   src/core/Engine.cpp
   src/core/Logger.cpp
@@ -24,23 +25,15 @@ add_library(skeleton
 )
 add_library(skeleton::skeleton ALIAS skeleton)
 
-set_target_properties(skeleton PROPERTIES
-    CXX_STANDARD 17
-    CXX_EXTENSIONS OFF
-)
-
+set_target_properties(skeleton PROPERTIES CXX_STANDARD 17 CXX_EXTENSIONS OFF)
 
 target_include_directories(skeleton PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
 # SDL
 if(BUILD_SHARED_LIBS)
-  target_link_libraries(skeleton PUBLIC
-    SDL2::SDL2
-  )
+  target_link_libraries(skeleton PUBLIC SDL2::SDL2)
 else()
-  target_link_libraries(skeleton PUBLIC
-    SDL2::SDL2-static
-  )
+  target_link_libraries(skeleton PUBLIC SDL2::SDL2-static)
 endif()
 
 if(WIN32)
