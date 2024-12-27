@@ -1,0 +1,17 @@
+[submodule "third_party/SDL"]
+	path = skeleton/third_party/SDL
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
+[submodule "third_party/imgui"]
+	path = skeleton/third_party/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "third_party/sol"]
+	path = skeleton/third_party/sol
+	url = https://github.com/ThePhD/sol2
+[submodule "third_party/lua"]
+	path = skeleton/third_party/lua
+	url = https://github.com/marovira/lua
+[submodule "third_party/SDL_image"]
+	path = skeleton/third_party/SDL_image
+	url = https://github.com/libsdl-org/SDL_image/
+	branch = SDL2
