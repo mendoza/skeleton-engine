@@ -1,6 +1,6 @@
+#include "SimulationScene.hpp"
 #include <skeleton/Core/Engine.hpp>
-#include "skeleton/Core/SceneManager.hpp"
-#include "TestScene.hpp"
+#include <skeleton/Core/SceneManager.hpp>
 #include <sol/sol.hpp>
 
 int main(int argv, char **args) {
@@ -17,7 +17,7 @@ int main(int argv, char **args) {
   skeleton::Engine engine(debug_mode);
   engine.build_window(Width, Height, title, icon, fullscreen);
   skeleton::SceneManager::get_instance().add_scene(
-      std::make_unique<TestScene>("test scene"), false);
+      std::make_unique<SimulationScene>("GOL"), false);
   engine.run();
   return 0;
 }

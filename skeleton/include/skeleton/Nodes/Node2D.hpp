@@ -4,7 +4,7 @@
 #include <string>
 namespace skeleton {
 class Node2D : public Node {
-protected:
+public:
   double x = 0;
   double y = 0;
   int width = 0;
@@ -13,9 +13,8 @@ protected:
   int scale_x = 1;
   int scale_y = 1;
 
-public:
   Node2D() : Node() { this->name = "Node2D"; };
-  Node2D(std::string tag) : Node(tag) { this->name = "Node2D"; };
+  Node2D(std::string uid) : Node(uid) { this->name = "Node2D"; };
   virtual ~Node2D() {}
 
   virtual void update(double dt) {

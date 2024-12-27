@@ -1,4 +1,4 @@
-#include "skeleton/Core/SceneManager.hpp"
+#include <skeleton/Core/SceneManager.hpp>
 
 namespace skeleton {
 
@@ -9,7 +9,6 @@ SceneManager::~SceneManager() {
   while (!this->scenes.empty()) {
     skeleton::SceneRef scene = std::move(this->scenes.top());
     scene->destroy();
-    std::string scene_name = scene->get_tag();
     this->scenes.pop();
   }
   logger->info("Finished cleaning the  scene manager stack");

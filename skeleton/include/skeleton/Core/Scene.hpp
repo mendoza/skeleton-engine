@@ -1,9 +1,9 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
-#include "skeleton/Nodes/DrawableNode.hpp"
-#include "skeleton/Core/Logger.hpp"
-#include "skeleton/Nodes/Node2D.hpp"
+#include <skeleton/Nodes/DrawableNode.hpp>
+#include <skeleton/Core/Logger.hpp>
+#include <skeleton/Nodes/Node2D.hpp>
 #include <skeleton/Graphics/Renderer.hpp>
 #include <SDL.h>
 #include <memory>
@@ -16,8 +16,11 @@ protected:
   skeleton::Logger *logger = skeleton::Logger::get_instance();
 
 public:
-  Scene(std::string tag) : Node2D(tag) {
+  Scene() : Node2D() {
     name = "Scene";
+  }
+  Scene(std::string name) : Node2D() {
+    name = name;
   }
 
   virtual ~Scene() { }

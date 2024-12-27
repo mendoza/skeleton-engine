@@ -1,8 +1,8 @@
 #ifndef SKELETON_SPRITENODE_HPP
 #define SKELETON_SPRITENODE_HPP
-#include "skeleton/Nodes/DrawableNode.hpp"
-#include "skeleton/Graphics/resource.hpp"
-#include "skeleton/Graphics/ResourceManager.hpp"
+#include <skeleton/Nodes/DrawableNode.hpp>
+#include <skeleton/Graphics/resource.hpp>
+#include <skeleton/Graphics/ResourceManager.hpp>
 #include <memory>
 #include <string>
 namespace skeleton {

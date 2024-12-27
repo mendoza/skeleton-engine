@@ -1,6 +1,6 @@
-#include "skeleton/Graphics/Renderer.hpp"
-#include "skeleton/Graphics/resource.hpp"
-#include "skeleton/Graphics/ResourceManager.hpp"
+#include <skeleton/Graphics/Renderer.hpp>
+#include <skeleton/Graphics/resource.hpp>
+#include <skeleton/Graphics/ResourceManager.hpp>
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>

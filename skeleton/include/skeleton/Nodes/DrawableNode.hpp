@@ -1,6 +1,6 @@
 #ifndef SKELETON_DRAWABLENODE_HPP
 #define SKELETON_DRAWABLENODE_HPP
-#include "skeleton/Nodes/Node2D.hpp"
+#include <skeleton/Nodes/Node2D.hpp>
 #include <string>
 namespace skeleton {
 class DrawableNode : public Node2D {
@@ -8,7 +8,7 @@ public:
   DrawableNode() : Node2D(){
     this->name = "DrawableNode";
   };
-  DrawableNode(std::string tag) : Node2D(tag){
+  DrawableNode(std::string uid) : Node2D(uid){
     this->name = "DrawableNode";
   };
 

@@ -1,7 +1,7 @@
 #ifndef SKELETON_COMPONENTS_HPP
 #define SKELETON_COMPONENTS_HPP
-#include "skeleton/Nodes/DrawableNode.hpp"
-#include "skeleton/Graphics/Renderer.hpp"
+#include <skeleton/Nodes/DrawableNode.hpp>
+#include <skeleton/Graphics/Renderer.hpp>
 #include <SDL.h>
 
 namespace skeleton {
