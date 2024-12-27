@@ -1,12 +1,12 @@
-#include <skeleton/Graphics/Renderer.hpp>
-#include <skeleton/Graphics/resource.hpp>
-#include <skeleton/Graphics/ResourceManager.hpp>
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
 #include <memory>
+#include <skeleton/core/ResourceManager.hpp>
+#include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/core/Resource.hpp>
 
-namespace skeleton {
+namespace skeleton::graphics {
 Renderer::Renderer() {
   this->window = nullptr;
   this->renderer = nullptr;
@@ -102,10 +102,10 @@ void Renderer::set_draw_color(SDL_Color color) { this->draw_color = color; }
 
 void Renderer::draw_texture(size_t key, SDL_Rect *src_rect,
                             SDL_Rect *dst_rect) {
-  std::shared_ptr<Resource> resource =
-      skeleton::ResourceManager::get_instance().get(key);
+  std::shared_ptr<skeleton::core::Resource> resource =
+      skeleton::core::ResourceManager::get_instance().get(key);
   std::shared_ptr<TextureResource> texture =
-      std::dynamic_pointer_cast<TextureResource>(resource);
+      std::dynamic_pointer_cast<skeleton::graphics::TextureResource>(resource);
   if (!texture) {
     return;
   }
@@ -115,4 +115,4 @@ void Renderer::draw_texture(size_t key, SDL_Rect *src_rect,
 void Renderer::set_debug_mode(bool debug_mode) {
   this->debug_mode = debug_mode;
 }
-} // namespace skeleton
+} // namespace skeleton::graphics

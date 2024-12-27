@@ -2,8 +2,8 @@
 #define SKELETON_GUID_HPP
 #include <random>
 #include <string>
-namespace skeleton {
-class guid {
+namespace skeleton::core {
+class Guid {
 public:
   static std::string generate() {
     std::random_device rd;
@@ -23,5 +23,5 @@ public:
     return guid;
   }
 };
-} // namespace skeleton
+} // namespace skeleton::core
 #endif

@@ -1,14 +1,14 @@
 #ifndef SKELETON_ENGINE_HPP
 #define SKELETON_ENGINE_HPP
 
+#include "Scene.hpp"
 #include <SDL.h>
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <imgui.h>
 #include <string>
-#include "Scene.hpp"
 
-namespace skeleton {
+namespace skeleton::core {
 
 class Engine {
 private:
@@ -23,6 +23,6 @@ public:
   void add_scene(SceneRef scene, bool is_active = false);
   void run();
 };
-}; // namespace skeleton
+}; // namespace skeleton::core
 
 #endif

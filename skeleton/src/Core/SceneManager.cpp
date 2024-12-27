@@ -1,13 +1,13 @@
-#include <skeleton/Core/SceneManager.hpp>
+#include <skeleton/core/SceneManager.hpp>
 
-namespace skeleton {
+namespace skeleton::core {
 
 SceneManager::SceneManager() = default;
 
 SceneManager::~SceneManager() {
   logger->info("Cleaning the  scene manager stack");
   while (!this->scenes.empty()) {
-    skeleton::SceneRef scene = std::move(this->scenes.top());
+    skeleton::core::SceneRef scene = std::move(this->scenes.top());
     scene->destroy();
     this->scenes.pop();
   }
@@ -40,4 +40,4 @@ Scene *SceneManager::get_active_scene() {
   }
   return this->scenes.top().get();
 }
-}; // namespace skeleton
+}; // namespace skeleton::core

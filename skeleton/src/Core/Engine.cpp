@@ -1,9 +1,9 @@
-#include <skeleton/Core/Engine.hpp>
-#include <skeleton/Graphics/Renderer.hpp>
-#include <skeleton/Nodes/DrawableNode.hpp>
-#include <skeleton/Core/SceneManager.hpp>
+#include <skeleton/core/Engine.hpp>
+#include <skeleton/core/SceneManager.hpp>
+#include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/nodes/DrawableNode.hpp>
 
-namespace skeleton {
+namespace skeleton::core {
 
 Engine::Engine(bool debug_mode) { this->debug_mode = debug_mode; }
 
@@ -11,8 +11,8 @@ Engine::~Engine() = default;
 
 void Engine::build_window(int width, int height, const std::string &Title,
                           const std::string &IconFile, bool fullscreen) {
-  skeleton::Renderer::get_instance().create_window(Title, width, height,
-                                                   debug_mode);
+  skeleton::graphics::Renderer::get_instance().create_window(
+      Title, width, height, debug_mode);
 }
 
 void Engine::run() {
@@ -32,7 +32,7 @@ void Engine::run() {
     // Calculate the time since the last frame in seconds
     dt = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
     Scene *active_scene =
-        skeleton::SceneManager::get_instance().get_active_scene();
+        skeleton::core::SceneManager::get_instance().get_active_scene();
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -68,7 +68,7 @@ void Engine::run() {
   }
 
   // Cleanup
-  skeleton::Renderer::get_instance().shutdown();
+  skeleton::graphics::Renderer::get_instance().shutdown();
   // skeleton::SceneManager::get_instance().shutdown();
 }
-}; // namespace skeleton
+}; // namespace skeleton::core

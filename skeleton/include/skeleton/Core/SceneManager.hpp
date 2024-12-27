@@ -4,8 +4,8 @@
 #include "ISceneManager.hpp"
 #include <stack>
 
-namespace skeleton {
-class SceneManager : public skeleton::ISceneManager {
+namespace skeleton::core {
+class SceneManager : public skeleton::core::ISceneManager {
 public:
   static SceneManager &get_instance() {
     static SceneManager instance;
@@ -25,6 +25,6 @@ private:
 
   std::stack<SceneRef> scenes;
 };
-}; // namespace skeleton
+}; // namespace skeleton::core
 
 #endif

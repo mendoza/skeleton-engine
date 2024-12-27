@@ -1,29 +1,25 @@
 #ifndef SKELETON_SCENE_HPP
 #define SKELETON_SCENE_HPP
 
-#include <skeleton/Nodes/DrawableNode.hpp>
-#include <skeleton/Core/Logger.hpp>
-#include <skeleton/Nodes/Node2D.hpp>
-#include <skeleton/Graphics/Renderer.hpp>
 #include <SDL.h>
 #include <memory>
+#include <skeleton/core/Logger.hpp>
+#include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/nodes/DrawableNode.hpp>
+#include <skeleton/nodes/Node2D.hpp>
 #include <sol/sol.hpp>
 
-namespace skeleton {
-class Scene : public Node2D {
+namespace skeleton::core {
+class Scene : public skeleton::nodes::Node2D {
 protected:
   bool debug_mode;
-  skeleton::Logger *logger = skeleton::Logger::get_instance();
+  skeleton::core::Logger *logger = skeleton::core::Logger::get_instance();
 
 public:
-  Scene() : Node2D() {
-    name = "Scene";
-  }
-  Scene(std::string name) : Node2D() {
-    name = name;
-  }
+  Scene() : Node2D() { name = "Scene"; }
+  Scene(std::string name) : Node2D() { name = name; }
 
-  virtual ~Scene() { }
+  virtual ~Scene() {}
 
   // NOTE: these should be implemented by the user
   virtual void handle_init() = 0;
@@ -35,15 +31,16 @@ public:
   virtual void draw_debug_window() = 0;
 
   virtual void draw() {
-    skeleton::Renderer::get_instance().begin();
+    skeleton::graphics::Renderer::get_instance().begin();
     handle_draw();
     draw_debug_window();
     for (auto child : this->children) {
-      if (auto drawableChild = dynamic_cast<DrawableNode *>(child)) {
+      if (auto drawableChild =
+              dynamic_cast<skeleton::nodes::DrawableNode *>(child)) {
         drawableChild->draw();
       }
     }
-    skeleton::Renderer::get_instance().end();
+    skeleton::graphics::Renderer::get_instance().end();
   }
 
   virtual void init() {
@@ -65,6 +62,6 @@ public:
   }
 };
 typedef std::unique_ptr<Scene> SceneRef;
-}; // namespace skeleton
+}; // namespace skeleton::core
 
 #endif

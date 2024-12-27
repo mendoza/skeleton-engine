@@ -24,7 +24,6 @@ add_executable(conway
   src/SimulationScene.cpp
 
   # Nodes
-  src/GameOfLifeNode.cpp
 )
 
 target_include_directories(conway PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")

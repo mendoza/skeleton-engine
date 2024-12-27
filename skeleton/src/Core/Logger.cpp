@@ -1,10 +1,10 @@
-#include <skeleton/Core/Logger.hpp>
 #include <cstdarg>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
-skeleton::Logger* skeleton::Logger::instance = nullptr;
-namespace skeleton {
+#include <skeleton/core/Logger.hpp>
+skeleton::core::Logger *skeleton::core::Logger::instance = nullptr;
+namespace skeleton::core {
 Logger::Logger() = default;
 
 Logger::~Logger() = default;
@@ -17,16 +17,16 @@ Logger *Logger::get_instance() {
 }
 
 void Logger::log(const std::string &entry) {
-  skeleton::Logger::print("Log", entry);
+  skeleton::core::Logger::print("Log", entry);
 }
 void Logger::info(const std::string &entry) {
-  skeleton::Logger::print("Info", entry);
+  skeleton::core::Logger::print("Info", entry);
 }
 void Logger::error(const std::string &entry) {
-  skeleton::Logger::print("Error", entry);
+  skeleton::core::Logger::print("Error", entry);
 }
 void Logger::warning(const std::string &entry) {
-  skeleton::Logger::print("Warning", entry);
+  skeleton::core::Logger::print("Warning", entry);
 }
 
 void Logger::logf(const char *format, ...) {
@@ -54,4 +54,4 @@ void Logger::custom_printf(const std::string &type, const char *format, ...) {
   vprintf(format, args);
   va_end(args);
 }
-} // namespace skeleton
+} // namespace skeleton::core

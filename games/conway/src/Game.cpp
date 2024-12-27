@@ -1,6 +1,6 @@
 #include "SimulationScene.hpp"
-#include <skeleton/Core/Engine.hpp>
-#include <skeleton/Core/SceneManager.hpp>
+#include <skeleton/core/Engine.hpp>
+#include <skeleton/core/SceneManager.hpp>
 #include <sol/sol.hpp>
 
 int main(int argv, char **args) {
@@ -14,9 +14,9 @@ int main(int argv, char **args) {
   unsigned int Height = initial_resolution["height"];
   bool debug_mode = config["debug_mode"];
   bool fullscreen = config["fullscreen"];
-  skeleton::Engine engine(debug_mode);
+  skeleton::core::Engine engine(debug_mode);
   engine.build_window(Width, Height, title, icon, fullscreen);
-  skeleton::SceneManager::get_instance().add_scene(
+  skeleton::core::SceneManager::get_instance().add_scene(
       std::make_unique<SimulationScene>("GOL"), false);
   engine.run();
   return 0;

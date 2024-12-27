@@ -2,8 +2,8 @@
 #define SKELETON_NODE2D_HPP
 #include "Node.hpp"
 #include <string>
-namespace skeleton {
-class Node2D : public Node {
+namespace skeleton::nodes {
+class Node2D : public skeleton::nodes::Node {
 public:
   double x = 0;
   double y = 0;
@@ -36,5 +36,5 @@ public:
   virtual void handle_update(double dt) = 0;
   virtual void handle_fixed_update(double dt) = 0;
 };
-} // namespace skeleton
+} // namespace skeleton::nodes
 #endif

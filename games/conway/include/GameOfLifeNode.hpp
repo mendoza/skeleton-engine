@@ -1,10 +1,10 @@
 #ifndef GAME_OF_LIFE_HPP
 #define GAME_OF_LIFE_HPP
-#include "skeleton/Core/Logger.hpp"
-#include <skeleton/Graphics/Renderer.hpp>
-#include <skeleton/Nodes/DrawableNode.hpp>
+#include "skeleton/core/Logger.hpp"
+#include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/nodes/DrawableNode.hpp>
 
-class GameOfLife : public skeleton::DrawableNode {
+class GameOfLife : public skeleton::nodes::DrawableNode {
   double acumulated_dt = 0;
   int cell_size = 10;
   int screen_h = 1080;
@@ -56,7 +56,7 @@ public:
     for (int i = 0; i < screen_w / cell_size; i++) {
       for (int j = 0; j < screen_h / cell_size; j++) {
         if (this->cells[i][j] == 1) {
-          skeleton::Renderer::get_instance().draw_rect(
+          skeleton::graphics::Renderer::get_instance().draw_rect(
               i * cell_size, j * cell_size, cell_size, cell_size, 255, 255, 255,
               255);
         }

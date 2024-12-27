@@ -1,16 +1,16 @@
 #ifndef SKELETON_SERVICE_HPP
 #define SKELETON_SERVICE_HPP
-#include <skeleton/Core/Logger.hpp>
+#include <skeleton/core/Logger.hpp>
 #include <string>
-namespace skeleton {
+namespace skeleton::core {
 class Service {
 public:
   Service() = default;
   virtual ~Service() = default;
 
 protected:
-  skeleton::Logger *logger = skeleton::Logger::get_instance();
+  skeleton::core::Logger *logger = skeleton::core::Logger::get_instance();
   std::string tag;
 };
-} // namespace skeleton
+} // namespace skeleton::core
 #endif

@@ -1,16 +1,16 @@
 #ifndef SKELETON_NODE_HPP
 #define SKELETON_NODE_HPP
-#include <skeleton/Core/Logger.hpp>
-#include "guid.hpp"
 #include <algorithm>
+#include <skeleton/core/Guid.hpp>
+#include <skeleton/core/Logger.hpp>
 #include <string>
 #include <vector>
 
-namespace skeleton {
+namespace skeleton::nodes {
 class Node {
 public:
   Node() {
-    uid = skeleton::guid::generate();
+    uid = skeleton::core::Guid::generate();
     this->name = "Node";
   }
   Node(std::string uid) : uid(uid) { this->name = "Node"; }
@@ -19,10 +19,10 @@ public:
     if (children.size() > 0) {
       std::string msg = "Parent " + name + " (" + uid + ") destroyed with " +
                         std::to_string(children.size()) + " children";
-      skeleton::Logger::get_instance()->info(msg);
+      skeleton::core::Logger::get_instance()->info(msg);
     } else {
       std::string msg = name + " (" + uid + ") destroyed";
-      skeleton::Logger::get_instance()->info(msg);
+      skeleton::core::Logger::get_instance()->info(msg);
     }
     for (auto child : children) {
       delete child;
@@ -72,5 +72,5 @@ protected:
   std::string uid;
   std::string name;
 };
-} // namespace skeleton
+} // namespace skeleton::nodes
 #endif

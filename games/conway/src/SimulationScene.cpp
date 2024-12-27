@@ -1,8 +1,8 @@
 #include "SimulationScene.hpp"
 #include "GameOfLifeNode.hpp"
-#include <skeleton/Nodes/Node.hpp>
-#include <skeleton/Nodes/Particles.hpp>
-#include <skeleton/Nodes/SpriteNode.hpp>
+#include <skeleton/nodes/Node.hpp>
+#include <skeleton/nodes/Particles.hpp>
+#include <skeleton/nodes/SpriteNode.hpp>
 #include <string>
 
 SimulationScene::SimulationScene(std::string name) : Scene() {
@@ -13,12 +13,13 @@ SimulationScene::SimulationScene(std::string name) : Scene() {
 SimulationScene::~SimulationScene() = default;
 
 void SimulationScene::handle_init() {
-  skeleton::Renderer::get_instance().set_draw_color({0, 0, 0, 100});
+  skeleton::graphics::Renderer::get_instance().set_draw_color({0, 0, 0, 100});
 
-  int width = skeleton::Renderer::get_instance().get_window_width();
-  int height = skeleton::Renderer::get_instance().get_window_height();
+  int width = skeleton::graphics::Renderer::get_instance().get_window_width();
+  int height = skeleton::graphics::Renderer::get_instance().get_window_height();
 
-  skeleton::Renderer::get_instance().set_draw_color({125, 125, 125, 255});
+  skeleton::graphics::Renderer::get_instance().set_draw_color(
+      {125, 125, 125, 255});
 
   this->add_child(new GameOfLife(height, width));
 }
@@ -43,7 +44,7 @@ void SimulationScene::handle_draw() {}
 
 void SimulationScene::handle_destroy() {}
 
-void DrawNodeTree(skeleton::Node *node) {
+void DrawNodeTree(skeleton::nodes::Node *node) {
   // Ensure the node is valid
   if (!node) {
     return;

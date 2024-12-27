@@ -2,16 +2,16 @@ add_subdirectory(third_party)
 
 add_library(skeleton
   # Core
-  src/Core/Engine.cpp
-  src/Core/Logger.cpp
-  src/Core/SceneManager.cpp
+  src/core/Engine.cpp
+  src/core/Logger.cpp
+  src/core/SceneManager.cpp
+  src/core/ResourceManager.cpp
   # DevTools
   # Event
   # ECS
   # Math
   # Graphics
-  src/Graphics/Renderer.cpp
-  src/Graphics/ResourceManager.cpp
+  src/graphics/Renderer.cpp
   # Text
   # Utils
   # Audio

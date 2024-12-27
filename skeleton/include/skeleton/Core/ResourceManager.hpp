@@ -1,14 +1,14 @@
 #ifndef SKELETON_RESOURCE_MANAGER_HPP
 #define SKELETON_RESOURCE_MANAGER_HPP
 
-#include "skeleton/Graphics/resource.hpp"
-#include "skeleton/Core/Service.hpp"
+#include "skeleton/core/Resource.hpp"
+#include "skeleton/core/Service.hpp"
+#include "skeleton/graphics/TextureResource.hpp"
 #include <SDL.h>
 #include <map>
-#include <memory>
 #include <string>
 
-namespace skeleton {
+namespace skeleton::core {
 class ResourceManager : public Service {
 public:
   static ResourceManager &get_instance() {
@@ -19,14 +19,15 @@ public:
   ResourceManager(const ResourceManager &) = delete;
   ResourceManager &operator=(const ResourceManager &) = delete;
 
-  std::shared_ptr<Resource> load_texture(std::string path);
-  std::shared_ptr<Resource> get(size_t resource_id);
+  std::shared_ptr<skeleton::graphics::TextureResource>
+  load_texture(std::string path);
+  std::shared_ptr<skeleton::graphics::TextureResource> get(size_t resource_id);
 
 private:
   ResourceManager();
   ~ResourceManager();
-  std::map<size_t, std::shared_ptr<Resource>> resources;
+  std::map<size_t, std::shared_ptr<skeleton::core::Resource>> resources;
 };
-} // namespace skeleton
+} // namespace skeleton::core
 
 #endif

@@ -1,12 +1,12 @@
 #ifndef TEST_STATE_HPP
 #define TEST_STATE_HPP
 
-#include "skeleton/Core/Scene.hpp"
+#include "skeleton/core/Scene.hpp"
 #include <SDL.h>
 #include <imgui.h>
 #include <sol/sol.hpp>
 #include <string>
-class SimulationScene : public skeleton::Scene {
+class SimulationScene : public skeleton::core::Scene {
 public:
   SimulationScene(std::string name);
   ~SimulationScene() override;

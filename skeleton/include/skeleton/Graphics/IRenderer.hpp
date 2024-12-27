@@ -1,9 +1,9 @@
 #ifndef RENDER_SERVICE_HPP
 #define RENDER_SERVICE_HPP
-#include "skeleton/Core/Service.hpp"
+#include "skeleton/core/Service.hpp"
 #include <SDL.h>
-namespace skeleton {
-class IRenderer : public Service {
+namespace skeleton::graphics {
+class IRenderer : public skeleton::core::Service {
 public:
   IRenderer() = default;
   ~IRenderer() override = default;
@@ -21,5 +21,5 @@ public:
   virtual void draw_texture(size_t key, SDL_Rect *src_rect,
                             SDL_Rect *dst_rect) = 0;
 };
-} // namespace skeleton
+} // namespace skeleton::graphics
 #endif

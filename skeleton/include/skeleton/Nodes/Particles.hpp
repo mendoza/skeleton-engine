@@ -1,11 +1,11 @@
 #ifndef SKELETON_COMPONENTS_HPP
 #define SKELETON_COMPONENTS_HPP
-#include <skeleton/Nodes/DrawableNode.hpp>
-#include <skeleton/Graphics/Renderer.hpp>
 #include <SDL.h>
+#include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/nodes/DrawableNode.hpp>
 
 namespace skeleton {
-class Particle : public DrawableNode {
+class Particle : public skeleton::nodes::DrawableNode {
 public:
   double life_time = 0;
   int r, g, b = 0;
@@ -28,10 +28,10 @@ public:
     this->velocity_y = velocity_y;
   };
 
-  virtual ~Particle(){};
+  virtual ~Particle() {};
 
   virtual void handle_draw() override {
-    skeleton::Renderer::get_instance().draw_rect(
+    skeleton::graphics::Renderer::get_instance().draw_rect(
         this->x, this->y, this->width * this->scale_x,
         this->width * this->scale_y, this->r, this->g, this->b, 255);
   };
@@ -47,7 +47,7 @@ public:
   };
 };
 
-class ParticleSystem : public DrawableNode {
+class ParticleSystem : public skeleton::nodes::DrawableNode {
   int last_spawn = 0;
 
 public:
@@ -63,10 +63,9 @@ public:
     }
   };
 
-  virtual ~ParticleSystem() {
-  };
+  virtual ~ParticleSystem() {};
 
-  virtual void handle_draw() override{};
+  virtual void handle_draw() override {};
 
   virtual void handle_fixed_update(double dt) override {
     this->last_spawn += dt;

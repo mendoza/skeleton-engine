@@ -3,7 +3,7 @@
 #include "IRenderer.hpp"
 #include <SDL.h>
 #include <string>
-namespace skeleton {
+namespace skeleton::graphics {
 class TextureResource;
 class Renderer : public IRenderer {
 public:
@@ -39,5 +39,5 @@ private:
   SDL_Renderer *renderer;
   SDL_Color draw_color = {0, 0, 0, 255};
 };
-} // namespace skeleton
+} // namespace skeleton::graphics
 #endif
