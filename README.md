@@ -2,9 +2,8 @@
 
 ![License](https://img.shields.io/github/license/mendoza/Skeleton-Engine.svg) ![Issues](https://img.shields.io/github/issues/mendoza/Skeleton-Engine.svg) ![forks](https://img.shields.io/github/forks/mendoza/Skeleton-Engine) ![stars](https://img.shields.io/github/stars/mendoza/Skeleton-Engine) ![size](https://img.shields.io/github/repo-size/mendoza/Skeleton-Engine) ![Unicorn](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/unicorn.svg)
 
-![splash](assets/splash.png) 
 ## Description
-Small game engine framework , made with just 3 dependencies.
+Small game engine framework , made with:
 
 1.  SDL [Repo](https://github.com/libsdl-org/SDL)
 2.  Lua54 [Repo](https://github.com/lua/lua)
@@ -17,15 +16,10 @@ Just for fun and learning
 ## Installation
 
 ```bash
-git clone https://github.com/mendoza/skeleton-engine
+git clone https://github.com/mendoza/skeleton-engine --recursive
 cd skeleton-engine
-mkdir build
-cd build
-cmake .. 
-# For windows: cmake -G "MinGW Makefiles" ..
-make
-# For Windows: mingw32-make
-./skeleton
+cmake -Bbuild -H.
+# For windows add -G "MinGW Makefiles"
 ```
 
 ## Bugs 🐛
