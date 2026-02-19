@@ -15,3 +15,6 @@
 	path = skeleton/third_party/SDL_image
 	url = https://github.com/libsdl-org/SDL_image/
 	branch = SDL2
+[submodule "skeleton/third_party/entt"]
+	path = skeleton/third_party/entt
+	url = https://github.com/skypjack/entt.git

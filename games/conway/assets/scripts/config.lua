@@ -4,7 +4,7 @@ config = {
         width = 800,
         height = 600
     },
-    fullscreen = true,
+    fullscreen = false,
     debug_mode = true,
     icon = "assets/icon.png",
     splash = {

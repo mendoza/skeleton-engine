@@ -6,13 +6,13 @@ add_library(
   src/core/Engine.cpp
   src/core/Logger.cpp
   src/core/SceneManager.cpp
-  src/core/ResourceManager.cpp
   # DevTools
   # Event
   # ECS
   # Math
   # Graphics
   src/graphics/Renderer.cpp
+  src/core/ResourceManager.cpp
   # Text
   # Utils
   # Audio
@@ -40,4 +40,8 @@ if(WIN32)
   target_link_libraries(skeleton PRIVATE SDL2::SDL2main)
 endif()
 
-target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua)
+if(BUILD_SHARED_LIBS)
+  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image)
+else()
+  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image-static)
+endif()

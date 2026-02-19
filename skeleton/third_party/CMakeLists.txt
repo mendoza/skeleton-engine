@@ -55,3 +55,6 @@ add_subdirectory(sol)
 
 #lua
 add_subdirectory(lua)
+
+# entt
+add_subdirectory(entt)
