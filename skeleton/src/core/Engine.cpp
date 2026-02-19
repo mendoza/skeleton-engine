@@ -5,6 +5,7 @@
 #include <skeleton/core/Logger.hpp>
 #include <skeleton/core/SceneManager.hpp>
 #include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/input/InputManager.hpp>
 
 namespace skeleton::core {
 
@@ -35,6 +36,8 @@ void Engine::add_scene(SceneRef scene) {
 }
 
 void Engine::run() {
+  skeleton::input::InputManager::get_instance().load_bindings("assets/scripts/bindings.lua");
+
   uint64_t NOW = SDL_GetPerformanceCounter();
   uint64_t LAST = 0;
   double dt = 0.0;
@@ -49,12 +52,15 @@ void Engine::run() {
 
     Scene *scene = SceneManager::get_instance().get_active_scene();
 
+    skeleton::input::InputManager::get_instance().new_frame();
+
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       if (debug_mode)
         ImGui_ImplSDL2_ProcessEvent(&event);
       if (event.type == SDL_QUIT)
         is_running = false;
+      skeleton::input::InputManager::get_instance().process_event(event);
       if (scene)
         scene->on_input(event);
     }

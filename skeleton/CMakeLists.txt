@@ -13,6 +13,8 @@ add_library(
   # Graphics
   src/graphics/Renderer.cpp
   src/core/ResourceManager.cpp
+  # Input
+  src/input/InputManager.cpp
   # Text
   # Utils
   # Audio
