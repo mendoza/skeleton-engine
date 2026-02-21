@@ -6,7 +6,7 @@ namespace skeleton::core {
 
 class Engine {
 public:
-    Engine(bool debug_mode);
+    Engine(bool debug_mode, bool editor_mode = false);
     ~Engine();
 
     void build_window(int width, int height, const std::string &title,
@@ -17,6 +17,7 @@ public:
 private:
     bool is_running = true;
     bool debug_mode;
+    bool editor_mode;
 };
 
 } // namespace skeleton::core

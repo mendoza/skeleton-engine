@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <imgui.h>
 #include <skeleton/core/Logger.hpp>
+#include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
 #include <skeleton/math/types.hpp>
 #include <skeleton/scripting/script_component.hpp>
@@ -25,7 +26,25 @@ static skeleton::Vec2 steer_toward(skeleton::Vec2 desired, skeleton::Vec2 curren
   return s;
 }
 
-BoidsScene::BoidsScene(std::string name) : Scene(std::move(name)) {}
+static void register_debug_widgets() {
+  static bool registered = false;
+  if (registered) return;
+  registered = true;
+
+  skeleton::debug::register_widget<Position>("Position", [](Position &p) {
+    ImGui::DragFloat2("pos", &p.pos.x, 0.5f);
+  });
+  skeleton::debug::register_widget<Velocity>("Velocity", [](Velocity &v) {
+    ImGui::DragFloat2("vel", &v.vel.x, 0.5f);
+  });
+  skeleton::debug::register_widget<Leader>("Leader", [](Leader &) {
+    ImGui::TextDisabled("(tag)");
+  });
+}
+
+BoidsScene::BoidsScene(std::string name) : Scene(std::move(name)) {
+  register_debug_widgets();
+}
 
 void BoidsScene::on_init() {
   using namespace skeleton::scripting;
@@ -180,10 +199,10 @@ static void run_flocking(entt::registry &registry, double dt, float perception,
 
     pos.pos += vel.vel * (float)dt;
 
-    if (pos.pos.x < 0)       pos.pos.x += world_w;
-    if (pos.pos.x > world_w) pos.pos.x -= world_w;
-    if (pos.pos.y < 0)       pos.pos.y += world_h;
-    if (pos.pos.y > world_h) pos.pos.y -= world_h;
+    // if (pos.pos.x < 0)       pos.pos.x += world_w;
+    // if (pos.pos.x > world_w) pos.pos.x -= world_w;
+    // if (pos.pos.y < 0)       pos.pos.y += world_h;
+    // if (pos.pos.y > world_h) pos.pos.y -= world_h;
   }
 }
 

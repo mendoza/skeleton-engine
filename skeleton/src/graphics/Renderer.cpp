@@ -64,6 +64,7 @@ void Renderer::shutdown() {
         ImGui_ImplSDL2_Shutdown();
         ImGui::DestroyContext();
     }
+    if (scene_texture_) SDL_DestroyTexture(scene_texture_);
     for (auto &[key, tex] : textures) {
         SDL_DestroyTexture(tex);
     }
@@ -114,6 +115,22 @@ void Renderer::draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst
 
 void Renderer::store_texture(size_t key, SDL_Texture *texture) {
     textures[key] = texture;
+}
+
+void Renderer::begin_scene_capture() {
+    if (!scene_texture_) {
+        int w, h;
+        SDL_GetWindowSize(window, &w, &h);
+        scene_texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+                                           SDL_TEXTUREACCESS_TARGET, w, h);
+    }
+    SDL_SetRenderTarget(renderer, scene_texture_);
+    SDL_SetRenderDrawColor(renderer, draw_color.r, draw_color.g, draw_color.b, draw_color.a);
+    SDL_RenderClear(renderer);
+}
+
+void Renderer::end_scene_capture() {
+    SDL_SetRenderTarget(renderer, nullptr);
 }
 
 int Renderer::get_window_width() {

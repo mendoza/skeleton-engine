@@ -1,7 +1,8 @@
 config = {
     title = "Boids",
     resolution = { width = 1280, height = 720 },
-    fullscreen = true,
+    fullscreen = false,
     debug_mode = true,
+    editor_mode = true,
     icon = "",
 }

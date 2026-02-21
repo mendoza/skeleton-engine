@@ -13,8 +13,9 @@ int main(int, char **) {
   unsigned int h = config["resolution"]["height"];
   bool debug_mode = config["debug_mode"];
   bool fullscreen = config["fullscreen"];
+  bool editor_mode = config.get_or("editor_mode", false);
 
-  skeleton::core::Engine engine(debug_mode);
+  skeleton::core::Engine engine(debug_mode, editor_mode);
   engine.build_window(w, h, title, icon, fullscreen);
   engine.add_scene(std::make_unique<FarmScene>("Farm"));
   engine.run();
