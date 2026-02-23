@@ -15,6 +15,7 @@ add_library(
   src/core/ResourceManager.cpp
   # Input
   src/input/InputManager.cpp
+  # Debug
   # Text
   # Utils
   # Audio

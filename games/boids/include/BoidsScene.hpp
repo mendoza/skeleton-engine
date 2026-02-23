@@ -21,9 +21,10 @@ private:
   sol::state lua;
 
   skeleton::Camera2D camera;
-  bool panning      = false;
-  int  last_mouse_x = 0;
-  int  last_mouse_y = 0;
+  bool follow_leader = false;
+  bool panning       = false;
+  int  last_mouse_x  = 0;
+  int  last_mouse_y  = 0;
 
   float world_w = 3840.0f;
   float world_h = 2160.0f;
@@ -31,7 +32,9 @@ private:
   float perception = 60.0f;
   float max_speed  = 120.0f;
   float max_force  = 200.0f;
-  float sep_weight = 1.5f;
-  float ali_weight = 1.0f;
-  float coh_weight = 1.0f;
+  float sep_weight  = 1.5f;
+  float ali_weight  = 1.0f;
+  float coh_weight  = 1.0f;
+  float flee_range  = 150.0f;
+  float flee_weight = 3.0f;
 };

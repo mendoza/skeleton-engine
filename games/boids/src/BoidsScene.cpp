@@ -2,7 +2,9 @@
 #include <algorithm>
 #include <imgui.h>
 #include <skeleton/core/Logger.hpp>
+#include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/input/InputManager.hpp>
 #include <skeleton/math/types.hpp>
 #include <skeleton/scripting/script_component.hpp>
 #include <vector>
@@ -25,7 +27,25 @@ static skeleton::Vec2 steer_toward(skeleton::Vec2 desired, skeleton::Vec2 curren
   return s;
 }
 
-BoidsScene::BoidsScene(std::string name) : Scene(std::move(name)) {}
+static void register_debug_widgets() {
+  static bool registered = false;
+  if (registered) return;
+  registered = true;
+
+  skeleton::debug::register_widget<Position>("Position", [](Position &p) {
+    ImGui::DragFloat2("pos", &p.pos.x, 0.5f);
+  });
+  skeleton::debug::register_widget<Velocity>("Velocity", [](Velocity &v) {
+    ImGui::DragFloat2("vel", &v.vel.x, 0.5f);
+  });
+  skeleton::debug::register_widget<Leader>("Leader", [](Leader &) {
+    ImGui::TextDisabled("(tag)");
+  });
+}
+
+BoidsScene::BoidsScene(std::string name) : Scene(std::move(name)) {
+  register_debug_widgets();
+}
 
 void BoidsScene::on_init() {
   using namespace skeleton::scripting;
@@ -44,6 +64,7 @@ void BoidsScene::on_init() {
   bind_component<Velocity>(lua, "Velocity");
   bind_component<Leader>(lua, "Leader");
   bind_script_world(lua, registry);
+  skeleton::input::bind_input(lua);
 
   lua["world_w"] = world_w;
   lua["world_h"] = world_h;
@@ -52,9 +73,20 @@ void BoidsScene::on_init() {
   lua["perception"] = &perception;
   lua["max_speed"]  = &max_speed;
   lua["max_force"]  = &max_force;
-  lua["sep_weight"] = &sep_weight;
-  lua["ali_weight"] = &ali_weight;
-  lua["coh_weight"] = &coh_weight;
+  lua["sep_weight"]  = &sep_weight;
+  lua["ali_weight"]  = &ali_weight;
+  lua["coh_weight"]  = &coh_weight;
+  lua["flee_range"]  = &flee_range;
+  lua["flee_weight"] = &flee_weight;
+
+  auto leader_e = registry.create();
+  registry.emplace<Position>(leader_e, skeleton::Vec2{world_w / 2.0f, world_h / 2.0f});
+  registry.emplace<Velocity>(leader_e, skeleton::Vec2{max_speed, 0.0f});
+  registry.emplace<Leader>(leader_e);
+  ScriptComponent lsc;
+  lsc.path = "assets/scripts/leader.lua";
+  lsc.env  = sol::environment(lua, sol::create, lua.globals());
+  registry.emplace<ScriptComponent>(leader_e, std::move(lsc));
 
   auto sys_e = registry.create();
   SystemScript ss;
@@ -64,6 +96,8 @@ void BoidsScene::on_init() {
 }
 
 void BoidsScene::on_input(SDL_Event &event) {
+  if (follow_leader)
+    return;
   if (event.type == SDL_MOUSEBUTTONDOWN &&
       event.button.button == SDL_BUTTON_MIDDLE) {
     panning      = true;
@@ -86,12 +120,27 @@ void BoidsScene::on_input(SDL_Event &event) {
   }
 }
 
-void BoidsScene::on_update(double) {}
+void BoidsScene::on_update(double) {
+  if (!follow_leader)
+    return;
+  for (auto [e, pos] : registry.view<Position, Leader>().each()) {
+    camera.position = pos.pos;
+    break;
+  }
+}
 
 static void run_flocking(entt::registry &registry, double dt, float perception,
                          float max_speed, float max_force, float sep_weight,
-                         float ali_weight, float coh_weight, float world_w,
-                         float world_h) {
+                         float ali_weight, float coh_weight, float flee_range,
+                         float flee_weight, float world_w, float world_h) {
+  skeleton::Vec2 leader_pos{};
+  bool           has_leader = false;
+  for (auto [e, lpos] : registry.view<Position, Leader>().each()) {
+    leader_pos = lpos.pos;
+    has_leader = true;
+    break;
+  }
+
   auto view = registry.view<Position, Velocity>();
 
   struct BoidData {
@@ -174,23 +223,64 @@ static void run_flocking(entt::registry &registry, double dt, float perception,
       steering += steer_toward(coh / (float)neighbors - pos.pos, vel.vel, max_speed, max_force) * coh_weight;
     }
 
+    if (has_leader) {
+      skeleton::Vec2 away  = pos.pos - leader_pos;
+      float          dist2 = away.length_sq();
+      if (dist2 > 0 && dist2 < flee_range * flee_range)
+        steering += steer_toward(away, vel.vel, max_speed, max_force) * flee_weight;
+    }
+
     vel.vel += steering * (float)dt;
     if (vel.vel.length() > max_speed)
       vel.vel = vel.vel.normalized() * max_speed;
 
     pos.pos += vel.vel * (float)dt;
 
-    if (pos.pos.x < 0)       pos.pos.x += world_w;
-    if (pos.pos.x > world_w) pos.pos.x -= world_w;
-    if (pos.pos.y < 0)       pos.pos.y += world_h;
-    if (pos.pos.y > world_h) pos.pos.y -= world_h;
+    // if (pos.pos.x < 0)       pos.pos.x += world_w;
+    // if (pos.pos.x > world_w) pos.pos.x -= world_w;
+    // if (pos.pos.y < 0)       pos.pos.y += world_h;
+    // if (pos.pos.y > world_h) pos.pos.y -= world_h;
   }
 }
 
 void BoidsScene::on_fixed_update(double dt) {
   run_flocking(registry, dt, perception, max_speed, max_force, sep_weight,
-               ali_weight, coh_weight, world_w, world_h);
+               ali_weight, coh_weight, flee_range, flee_weight, world_w, world_h);
   using namespace skeleton::scripting;
+
+  auto sc_view = registry.view<ScriptComponent>();
+  for (auto [e, sc] : sc_view.each()) {
+    if (!sc.initialized) {
+      auto result =
+          lua.safe_script_file(sc.path, sc.env, sol::script_pass_on_error);
+      if (!result.valid()) {
+        sol::error err = result;
+        skeleton::core::Logger::error(err.what());
+      } else {
+        sol::protected_function on_init = sc.env["on_init"];
+        if (on_init.valid()) {
+          EntityHandle handle{&registry, e};
+          auto r = on_init(handle);
+          if (!r.valid()) {
+            sol::error err = r;
+            skeleton::core::Logger::error(err.what());
+          }
+        }
+      }
+      sc.initialized = true;
+    }
+
+    sol::protected_function on_update = sc.env["on_update"];
+    if (on_update.valid()) {
+      EntityHandle handle{&registry, e};
+      auto result = on_update(handle, (float)dt);
+      if (!result.valid()) {
+        sol::error err = result;
+        skeleton::core::Logger::error(err.what());
+      }
+    }
+  }
+
 
   auto sys_view = registry.view<SystemScript>();
   for (auto [e, ss] : sys_view.each()) {
@@ -257,16 +347,25 @@ void BoidsScene::on_debug_ui() {
   ImGui::SliderFloat("Max Force",  &max_force,  10.0f, 500.0f);
   ImGui::SliderFloat("Separation", &sep_weight, 0.0f, 5.0f);
   ImGui::SliderFloat("Alignment",  &ali_weight, 0.0f, 5.0f);
-  ImGui::SliderFloat("Cohesion",   &coh_weight, 0.0f, 5.0f);
+  ImGui::SliderFloat("Cohesion",   &coh_weight,  0.0f,   5.0f);
+  ImGui::SliderFloat("Flee Range", &flee_range,  0.0f, 400.0f);
+  ImGui::SliderFloat("Flee",       &flee_weight, 0.0f,  10.0f);
 
   ImGui::Separator();
   ImGui::Text("Camera");
-  ImGui::DragFloat2("Position", &camera.position.x, 1.0f);
+  if (ImGui::Checkbox("Follow Leader", &follow_leader))
+    panning = false;
+  if (!follow_leader)
+    ImGui::DragFloat2("Position", &camera.position.x, 1.0f);
   ImGui::SliderFloat("Zoom", &camera.zoom, 0.1f, 10.0f, "%.2fx");
   if (ImGui::Button("Reset Camera")) {
     camera.position = {world_w / 2.0f, world_h / 2.0f};
     camera.zoom     = 1.0f;
   }
+
+  ImGui::Separator();
+  if (ImGui::CollapsingHeader("Entities"))
+    skeleton::debug::draw_all_entities(registry);
 
   ImGui::End();
 }

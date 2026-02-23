@@ -7,11 +7,13 @@
 
 namespace skeleton::debug {
 
-using WidgetFn = std::function<void(entt::registry &, entt::entity)>;
+using WidgetFn  = std::function<void(entt::registry &, entt::entity)>;
+using HasFn     = std::function<bool(entt::registry &, entt::entity)>;
 
 struct WidgetEntry {
     std::string label;
-    WidgetFn draw;
+    WidgetFn    draw;
+    HasFn       has;
 };
 
 inline std::unordered_map<entt::id_type, WidgetEntry> &widget_map() {
@@ -24,15 +26,46 @@ void register_widget(std::string label, std::function<void(T &)> fn) {
     widget_map()[entt::type_hash<T>::value()] = {
         std::move(label),
         [fn](entt::registry &reg, entt::entity e) {
-            if (auto *c = reg.try_get<T>(e)) fn(*c);
+            if constexpr (std::is_empty_v<T>) {
+                if (reg.all_of<T>(e)) { T dummy{}; fn(dummy); }
+            } else {
+                if (auto *c = reg.try_get<T>(e)) fn(*c);
+            }
+        },
+        [](entt::registry &reg, entt::entity e) {
+            return reg.all_of<T>(e);
         }
     };
 }
 
+// Draw all components present on an entity.
+// Components with a registered widget get a CollapsingHeader + widget content.
+// Components without a registered widget show their type name in grey.
 inline void draw_entity(entt::registry &reg, entt::entity e) {
-    for (auto &[id, entry] : widget_map()) {
-        entry.draw(reg, e);
+    static const entt::id_type entity_id = entt::type_hash<entt::entity>::value();
+    bool any = false;
+    for (auto &&[id, pool] : reg.storage()) {
+        if (id == entity_id || !pool.contains(e)) continue;
+        any = true;
+
+        auto wit = widget_map().find(id);
+        if (wit != widget_map().end()) {
+            if (ImGui::CollapsingHeader(wit->second.label.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+                ImGui::Indent();
+                wit->second.draw(reg, e);
+                ImGui::Unindent();
+            }
+        } else {
+            std::string_view name = pool.info().name();
+            auto pos = name.rfind(':');
+            if (pos != std::string_view::npos) name = name.substr(pos + 1);
+            ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            ImGui::BulletText("%.*s", (int)name.size(), name.data());
+            ImGui::PopStyleColor();
+        }
     }
+    if (!any)
+        ImGui::TextDisabled("No components");
 }
 
 inline void draw_all_entities(entt::registry &reg) {

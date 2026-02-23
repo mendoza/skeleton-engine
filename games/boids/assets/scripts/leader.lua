@@ -1,22 +1,43 @@
-local t = 0
-local radius = 220
-local cx, cy = 1920, 1080
-local orbit_speed = 0.6
-local move_speed = 90000
+local steer_force = 300
+local friction = 2.0
 
 function on_update(self, dt)
-  t = t + dt * orbit_speed
+	local pos = self:get(Position)
+	local vel = self:get(Velocity)
 
-  local pos = self:get(Position)
-  local vel = self:get(Velocity)
+	local dx, dy = 0, 0
+	if input:held("move_up") then
+		dy = dy - 1
+	end
+	if input:held("move_down") then
+		dy = dy + 1
+	end
+	if input:held("move_left") then
+		dx = dx - 1
+	end
+	if input:held("move_right") then
+		dx = dx + 1
+	end
 
-  if pos then
-    pos.pos.x = cx + math.cos(t) * radius
-    pos.pos.y = cy + math.sin(t) * radius
-  end
+	if dx ~= 0 and dy ~= 0 then
+		local len = math.sqrt(dx * dx + dy * dy)
+		dx = dx / len
+		dy = dy / len
+	end
 
-  if vel then
-    vel.vel.x = -math.sin(t) * move_speed
-    vel.vel.y =  math.cos(t) * move_speed
-  end
+	vel.vel.x = vel.vel.x + dx * steer_force * dt
+	vel.vel.y = vel.vel.y + dy * steer_force * dt
+
+	local damp = math.max(0, 1.0 - friction * dt)
+	vel.vel.x = vel.vel.x * damp
+	vel.vel.y = vel.vel.y * damp
+
+	local speed = math.sqrt(vel.vel.x * vel.vel.x + vel.vel.y * vel.vel.y)
+	if speed > max_speed then
+		vel.vel.x = vel.vel.x / speed * max_speed
+		vel.vel.y = vel.vel.y / speed * max_speed
+	end
+
+	pos.pos.x = pos.pos.x + vel.vel.x * dt
+	pos.pos.y = pos.pos.y + vel.vel.y * dt
 end

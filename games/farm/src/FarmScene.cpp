@@ -1,5 +1,7 @@
 #include "FarmScene.hpp"
+#include <imgui.h>
 #include <skeleton/core/Logger.hpp>
+#include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
 #include <skeleton/input/InputManager.hpp>
 #include <skeleton/math/types.hpp>
@@ -11,7 +13,22 @@ struct Position {
 
 struct Player {};
 
-FarmScene::FarmScene(std::string name) : Scene(std::move(name)) {}
+static void register_debug_widgets() {
+  static bool registered = false;
+  if (registered) return;
+  registered = true;
+
+  skeleton::debug::register_widget<Position>("Position", [](Position &p) {
+    ImGui::DragFloat2("pos", &p.pos.x, 1.0f);
+  });
+  skeleton::debug::register_widget<Player>("Player", [](Player &) {
+    ImGui::TextDisabled("(tag)");
+  });
+}
+
+FarmScene::FarmScene(std::string name) : Scene(std::move(name)) {
+  register_debug_widgets();
+}
 
 void FarmScene::on_init() {
   using namespace skeleton::scripting;

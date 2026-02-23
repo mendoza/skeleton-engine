@@ -19,6 +19,7 @@ public:
     virtual void on_debug_ui() {}
 
     const std::string &get_name() const { return name; }
+    entt::registry &get_registry() { return registry; }
 
 protected:
     entt::registry registry;

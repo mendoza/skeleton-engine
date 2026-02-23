@@ -35,8 +35,14 @@ public:
     void reset_camera() override;
 
     SDL_Renderer *get_sdl_renderer() { return renderer; }
-    SDL_Window   *get_sdl_window()   { return window; }
+    SDL_Window *get_sdl_window() { return window; }
     void store_texture(size_t key, SDL_Texture *texture);
+
+    // Redirect draws to an offscreen texture. Used by the editor to capture
+    // the scene before compositing it into an ImGui panel.
+    void begin_scene_capture();
+    void end_scene_capture();
+    SDL_Texture *get_scene_texture() const { return scene_texture_; }
 
 private:
     Renderer();
@@ -48,6 +54,7 @@ private:
     SDL_Color draw_color = {0, 0, 0, 255};
     std::unordered_map<size_t, SDL_Texture *> textures;
     std::optional<skeleton::Camera2D> active_camera;
+    SDL_Texture *scene_texture_ = nullptr;
 
     Vec2 to_screen(Vec2 p) const;
 };

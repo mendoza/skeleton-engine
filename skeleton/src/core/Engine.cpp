@@ -1,15 +1,30 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <backends/imgui_impl_sdl2.h>
+#include <imgui.h>
 #include <skeleton/core/Engine.hpp>
 #include <skeleton/core/Logger.hpp>
 #include <skeleton/core/SceneManager.hpp>
+#include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
 #include <skeleton/input/InputManager.hpp>
+#include <skeleton/scripting/script_component.hpp>
 
 namespace skeleton::core {
 
-Engine::Engine(bool debug_mode) : debug_mode(debug_mode) {}
+Engine::Engine(bool debug_mode) : debug_mode(debug_mode) {
+  using namespace skeleton::scripting;
+  skeleton::debug::register_widget<ScriptComponent>(
+      "Script Component", [](ScriptComponent &sc) {
+        ImGui::LabelText("path", "%s", sc.path.c_str());
+        ImGui::LabelText("initialized", "%s", sc.initialized ? "yes" : "no");
+      });
+  skeleton::debug::register_widget<SystemScript>(
+      "System Script", [](SystemScript &ss) {
+        ImGui::LabelText("path", "%s", ss.path.c_str());
+        ImGui::LabelText("initialized", "%s", ss.initialized ? "yes" : "no");
+      });
+}
 Engine::~Engine() = default;
 
 void Engine::build_window(int width, int height, const std::string &title,
