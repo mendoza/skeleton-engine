@@ -4,8 +4,30 @@
 #include <imgui.h>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace skeleton::debug {
+
+using GlobalWidgetFn = std::function<void()>;
+
+inline std::vector<std::pair<std::string, GlobalWidgetFn>> &global_widget_list() {
+    static std::vector<std::pair<std::string, GlobalWidgetFn>> list;
+    return list;
+}
+
+inline void register_global_widget(std::string label, GlobalWidgetFn fn) {
+    global_widget_list().emplace_back(std::move(label), std::move(fn));
+}
+
+inline void draw_global_widgets() {
+    for (auto &[label, fn] : global_widget_list()) {
+        if (ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::Indent();
+            fn();
+            ImGui::Unindent();
+        }
+    }
+}
 
 using WidgetFn  = std::function<void(entt::registry &, entt::entity)>;
 using HasFn     = std::function<bool(entt::registry &, entt::entity)>;

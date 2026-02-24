@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <fstream>
 #include <SDL_image.h>
 #include <backends/imgui_impl_sdl2.h>
 #include <imgui.h>
@@ -7,6 +8,7 @@
 #include <skeleton/core/SceneManager.hpp>
 #include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
+#include <skeleton/audio/AudioManager.hpp>
 #include <skeleton/input/InputManager.hpp>
 #include <skeleton/scripting/script_component.hpp>
 
@@ -24,13 +26,27 @@ Engine::Engine(bool debug_mode) : debug_mode(debug_mode) {
         ImGui::LabelText("path", "%s", ss.path.c_str());
         ImGui::LabelText("initialized", "%s", ss.initialized ? "yes" : "no");
       });
+
+  if (debug_mode) {
+    skeleton::debug::register_global_widget("Engine Stats", [this]() {
+      float sum = 0.0f, peak = 0.0f;
+      for (float t : frame_times_) { sum += t; if (t > peak) peak = t; }
+      float avg_ms = sum / kFrameHistorySize;
+      float fps    = avg_ms > 0.0f ? 1000.0f / avg_ms : 0.0f;
+      ImGui::Text("%.0f fps  avg %.2f ms  peak %.2f ms", fps, avg_ms, peak);
+      ImGui::PlotLines("##ft", frame_times_, kFrameHistorySize, frame_head_,
+                       nullptr, 0.0f, 50.0f, {-1, 50});
+    });
+  }
 }
 Engine::~Engine() = default;
 
 void Engine::build_window(int width, int height, const std::string &title,
                           const std::string &icon, bool fullscreen) {
+  Logger::info("Engine::build_window — " + title + " (" + std::to_string(width) + "x" + std::to_string(height) + ")");
   auto &r = skeleton::graphics::Renderer::get_instance();
   r.create_window(title, width, height, debug_mode);
+  skeleton::audio::AudioManager::get_instance().init();
 
   if (fullscreen)
     SDL_SetWindowFullscreen(r.get_sdl_window(), SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -52,18 +68,21 @@ void Engine::add_scene(SceneRef scene) {
 
 void Engine::run() {
   skeleton::input::InputManager::get_instance().load_bindings("assets/scripts/bindings.lua");
+  if (std::ifstream("assets/scripts/audio.lua").good())
+    skeleton::audio::AudioManager::get_instance().load_bindings("assets/scripts/audio.lua");
 
   uint64_t NOW = SDL_GetPerformanceCounter();
   uint64_t LAST = 0;
   double dt = 0.0;
 
   double accumulated = 0.0;
-  const double fixed_dt = 1.0 / 60.0;
 
   while (is_running) {
     LAST = NOW;
     NOW = SDL_GetPerformanceCounter();
     dt = (double)(NOW - LAST) / (double)SDL_GetPerformanceFrequency();
+    frame_times_[frame_head_] = (float)(dt * 1000.0);
+    frame_head_ = (frame_head_ + 1) % kFrameHistorySize;
 
     Scene *scene = SceneManager::get_instance().get_active_scene();
 
@@ -81,10 +100,10 @@ void Engine::run() {
     }
 
     accumulated += dt;
-    while (accumulated >= fixed_dt) {
+    while (accumulated >= fixed_dt_) {
       if (scene)
-        scene->on_fixed_update(fixed_dt);
-      accumulated -= fixed_dt;
+        scene->on_fixed_update(fixed_dt_);
+      accumulated -= fixed_dt_;
     }
 
     if (scene) {
@@ -92,12 +111,23 @@ void Engine::run() {
       auto &r = skeleton::graphics::Renderer::get_instance();
       r.begin();
       scene->on_draw();
-      if (debug_mode)
+      if (debug_mode) {
+        ImGuiIO &io = ImGui::GetIO();
+        ImGui::SetNextWindowPos({0, 0}, ImGuiCond_Always);
+        ImGui::SetNextWindowSize({280, io.DisplaySize.y}, ImGuiCond_Always);
+        ImGui::Begin("Debug", nullptr,
+                     ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+                     ImGuiWindowFlags_NoCollapse |
+                     ImGuiWindowFlags_NoBringToFrontOnFocus);
+        skeleton::debug::draw_global_widgets();
         scene->on_debug_ui();
+        ImGui::End();
+      }
       r.end();
     }
   }
 
+  skeleton::audio::AudioManager::get_instance().shutdown();
   skeleton::graphics::Renderer::get_instance().shutdown();
 }
 

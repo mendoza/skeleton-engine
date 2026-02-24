@@ -1,7 +1,7 @@
 function on_init()
 	math.randomseed(os.time())
 
-	for _ = 1, 1000 do
+	for _ = 1, 5000 do
 		local e = world:create()
 		e:emplace(Position)
 		e:emplace(Velocity)

@@ -3,11 +3,19 @@ if (NOT BUILD_SHARED_LIBS)
   set(SDL_SHARED_ENABLED_BY_DEFAULT OFF CACHE BOOL "Don't build SDL as shared lib")
 endif()
 option(SDL_TEST "Build the SDL2_test library" OFF)
-option(SDL_AUDIO_ENABLED_BY_DEFAULT "Enable the Audio subsystem" OFF)
+option(SDL_AUDIO_ENABLED_BY_DEFAULT "Enable the Audio subsystem" ON)
 add_subdirectory(SDL)
 
 #SDL_image
 add_subdirectory(SDL_image)
+
+#SDL_mixer
+set(SDL2MIXER_OPUS    OFF CACHE BOOL "" FORCE)
+set(SDL2MIXER_FLAC    OFF CACHE BOOL "" FORCE)
+set(SDL2MIXER_MOD     OFF CACHE BOOL "" FORCE)
+set(SDL2MIXER_MIDI    OFF CACHE BOOL "" FORCE)
+set(SDL2MIXER_WAVPACK OFF CACHE BOOL "" FORCE)
+add_subdirectory(SDL_mixer)
 
 ## Dear ImGui
 set(IMGUI_SOURCES

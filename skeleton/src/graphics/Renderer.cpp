@@ -96,7 +96,9 @@ void Renderer::draw_rect(skeleton::Rect rect, skeleton::Color color) {
     SDL_RenderFillRect(renderer, &sdl_rect);
 }
 
-void Renderer::draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst) {
+void Renderer::draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst,
+                            float angle, skeleton::Flip flip,
+                            uint8_t alpha, skeleton::BlendMode blend) {
     auto it = textures.find(key);
     if (it == textures.end()) return;
 
@@ -110,7 +112,21 @@ void Renderer::draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst
         p_dst = &sdl_dst;
     }
 
-    SDL_RenderCopy(renderer, it->second, p_src, p_dst);
+    SDL_BlendMode sdl_blend;
+    switch (blend) {
+        case skeleton::BlendMode::Blend: sdl_blend = SDL_BLENDMODE_BLEND; break;
+        case skeleton::BlendMode::Add:   sdl_blend = SDL_BLENDMODE_ADD;   break;
+        case skeleton::BlendMode::Mod:   sdl_blend = SDL_BLENDMODE_MOD;   break;
+        default:                         sdl_blend = SDL_BLENDMODE_NONE;  break;
+    }
+
+    SDL_SetTextureBlendMode(it->second, sdl_blend);
+    SDL_SetTextureAlphaMod(it->second, alpha);
+    SDL_RenderCopyEx(renderer, it->second, p_src, p_dst,
+                     (double)angle, nullptr,
+                     static_cast<SDL_RendererFlip>(static_cast<int>(flip)));
+    SDL_SetTextureAlphaMod(it->second, 255);
+    SDL_SetTextureBlendMode(it->second, SDL_BLENDMODE_NONE);
 }
 
 void Renderer::store_texture(size_t key, SDL_Texture *texture) {

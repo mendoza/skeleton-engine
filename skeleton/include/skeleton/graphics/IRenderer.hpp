@@ -19,7 +19,11 @@ public:
 
     virtual void set_draw_color(skeleton::Color color) = 0;
     virtual void draw_rect(skeleton::Rect rect, skeleton::Color color) = 0;
-    virtual void draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst) = 0;
+    virtual void draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst,
+                              float angle = 0.0f,
+                              skeleton::Flip flip = skeleton::Flip::None,
+                              uint8_t alpha = 255,
+                              skeleton::BlendMode blend = skeleton::BlendMode::Blend) = 0;
     virtual void draw_line(skeleton::Vec2 a, skeleton::Vec2 b, skeleton::Color color) = 0;
     virtual void set_debug_mode(bool debug_mode) = 0;
 

@@ -12,6 +12,7 @@ add_library(
   # Math
   # Graphics
   src/graphics/Renderer.cpp
+  src/graphics/AnimationPlayer.cpp
   src/core/ResourceManager.cpp
   # Input
   src/input/InputManager.cpp
@@ -19,6 +20,7 @@ add_library(
   # Text
   # Utils
   # Audio
+  src/audio/AudioManager.cpp
   # UI
   # Game UI
   # Camera
@@ -44,7 +46,7 @@ if(WIN32)
 endif()
 
 if(BUILD_SHARED_LIBS)
-  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image)
+  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer)
 else()
-  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image-static)
+  target_link_libraries(skeleton PUBLIC imgui sol2::sol2 lua::lua EnTT::EnTT SDL2_image::SDL2_image-static SDL2_mixer::SDL2_mixer-static)
 endif()

@@ -341,31 +341,33 @@ void BoidsScene::on_draw() {
 void BoidsScene::on_destroy() { registry.clear(); }
 
 void BoidsScene::on_debug_ui() {
-  ImGui::Begin("Boids");
-  ImGui::SliderFloat("Perception", &perception, 10.0f, 200.0f);
-  ImGui::SliderFloat("Max Speed",  &max_speed,  30.0f, 400.0f);
-  ImGui::SliderFloat("Max Force",  &max_force,  10.0f, 500.0f);
-  ImGui::SliderFloat("Separation", &sep_weight, 0.0f, 5.0f);
-  ImGui::SliderFloat("Alignment",  &ali_weight, 0.0f, 5.0f);
-  ImGui::SliderFloat("Cohesion",   &coh_weight,  0.0f,   5.0f);
-  ImGui::SliderFloat("Flee Range", &flee_range,  0.0f, 400.0f);
-  ImGui::SliderFloat("Flee",       &flee_weight, 0.0f,  10.0f);
-
-  ImGui::Separator();
-  ImGui::Text("Camera");
-  if (ImGui::Checkbox("Follow Leader", &follow_leader))
-    panning = false;
-  if (!follow_leader)
-    ImGui::DragFloat2("Position", &camera.position.x, 1.0f);
-  ImGui::SliderFloat("Zoom", &camera.zoom, 0.1f, 10.0f, "%.2fx");
-  if (ImGui::Button("Reset Camera")) {
-    camera.position = {world_w / 2.0f, world_h / 2.0f};
-    camera.zoom     = 1.0f;
+  if (ImGui::CollapsingHeader("Boids", ImGuiTreeNodeFlags_DefaultOpen)) {
+    ImGui::Indent();
+    ImGui::SliderFloat("Perception", &perception, 10.0f, 200.0f);
+    ImGui::SliderFloat("Max Speed",  &max_speed,  30.0f, 400.0f);
+    ImGui::SliderFloat("Max Force",  &max_force,  10.0f, 500.0f);
+    ImGui::SliderFloat("Separation", &sep_weight, 0.0f, 5.0f);
+    ImGui::SliderFloat("Alignment",  &ali_weight, 0.0f, 5.0f);
+    ImGui::SliderFloat("Cohesion",   &coh_weight, 0.0f, 5.0f);
+    ImGui::SliderFloat("Flee Range", &flee_range, 0.0f, 400.0f);
+    ImGui::SliderFloat("Flee",       &flee_weight, 0.0f, 10.0f);
+    ImGui::Unindent();
   }
 
-  ImGui::Separator();
+  if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen)) {
+    ImGui::Indent();
+    if (ImGui::Checkbox("Follow Leader", &follow_leader))
+      panning = false;
+    if (!follow_leader)
+      ImGui::DragFloat2("Position", &camera.position.x, 1.0f);
+    ImGui::SliderFloat("Zoom", &camera.zoom, 0.1f, 10.0f, "%.2fx");
+    if (ImGui::Button("Reset Camera")) {
+      camera.position = {world_w / 2.0f, world_h / 2.0f};
+      camera.zoom     = 1.0f;
+    }
+    ImGui::Unindent();
+  }
+
   if (ImGui::CollapsingHeader("Entities"))
     skeleton::debug::draw_all_entities(registry);
-
-  ImGui::End();
 }

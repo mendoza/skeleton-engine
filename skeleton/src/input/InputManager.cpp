@@ -1,5 +1,6 @@
 #include <imgui.h>
 #include <skeleton/core/Logger.hpp>
+#include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/input/InputManager.hpp>
 
 namespace skeleton::input {
@@ -81,37 +82,33 @@ void InputManager::load_bindings(const std::string &path) {
     sol::error err = result;
     skeleton::core::Logger::warning("InputManager: " + std::string(err.what()));
   }
-}
 
-void InputManager::debug_ui() const {
-  ImGui::Begin("Input");
+  skeleton::debug::register_global_widget("Input", [this]() {
+    ImGui::SeparatorText("Actions");
+    for (auto &[action, indices] : bindings_) {
+      bool is_held = false;
+      for (auto idx : indices)
+        if (current_[idx]) { is_held = true; break; }
 
-  ImGui::SeparatorText("Actions");
-  for (auto &[action, indices] : bindings_) {
-    bool is_held = false;
-    for (auto idx : indices)
-      if (current_[idx]) { is_held = true; break; }
-
-    if (is_held)
-      ImGui::TextColored({0.3f, 1.0f, 0.3f, 1.0f}, "%s", action.c_str());
-    else
-      ImGui::TextDisabled("%s", action.c_str());
-
-    for (auto idx : indices) {
-      ImGui::SameLine();
-      if (idx >= MOUSE_OFFSET)
-        ImGui::Text("[Mouse%d]", idx - MOUSE_OFFSET + 1);
+      if (is_held)
+        ImGui::TextColored({0.3f, 1.0f, 0.3f, 1.0f}, "%s", action.c_str());
       else
-        ImGui::Text("[%s]", SDL_GetScancodeName((SDL_Scancode)idx));
+        ImGui::TextDisabled("%s", action.c_str());
+
+      for (auto idx : indices) {
+        ImGui::SameLine();
+        if (idx >= MOUSE_OFFSET)
+          ImGui::Text("[Mouse%d]", idx - MOUSE_OFFSET + 1);
+        else
+          ImGui::Text("[%s]", SDL_GetScancodeName((SDL_Scancode)idx));
+      }
     }
-  }
 
-  ImGui::SeparatorText("Mouse");
-  ImGui::Text("pos   (%.0f, %.0f)", mouse_pos_.x, mouse_pos_.y);
-  ImGui::Text("delta (%.0f, %.0f)", mouse_delta_.x, mouse_delta_.y);
-  ImGui::Text("scroll %.1f", scroll_);
-
-  ImGui::End();
+    ImGui::SeparatorText("Mouse");
+    ImGui::Text("pos   (%.0f, %.0f)", mouse_pos_.x, mouse_pos_.y);
+    ImGui::Text("delta (%.0f, %.0f)", mouse_delta_.x, mouse_delta_.y);
+    ImGui::Text("scroll %.1f", scroll_);
+  });
 }
 
 } // namespace skeleton::input
