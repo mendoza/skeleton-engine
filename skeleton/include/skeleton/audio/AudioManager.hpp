@@ -22,7 +22,7 @@ public:
   void bind_sound(const std::string &name, const std::string &path);
   void bind_music(const std::string &name, const std::string &path);
 
-  int  play(const std::string &name, int loops = 0);
+  int play(const std::string &name, int loops = 0);
   void stop_channel(int channel);
 
   void play_music(const std::string &name, int loops = -1);
