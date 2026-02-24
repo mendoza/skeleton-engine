@@ -9,7 +9,7 @@ namespace skeleton::scripting {
 
 using GetterFn =
     std::function<sol::object(entt::registry &, entt::entity, sol::state_view)>;
-using CheckerFn  = std::function<bool(entt::registry &, entt::entity)>;
+using CheckerFn = std::function<bool(entt::registry &, entt::entity)>;
 using EmplacerFn = std::function<void(entt::registry &, entt::entity)>;
 
 inline std::unordered_map<entt::id_type, GetterFn> &component_getters() {
@@ -29,7 +29,7 @@ inline std::unordered_map<entt::id_type, EmplacerFn> &component_emplacers() {
 
 struct EntityHandle {
   entt::registry *registry;
-  entt::entity    entity;
+  entt::entity entity;
 
   sol::object get(sol::table token, sol::this_state s) {
     sol::state_view lua(s);
@@ -81,32 +81,29 @@ void bind_component(sol::state &lua, const std::string &name) {
 }
 
 struct ScriptComponent {
-  std::string      path;
+  std::string path;
   sol::environment env;
-  bool             initialized = false;
+  bool initialized = false;
 };
 
 struct SystemScript {
-  std::string      path;
+  std::string path;
   sol::environment env;
-  bool             initialized = false;
+  bool initialized = false;
 };
 
 struct ScriptWorld {
   entt::registry *registry;
 
-  EntityHandle create() {
-    return EntityHandle{registry, registry->create()};
-  }
+  EntityHandle create() { return EntityHandle{registry, registry->create()}; }
 
   void destroy(EntityHandle handle) {
     if (registry->valid(handle.entity))
       registry->destroy(handle.entity);
   }
 
-  sol::table query(sol::variadic_args args, sol::this_state s) {
+  sol::object query(sol::variadic_args args, sol::this_state s) {
     sol::state_view lua(s);
-    sol::table result = lua.create_table();
 
     std::vector<entt::id_type> ids;
     ids.reserve(args.size());
@@ -115,8 +112,8 @@ struct ScriptWorld {
       ids.push_back(token["__id"].get<entt::id_type>());
     }
 
+    auto matches = std::make_shared<std::vector<EntityHandle>>();
     auto &checkers = component_checkers();
-    int   idx      = 1;
     for (auto e : registry->storage<entt::entity>()) {
       if (!registry->valid(e))
         continue;
@@ -129,9 +126,17 @@ struct ScriptWorld {
         }
       }
       if (match)
-        result[idx++] = EntityHandle{registry, e};
+        matches->push_back({registry, e});
     }
-    return result;
+
+    auto idx = std::make_shared<size_t>(0);
+    auto iter = [matches, idx](sol::this_state s2) mutable -> sol::object {
+      sol::state_view l(s2);
+      if (*idx >= matches->size())
+        return sol::make_object(l, sol::nil);
+      return sol::make_object(l, (*matches)[(*idx)++]);
+    };
+    return sol::make_object(lua, sol::as_function(std::move(iter)));
   }
 };
 

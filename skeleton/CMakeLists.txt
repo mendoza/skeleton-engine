@@ -5,6 +5,7 @@ add_library(
   # Core
   src/core/Engine.cpp
   src/core/Logger.cpp
+  src/core/Scene.cpp
   src/core/SceneManager.cpp
   # DevTools
   # Event
@@ -13,7 +14,7 @@ add_library(
   # Graphics
   src/graphics/Renderer.cpp
   src/graphics/AnimationPlayer.cpp
-  src/core/ResourceManager.cpp
+  src/core/TextureManager.cpp
   # Input
   src/input/InputManager.cpp
   # Debug
