@@ -1,8 +1,8 @@
 #include "FarmScene.hpp"
 #include <imgui.h>
 #include <skeleton/audio/AudioManager.hpp>
-#include <skeleton/core/Logger.hpp>
 #include <skeleton/debug/widget_registry.hpp>
+#include <skeleton/graphics/AnimationPlayer.hpp>
 #include <skeleton/graphics/Renderer.hpp>
 #include <skeleton/input/InputManager.hpp>
 #include <skeleton/math/types.hpp>
@@ -13,18 +13,21 @@ struct Position {
 };
 
 struct Player {};
+struct Cow {};
 
 static void register_debug_widgets() {
   static bool registered = false;
-  if (registered) return;
+  if (registered)
+    return;
   registered = true;
 
   skeleton::debug::register_widget<Position>("Position", [](Position &p) {
     ImGui::DragFloat2("pos", &p.pos.x, 1.0f);
   });
-  skeleton::debug::register_widget<Player>("Player", [](Player &) {
-    ImGui::TextDisabled("(tag)");
-  });
+  skeleton::debug::register_widget<Player>(
+      "Player", [](Player &) { ImGui::TextDisabled("(tag)"); });
+  skeleton::debug::register_widget<Cow>(
+      "Cow", [](Cow &) { ImGui::TextDisabled("(tag)"); });
 }
 
 FarmScene::FarmScene(std::string name) : Scene(std::move(name)) {
@@ -35,16 +38,16 @@ void FarmScene::on_init() {
   using namespace skeleton::scripting;
   using namespace skeleton::input;
 
-  lua.open_libraries(sol::lib::base, sol::lib::math);
+  init_lua();
   lua.new_usertype<skeleton::Vec2>("Vec2", "x", &skeleton::Vec2::x, "y",
                                    &skeleton::Vec2::y);
   lua.new_usertype<Position>("__Position", "pos", &Position::pos);
   lua.new_usertype<Player>("__Player");
 
-  bind_entity_handle(lua);
   bind_component<Position>(lua, "Position");
   bind_component<Player>(lua, "Player");
   bind_input(lua);
+  skeleton::audio::bind_audio(lua);
 
   auto &r = skeleton::graphics::Renderer::get_instance();
   camera.zoom = 4.0f;
@@ -57,23 +60,36 @@ void FarmScene::on_init() {
   skeleton::graphics::AnimationPlayer anim;
   anim.load("assets/farm rpg assets/Character/idle.lua");
   anim.merge("assets/farm rpg assets/Character/walk.lua");
-  registry.emplace<skeleton::graphics::AnimationPlayer>(player, std::move(anim));
+  registry.emplace<skeleton::graphics::AnimationPlayer>(player,
+                                                        std::move(anim));
 
   ScriptComponent sc;
   sc.path = "assets/scripts/player.lua";
   sc.env = sol::environment(lua, sol::create, lua.globals());
   registry.emplace<ScriptComponent>(player, std::move(sc));
+
+  const char *cow_anim = "assets/farm rpg assets/Farm Animals/cow_female.lua";
+  const skeleton::Vec2 cow_positions[] = {{700, 410}, {740, 350}, {580, 395}};
+  for (auto &cow_pos : cow_positions) {
+    auto cow = registry.create();
+    registry.emplace<Position>(cow, cow_pos);
+    registry.emplace<Cow>(cow);
+    skeleton::graphics::AnimationPlayer canim;
+    canim.load(cow_anim);
+    registry.emplace<skeleton::graphics::AnimationPlayer>(cow,
+                                                          std::move(canim));
+    ScriptComponent csc;
+    csc.path = "assets/scripts/cow.lua";
+    csc.env = sol::environment(lua, sol::create, lua.globals());
+    registry.emplace<ScriptComponent>(cow, std::move(csc));
+  }
 }
 
 void FarmScene::on_input(SDL_Event &) {}
 void FarmScene::on_update(double dt) {
   auto &input = skeleton::input::InputManager::get_instance();
-  bool moving = false;
-
-  if      (input.held("move_right")) { last_dir_ = "right"; moving = true; }
-  else if (input.held("move_left"))  { last_dir_ = "left";  moving = true; }
-  else if (input.held("move_down"))  { last_dir_ = "down";  moving = true; }
-  else if (input.held("move_up"))    { last_dir_ = "up";    moving = true; }
+  bool moving = input.held("move_right") || input.held("move_left") ||
+                input.held("move_down") || input.held("move_up");
 
   for (auto [e, pos] : registry.view<Player, Position>().each())
     camera.position = pos.pos;
@@ -85,50 +101,9 @@ void FarmScene::on_update(double dt) {
     audio.stop_channel(walk_channel_);
     walk_channel_ = -1;
   }
-
-  auto view = registry.view<Player, skeleton::graphics::AnimationPlayer>();
-  for (auto [e, anim] : view.each()) {
-    anim.play((moving ? "walk_" : "idle_") + last_dir_);
-    anim.update((float)dt);
-  }
 }
 
-void FarmScene::on_fixed_update(double dt) {
-  using namespace skeleton::scripting;
-
-  auto view = registry.view<ScriptComponent>();
-  for (auto [e, sc] : view.each()) {
-    if (!sc.initialized) {
-      auto result =
-          lua.safe_script_file(sc.path, sc.env, sol::script_pass_on_error);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      } else {
-        sol::protected_function on_init = sc.env["on_init"];
-        if (on_init.valid()) {
-          EntityHandle handle{&registry, e};
-          auto r = on_init(handle);
-          if (!r.valid()) {
-            sol::error err = r;
-            skeleton::core::Logger::error(err.what());
-          }
-        }
-      }
-      sc.initialized = true;
-    }
-
-    sol::protected_function on_update = sc.env["on_update"];
-    if (on_update.valid()) {
-      EntityHandle handle{&registry, e};
-      auto result = on_update(handle, (float)dt);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      }
-    }
-  }
-}
+void FarmScene::on_fixed_update(double) {}
 
 void FarmScene::on_draw() {
   auto &r = skeleton::graphics::Renderer::get_instance();
@@ -137,9 +112,10 @@ void FarmScene::on_draw() {
   auto view = registry.view<Position, skeleton::graphics::AnimationPlayer>();
   for (auto [e, pos, anim] : view.each()) {
     skeleton::Rect src = anim.current_rect();
-    skeleton::Rect dst = {pos.pos.x - 16, pos.pos.y - 16,
-                          (float)anim.frame_w(), (float)anim.frame_h()};
-    r.draw_texture(anim.current_texture(), &src, &dst, 0.0f, anim.current_flip());
+    skeleton::Rect dst = {pos.pos.x - 16, pos.pos.y - 16, (float)anim.frame_w(),
+                          (float)anim.frame_h()};
+    r.draw_texture(anim.current_texture(), &src, &dst, 0.0f,
+                   anim.current_flip());
   }
   r.reset_camera();
 }
