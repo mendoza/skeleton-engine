@@ -52,35 +52,45 @@ void Scene::init_lua() {
 
 void Scene::tick_scripts(double dt) {
   using namespace skeleton::scripting;
+
+  auto load_script = [&](sol::environment &env,
+                         const std::string &path) -> bool {
+    auto result = lua.safe_script_file(path, env, sol::script_pass_on_error);
+    if (!result.valid()) {
+      sol::error err = result;
+      Logger::error(err.what());
+      return false;
+    }
+    return true;
+  };
+
+  auto call = [&](sol::environment &env, const char *fn, auto... args) {
+    sol::protected_function f = env[fn];
+    if (!f.valid())
+      return;
+    auto r = f(args...);
+    if (!r.valid()) {
+      sol::error err = r;
+      Logger::error(err.what());
+    }
+  };
+
   for (auto [e, sc] : registry.view<ScriptComponent>().each()) {
     if (!sc.initialized) {
-      auto result =
-          lua.safe_script_file(sc.path, sc.env, sol::script_pass_on_error);
-      if (!result.valid()) {
-        sol::error err = result;
-        Logger::error(err.what());
-      } else {
-        sol::protected_function on_init = sc.env["on_init"];
-        if (on_init.valid()) {
-          EntityHandle handle{&registry, e};
-          auto r = on_init(handle);
-          if (!r.valid()) {
-            sol::error err = r;
-            Logger::error(err.what());
-          }
-        }
-      }
+      if (load_script(sc.env, sc.path))
+        call(sc.env, "on_init", EntityHandle{&registry, e});
       sc.initialized = true;
     }
-    sol::protected_function on_update = sc.env["on_update"];
-    if (on_update.valid()) {
-      EntityHandle handle{&registry, e};
-      auto r = on_update(handle, (float)dt);
-      if (!r.valid()) {
-        sol::error err = r;
-        Logger::error(err.what());
-      }
+    call(sc.env, "on_update", EntityHandle{&registry, e}, (float)dt);
+  }
+
+  for (auto [e, ss] : registry.view<SystemScript>().each()) {
+    if (!ss.initialized) {
+      if (load_script(ss.env, ss.path))
+        call(ss.env, "on_init");
+      ss.initialized = true;
     }
+    call(ss.env, "on_update", (float)dt);
   }
 }
 
