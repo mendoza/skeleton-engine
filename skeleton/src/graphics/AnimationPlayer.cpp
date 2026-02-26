@@ -28,10 +28,17 @@ parse_clips(sol::table &def,
   }
 }
 
+static sol::state &anim_lua() {
+  static sol::state lua = []() {
+    sol::state s;
+    s.open_libraries(sol::lib::base);
+    return s;
+  }();
+  return lua;
+}
+
 void AnimationPlayer::load(const std::string &path) {
-  sol::state lua;
-  lua.open_libraries(sol::lib::base);
-  sol::table def = lua.script_file(path);
+  sol::table def = anim_lua().script_file(path);
   frame_w_ = def["frame_w"];
   frame_h_ = def["frame_h"];
   spacing_ = def.get_or("spacing", 0);
@@ -42,9 +49,7 @@ void AnimationPlayer::load(const std::string &path) {
 }
 
 void AnimationPlayer::merge(const std::string &path) {
-  sol::state lua;
-  lua.open_libraries(sol::lib::base);
-  sol::table def = lua.script_file(path);
+  sol::table def = anim_lua().script_file(path);
   parse_clips(def, clips_);
 }
 
