@@ -1,13 +1,13 @@
 #pragma once
-#include "IRenderer.hpp"
 #include <SDL.h>
 #include <optional>
+#include <skeleton/math/types.hpp>
 #include <string>
 #include <unordered_map>
 
 namespace skeleton::graphics {
 
-class Renderer : public IRenderer {
+class Renderer {
 public:
   static Renderer &get_instance() {
     static Renderer instance;
@@ -17,28 +17,26 @@ public:
   Renderer(const Renderer &) = delete;
   Renderer &operator=(const Renderer &) = delete;
 
-  void create_window(std::string title, int width, int height,
-                     bool debug_mode) override;
-  void begin() override;
-  void end() override;
-  void shutdown() override;
+  void create_window(std::string title, int width, int height, bool debug_mode);
+  void begin();
+  void end();
+  void shutdown();
 
-  int get_window_width() override;
-  int get_window_height() override;
+  int get_window_width();
+  int get_window_height();
 
-  void set_draw_color(skeleton::Color color) override;
-  void draw_rect(skeleton::Rect rect, skeleton::Color color) override;
-  void
-  draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst,
-               float angle = 0.0f, skeleton::Flip flip = skeleton::Flip::None,
-               uint8_t alpha = 255,
-               skeleton::BlendMode blend = skeleton::BlendMode::Blend) override;
-  void draw_line(skeleton::Vec2 a, skeleton::Vec2 b,
-                 skeleton::Color color) override;
-  void set_debug_mode(bool debug_mode) override;
+  void set_draw_color(skeleton::Color color);
+  void draw_rect(skeleton::Rect rect, skeleton::Color color);
+  void draw_texture(size_t key, skeleton::Rect *src, skeleton::Rect *dst,
+                    float angle = 0.0f,
+                    skeleton::Flip flip = skeleton::Flip::None,
+                    uint8_t alpha = 255,
+                    skeleton::BlendMode blend = skeleton::BlendMode::Blend);
+  void draw_line(skeleton::Vec2 a, skeleton::Vec2 b, skeleton::Color color);
+  void set_debug_mode(bool debug_mode);
 
-  void set_camera(const skeleton::Camera2D &cam) override;
-  void reset_camera() override;
+  void set_camera(const skeleton::Camera2D &cam);
+  void reset_camera();
 
   SDL_Renderer *get_sdl_renderer() { return renderer; }
   SDL_Window *get_sdl_window() { return window; }
@@ -52,7 +50,7 @@ public:
 
 private:
   Renderer();
-  ~Renderer() override;
+  ~Renderer();
 
   bool debug_mode = false;
   SDL_Window *window = nullptr;
