@@ -2,7 +2,6 @@
 #include <SDL.h>
 #include <skeleton/core/Scene.hpp>
 #include <skeleton/math/types.hpp>
-#include <sol/sol.hpp>
 
 class BoidsScene : public skeleton::core::Scene {
 public:
@@ -18,8 +17,6 @@ public:
   void on_debug_ui() override;
 
 private:
-  sol::state lua;
-
   skeleton::Camera2D camera;
   bool follow_leader = false;
   bool panning = false;

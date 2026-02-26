@@ -1,9 +1,13 @@
 #include <skeleton/core/Logger.hpp>
 #include <skeleton/core/Scene.hpp>
 #include <skeleton/graphics/AnimationPlayer.hpp>
+#include <skeleton/input/InputManager.hpp>
+#include <skeleton/math/types.hpp>
 #include <skeleton/scripting/script_component.hpp>
 
 namespace skeleton::core {
+
+Scene::~Scene() { registry.clear(); }
 
 void Scene::init_lua() {
   lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string,
@@ -33,6 +37,10 @@ void Scene::init_lua() {
     }
     Logger::info(out);
   });
+  lua.new_usertype<skeleton::Vec2>("Vec2", "x", &skeleton::Vec2::x, "y",
+                                   &skeleton::Vec2::y);
+  skeleton::input::bind_input(lua);
+
   using namespace skeleton::scripting;
   using AP = skeleton::graphics::AnimationPlayer;
   lua.new_usertype<AP>("__AnimationPlayer", "play", &AP::play, "update",

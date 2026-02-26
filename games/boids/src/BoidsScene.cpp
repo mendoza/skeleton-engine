@@ -5,7 +5,6 @@
 #include <skeleton/core/Quadtree.hpp>
 #include <skeleton/debug/widget_registry.hpp>
 #include <skeleton/graphics/Renderer.hpp>
-#include <skeleton/input/InputManager.hpp>
 #include <skeleton/math/types.hpp>
 #include <skeleton/scripting/script_component.hpp>
 #include <vector>
@@ -54,19 +53,15 @@ void BoidsScene::on_init() {
 
   camera.position = {world_w / 2.0f, world_h / 2.0f};
 
-  lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::os);
-  lua.new_usertype<skeleton::Vec2>("Vec2", "x", &skeleton::Vec2::x, "y",
-                                   &skeleton::Vec2::y);
+  init_lua();
+  lua.open_libraries(sol::lib::os);
   lua.new_usertype<Position>("__Position", "pos", &Position::pos);
   lua.new_usertype<Velocity>("__Velocity", "vel", &Velocity::vel);
   lua.new_usertype<Leader>("__Leader");
 
-  bind_entity_handle(lua);
   bind_component<Position>(lua, "Position");
   bind_component<Velocity>(lua, "Velocity");
   bind_component<Leader>(lua, "Leader");
-  bind_script_world(lua, registry);
-  skeleton::input::bind_input(lua);
 
   lua["world_w"] = world_w;
   lua["world_h"] = world_h;
@@ -258,71 +253,6 @@ void BoidsScene::on_fixed_update(double dt) {
   run_flocking(registry, dt, perception, max_speed, max_force, sep_weight,
                ali_weight, coh_weight, flee_range, flee_weight, world_w,
                world_h);
-  using namespace skeleton::scripting;
-
-  auto sc_view = registry.view<ScriptComponent>();
-  for (auto [e, sc] : sc_view.each()) {
-    if (!sc.initialized) {
-      auto result =
-          lua.safe_script_file(sc.path, sc.env, sol::script_pass_on_error);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      } else {
-        sol::protected_function on_init = sc.env["on_init"];
-        if (on_init.valid()) {
-          EntityHandle handle{&registry, e};
-          auto r = on_init(handle);
-          if (!r.valid()) {
-            sol::error err = r;
-            skeleton::core::Logger::error(err.what());
-          }
-        }
-      }
-      sc.initialized = true;
-    }
-
-    sol::protected_function on_update = sc.env["on_update"];
-    if (on_update.valid()) {
-      EntityHandle handle{&registry, e};
-      auto result = on_update(handle, (float)dt);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      }
-    }
-  }
-
-  auto sys_view = registry.view<SystemScript>();
-  for (auto [e, ss] : sys_view.each()) {
-    if (!ss.initialized) {
-      auto result =
-          lua.safe_script_file(ss.path, ss.env, sol::script_pass_on_error);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      } else {
-        sol::protected_function on_init = ss.env["on_init"];
-        if (on_init.valid()) {
-          auto r = on_init();
-          if (!r.valid()) {
-            sol::error err = r;
-            skeleton::core::Logger::error(err.what());
-          }
-        }
-      }
-      ss.initialized = true;
-    }
-
-    sol::protected_function on_update = ss.env["on_update"];
-    if (on_update.valid()) {
-      auto result = on_update((float)dt);
-      if (!result.valid()) {
-        sol::error err = result;
-        skeleton::core::Logger::error(err.what());
-      }
-    }
-  }
 }
 
 void BoidsScene::on_draw() {

@@ -9,7 +9,7 @@ namespace skeleton::core {
 class Scene {
 public:
   explicit Scene(std::string name) : name(std::move(name)) {}
-  virtual ~Scene() = default;
+  virtual ~Scene();
 
   virtual void on_init() = 0;
   virtual void on_input(SDL_Event &event) = 0;

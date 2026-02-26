@@ -5,7 +5,6 @@
 #include <skeleton/graphics/AnimationPlayer.hpp>
 #include <skeleton/graphics/Renderer.hpp>
 #include <skeleton/input/InputManager.hpp>
-#include <skeleton/math/types.hpp>
 #include <skeleton/scripting/script_component.hpp>
 
 struct Position {
@@ -36,17 +35,13 @@ FarmScene::FarmScene(std::string name) : Scene(std::move(name)) {
 
 void FarmScene::on_init() {
   using namespace skeleton::scripting;
-  using namespace skeleton::input;
 
   init_lua();
-  lua.new_usertype<skeleton::Vec2>("Vec2", "x", &skeleton::Vec2::x, "y",
-                                   &skeleton::Vec2::y);
   lua.new_usertype<Position>("__Position", "pos", &Position::pos);
   lua.new_usertype<Player>("__Player");
 
   bind_component<Position>(lua, "Position");
   bind_component<Player>(lua, "Player");
-  bind_input(lua);
   skeleton::audio::bind_audio(lua);
 
   auto &r = skeleton::graphics::Renderer::get_instance();
